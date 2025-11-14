@@ -1,0 +1,8 @@
+{
+  "title": "Nexairi Detail Hero + Stats",
+  "slug": "nexairi/detail-hero",
+  "description": "Gradient hero block with supporting stat grid for sandbox concept pages.",
+  "categories": ["banner"],
+  "viewportWidth": 1200,
+  "content": "<!-- wp:group {\"className\":\"detail-hero gradient-panel\"} -->\n<div class=\"wp-block-group detail-hero gradient-panel\"><div><p class=\"eyebrow\">Label</p><h2>Headline for the concept.</h2><p>Supporting copy describing the concept and its promise.</p></div><div class=\"stat-grid\"><div><strong>Metric</strong><span>Label</span></div><div><strong>Metric</strong><span>Label</span></div><div><strong>Metric</strong><span>Label</span></div></div></div>\n<!-- /wp:group -->"
+}

@@ -1,0 +1,8 @@
+{
+  "title": "Nexairi Footer",
+  "slug": "nexairi/footer",
+  "description": "Simple centered footer with disclosure text.",
+  "categories": ["footer"],
+  "viewportWidth": 1200,
+  "content": "<!-- wp:group {\"className\":\"site-footer\"} -->\n<div class=\"wp-block-group site-footer\"><p>&copy; 2025 Nexairi. All rights reserved.</p></div>\n<!-- /wp:group -->"
+}

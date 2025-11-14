@@ -1,0 +1,8 @@
+{
+  "title": "Nexairi Sandbox CTA",
+  "slug": "nexairi/sandbox-cta",
+  "description": "Two-column gradient CTA promoting the Sandbox with current concepts list.",
+  "categories": ["call-to-action"],
+  "viewportWidth": 1200,
+  "content": "<!-- wp:group {\"className\":\"sandbox-cta gradient-panel\"} -->\n<div class=\"wp-block-group sandbox-cta gradient-panel\"><div><p class=\"eyebrow\">Experimental space</p><h3>Visit the Sandbox</h3><p>Dive into prototypes like Gift Scout and Dog Routine Coach, review the roadmap, and request new builds.</p><a class=\"btn primary\" href=\"/sandbox\">Open sandbox</a></div><div class=\"sandbox-card\"><h4>Current concepts</h4><ul><li>Gift Scout concierge</li><li>Dog Routine Coach</li><li>Trip Builder beta</li></ul></div></div>\n<!-- /wp:group -->"
+}

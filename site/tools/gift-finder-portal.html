@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Gift Finder Portal Intake · Nexairi Tools</title>
+  <meta name="description" content="Embed-ready form and AI chat intake templates for the Gift Finder Portal workflow.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Source+Sans+3:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="icon" type="image/png" href="/Images/nexairi-mentis-favicon.png">
+  <style>
+    .giftfinder-page { max-width: 960px; margin: 0 auto; padding: 48px 24px 120px; }
+    form label { display:block; font-weight:600; margin:16px 0 6px; }
+    form select, form input, form textarea { width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(15,23,40,0.15); font:inherit; }
+    form small { display:block; margin-top:4px; color:#6d768c; }
+    .gf-chip-group { display:flex; flex-wrap:wrap; gap:10px; }
+    .gf-chip-group label { font-weight:500; border:1px solid rgba(15,23,40,0.2); border-radius:999px; padding:6px 14px; cursor:pointer; }
+    .gf-chip-group input { position:absolute; opacity:0; pointer-events:none; }
+    .gf-chip-group input:checked + span { background:rgba(74,180,255,0.12); border-color:#4ab4ff; color:#0f1728; }
+    .gf-chip-group label span { display:inline-block; }
+    .gf-budget-row { display:grid; gap:10px; grid-template-columns:1fr 1fr; }
+    .chat-box textarea { min-height:120px; }
+    .chat-log { margin-top:16px; border-radius:16px; background:rgba(15,23,40,0.05); padding:16px; min-height:100px; white-space:pre-line; }
+    @media (max-width:640px) { .gf-budget-row { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <header class="nx-header">
+    <div class="nx-header__inner">
+      <div class="nx-brand">
+        <a class="nx-logo-link" href="/">
+          <img class="nx-logo nx-logo--full" src="/Images/nexairi-mentis-logo-horizontal.png" alt="Nexairi logo">
+          <img class="nx-logo nx-logo--compact" src="/Images/nexairi-mentis-logo-compact.png" alt="Nexairi compact logo">
+        </a>
+      </div>
+      <nav class="nx-nav">
+        <a href="/">Home</a>
+        <a href="/sandbox/gift-finder-portal.html">Sandbox Detail</a>
+        <a href="/contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="giftfinder-page">
+    <section class="nx-section">
+      <div class="nx-section__header">
+        <div>
+          <p class="nx-eyebrow">Gift Finder Portal</p>
+          <h2>Drop-in form + chat intake templates</h2>
+        </div>
+        <span class="nx-tagline">Replace webhook URLs with your n8n endpoints and you're live.</span>
+      </div>
+    </section>
+
+    <section class="nx-section">
+      <h3>1. Structured form</h3>
+      <p>This mirrors the production flow in Sandbox. Keep the question count low, add your brand colors, and wire the `action` attribute to staging first.</p>
+      <form class="nx-card" action="https://n8n.example.com/webhook/giftfinder-form" method="POST">
+        <label for="occasion">Occasion</label>
+        <select id="occasion" name="occasion" required>
+          <option value="">Choose one</option>
+          <option>Holiday</option>
+          <option>Anniversary</option>
+          <option>Birthday</option>
+          <option>Graduation / Milestone</option>
+          <option>New baby</option>
+          <option>Just because</option>
+          <option>Other life event</option>
+        </select>
+
+        <label for="relationship">Relationship</label>
+        <select id="relationship" name="relationship" required>
+          <option value="">Select</option>
+          <option>Spouse / Partner</option>
+          <option>Parent</option>
+          <option>Sibling</option>
+          <option>Child</option>
+          <option>Grandchild</option>
+          <option>Friend</option>
+          <option>Co-worker</option>
+          <option>Client</option>
+          <option>Other</option>
+        </select>
+        <small>Add age if gifting to a kid or teen.</small>
+        <input type="number" min="0" max="120" name="recipient_age" placeholder="Recipient age (optional)">
+
+        <label for="gender_vibe">Style vibe</label>
+        <select id="gender_vibe" name="gender_vibe">
+          <option value="">No preference / gender neutral</option>
+          <option>Feminine leaning</option>
+          <option>Masculine leaning</option>
+          <option>Nonbinary / Gender expansive</option>
+        </select>
+
+        <label>Budget</label>
+        <div class="gf-budget-row">
+          <select id="budget_band" name="budget_band" required>
+            <option value="">Range</option>
+            <option>Under $50</option>
+            <option>$50 - $150</option>
+            <option>$150 - $300</option>
+            <option>$300 - $750</option>
+            <option>$750+</option>
+          </select>
+          <input type="number" id="budget_exact" name="budget_exact" min="10" step="10" placeholder="Exact / per-person">
+        </div>
+
+        <label>What lights them up?</label>
+        <div class="gf-chip-group">
+          <label><input type="checkbox" name="interest_tags" value="Design objects"><span>Design objects</span></label>
+          <label><input type="checkbox" name="interest_tags" value="Wellness"><span>Wellness rituals</span></label>
+          <label><input type="checkbox" name="interest_tags" value="Outdoors"><span>Outdoors</span></label>
+          <label><input type="checkbox" name="interest_tags" value="Food"><span>Food &amp; drink</span></label>
+          <label><input type="checkbox" name="interest_tags" value="Tech"><span>Tech gadgets</span></label>
+          <label><input type="checkbox" name="interest_tags" value="Culture"><span>Culture / art</span></label>
+          <label><input type="checkbox" name="interest_tags" value="Cozy home"><span>Cozy home</span></label>
+          <label><input type="checkbox" name="interest_tags" value="Experiences"><span>Experiences</span></label>
+        </div>
+        <small>Pick up to three. The backend maps these to catalog tags.</small>
+
+        <label for="notes">Extra context</label>
+        <textarea id="notes" name="notes" rows="3" placeholder="Must arrive before 12/20, obsessed with fermentation, hates clutter."></textarea>
+
+        <label for="no_go">Allergies / no-go</label>
+        <textarea id="no_go" name="no_go" rows="2" placeholder="No candles, no chocolate, experiences only, etc."></textarea>
+
+        <label for="shipping_region">Shipping region</label>
+        <select id="shipping_region" name="shipping_region">
+          <option value="">Select</option>
+          <option>United States</option>
+          <option>Canada</option>
+          <option>UK / EU</option>
+          <option>Asia-Pacific</option>
+          <option>Latin America</option>
+          <option>Other / Digital only</option>
+        </select>
+
+        <label for="deadline">Need it by</label>
+        <input type="date" id="deadline" name="deadline">
+
+        <label for="email">Email for delivery (optional)</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com">
+
+        <button class="nx-btn nx-btn--filled" type="submit" style="margin-top:24px;">Send brief</button>
+        <small style="margin-top:12px;">Add captcha + spam controls before production.</small>
+      </form>
+    </section>
+
+    <section class="nx-section">
+      <h3>2. AI chat intake</h3>
+      <div class="nx-card chat-box">
+        <p class="nx-eyebrow">Prototype widget</p>
+        <p>Replace `chatEndpoint` with your webhook. Stream responses if you prefer faster UX.</p>
+        <label for="chatPrompt">Describe your recipient</label>
+        <textarea id="chatPrompt" placeholder="Need a $250 gift for my sister in Austin who loves ceramics, barefoot running, and playlists. Avoid fragrances."></textarea>
+        <button class="nx-btn nx-btn--ghost" id="chatSend" type="button" style="margin-top:12px;">Ask Gift Finder Portal</button>
+        <div class="chat-log" id="chatLog">Responses will appear here.</div>
+      </div>
+    </section>
+
+    <section class="nx-section nx-section--striped">
+      <div class="nx-two-col">
+        <div class="nx-card">
+          <p class="nx-eyebrow">Webhook map</p>
+          <ul style="margin:0;padding-left:18px;">
+            <li><strong>/webhook/giftfinder-form</strong> &mdash; validate payload, enrich with LLM, write to Airtable, send receipt.</li>
+            <li><strong>/webhook/giftfinder-chat</strong> &mdash; route to Atlas planner, stream Nova's note + Vega picks.</li>
+          </ul>
+        </div>
+        <div class="nx-card">
+          <p class="nx-eyebrow">Catalog schema</p>
+          <p>Recommended fields: merchant, SKU, price, tags, shipping cutoff, affiliate link, compliance note, inventory confidence, hero asset.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const chatEndpoint = "https://n8n.example.com/webhook/giftfinder-chat";
+    const chatPromptEl = document.getElementById("chatPrompt");
+    const chatLogEl = document.getElementById("chatLog");
+    document.getElementById("chatSend").addEventListener("click", async () => {
+      const prompt = chatPromptEl.value.trim();
+      if (!prompt) {
+        chatLogEl.textContent = "Please describe your recipient first.";
+        return;
+      }
+      chatLogEl.textContent = "Thinking...";
+      try {
+        const res = await fetch(chatEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt })
+        });
+        if (!res.ok) throw new Error("Request failed");
+        const data = await res.json();
+        chatLogEl.textContent = data.reply || JSON.stringify(data, null, 2);
+      } catch (err) {
+        chatLogEl.textContent = "Something went wrong. Check your webhook logs.";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "title": "Nexairi Topic Section",
+  "slug": "nexairi/topics-section",
+  "description": "Section heading with three-card grid. Duplicate and change the eyebrow/headline/body text for Sports, Tech, Lifestyle, or Travel.",
+  "categories": ["text", "featured", "columns"],
+  "viewportWidth": 1200,
+  "content": "<!-- wp:group {\"className\":\"topics\"} -->\n<div class=\"wp-block-group topics\"><div class=\"section-heading\"><p class=\"eyebrow\">Section label</p><h3>Headline describing the focus</h3></div><div class=\"topic-grid\"><article><h4>Card title</h4><p>Supporting description that explains the value.</p></article><article><h4>Card title</h4><p>Supporting description that explains the value.</p></article><article><h4>Card title</h4><p>Supporting description that explains the value.</p></article></div></div>\n<!-- /wp:group -->"
+}

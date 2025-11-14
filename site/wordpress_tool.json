@@ -1,0 +1,17 @@
+{
+  "name": "wordpress_api",
+  "description": "Posts, pages, and media manager for nexairi.com via REST API",
+  "base_url": "https://www.nexairi.com/wp-json/wp/v2",
+  "auth": {
+    "type": "basic",
+    "username": "${WP_USER}",
+    "password": "${WP_APP_PASSWORD}"
+  },
+  "endpoints": {
+    "posts": "/posts",
+    "pages": "/pages",
+    "media": "/media",
+    "categories": "/categories",
+    "tags": "/tags"
+  }
+}

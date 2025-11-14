@@ -1,0 +1,119 @@
+{
+  "name": "Nexairi - AI Homepage Hero Rewrite",
+  "nodes": [
+    {
+      "id": "manual-trigger",
+      "name": "When I click Execute",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [260, 300],
+      "parameters": {}
+    },
+    {
+      "id": "get-homepage",
+      "name": "Get Homepage",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [540, 300],
+      "parameters": {
+        "method": "GET",
+        "url": "https://www.nexairi.com/wp-json/wp/v2/pages/32",
+        "sendHeaders": true,
+        "headerParametersJson": "{ \"Content-Type\": \"application/json\" }",
+        "authentication": "basicAuth"
+      },
+      "credentials": {
+        "httpBasicAuth": {
+          "name": "Code-Bot"
+        }
+      }
+    },
+    {
+      "id": "ai-hero",
+      "name": "AI Hero Rewrite",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [840, 300],
+      "parameters": {
+        "resource": "chat",
+        "operation": "create",
+        "model": "gpt-4o-mini",
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an expert web copywriter for Nexairi, an AI automation studio that builds and manages online projects for creators and small businesses."
+            },
+            {
+              "role": "user",
+              "content": "Write a homepage hero section for Nexairi. Output a JSON object with one key 'content', whose value is a single HTML string that contains: one <h1> headline, one <h3> subheadline, and one <p> paragraph that clearly explains what Nexairi does in a friendly, professional tone.\n\nRespond ONLY with that JSON object, no extra text."
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.7
+        }
+      }
+    },
+    {
+      "id": "update-homepage",
+      "name": "Update Homepage",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [1160, 300],
+      "parameters": {
+        "method": "PUT",
+        "url": "https://www.nexairi.com/wp-json/wp/v2/pages/32",
+        "authentication": "basicAuth",
+        "sendHeaders": true,
+        "headerParametersJson": "{ \"Content-Type\": \"application/json\" }",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"content\": {{$json[\"content\"]}}\n}"
+      },
+      "credentials": {
+        "httpBasicAuth": {
+          "name": "Code-Bot"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When I click Execute": {
+      "main": [
+        [
+          {
+            "node": "Get Homepage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Homepage": {
+      "main": [
+        [
+          {
+            "node": "AI Hero Rewrite",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Hero Rewrite": {
+      "main": [
+        [
+          {
+            "node": "Update Homepage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {},
+  "active": false,
+  "version": 1
+}

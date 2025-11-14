@@ -1,0 +1,65 @@
+﻿Nexairi WordPress Deployment Plan (WordPress 6.6+)
+=================================================
+
+1. Prep the site bundle on your computer
+   1.1 In File Explorer go to C:\Users\smart\OneDrive\Documents\Side Gig\n8n\websites\nexairi\site.
+   1.2 Select every item inside (assets, css, sandbox, lifestyle, mission, etc.).
+   1.3 Right-click > Send to > Compressed (zipped) folder and name it nexairi-static.zip. This is the package you will upload.
+
+2. Back up and update WordPress before touching files
+   2.1 Log into https://www.nexairi.com/wp-admin with your admin credentials.
+   2.2 Dashboard > Updates: apply any WordPress 6.6.x core, plugin, or theme updates so the UI matches current documentation.
+   2.3 Tools > Export (All Content) to download an XML backup.
+   2.4 If your host offers one-click backups (cPanel, Plesk, Managed WP), trigger a full backup so you can roll back if needed.
+
+3. Prepare a place to store the static bundle inside WordPress
+   3.1 Use WP File Manager (or HostGator File Manager) to browse to /public_html/wp-content/.
+   3.2 Create /wp-content/nexairi if it does not exist.
+   3.3 Upload nexairi-static.zip into wp-content/nexairi, then right-click > Extract. You should now have:
+       - wp-content/nexairi/assets
+       - wp-content/nexairi/css
+       - wp-content/nexairi/mission, /lifestyle, /sports, /technology, /travel, /contact, /privacy
+       - wp-content/nexairi/sandbox (with concept pages)
+       - wp-content/nexairi/index.html
+
+4. Point the WordPress homepage to the static index.html
+   Option A – Block themes:
+     4.1 Appearance > Editor > Templates > Front Page > Edit.
+     4.2 Insert an “HTML” block and paste: <!-- wp:html --><?php include ABSPATH . 'wp-content/nexairi/index.html'; ?><!-- /wp:html -->
+     4.3 Save.
+   Option B – Classic themes:
+     4.4 Appearance > Theme File Editor, open front-page.php (or index.php) and add the same include inside the loop.
+
+5. Create the rest of the magazine pages with includes
+   5.1 Pages > Add New for Our Mission, Lifestyle, Sports, Technology, Travel, Sandbox, Contact, Privacy, Gift Scout, Dog Routine Coach, Trip Builder.
+   5.2 Switch the editor to “Code Editor”.
+   5.3 Paste the matching include, e.g. <!-- wp:html --><?php include ABSPATH . 'wp-content/nexairi/mission/index.html'; ?><!-- /wp:html -->
+   5.4 Publish and confirm permalinks (e.g., /our_mission, /lifestyle, /sandbox/gift-scout).
+   5.5 Settings > Reading > set “Homepage” to the page containing the index.html include (if you are not editing the template directly).
+
+6. Register fonts and CSS once
+   6.1 Appearance > Editor > Styles > Additional CSS (or Customize > Additional CSS).
+   6.2 Paste:
+       @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Source+Sans+3:wght@400;500&display=swap');
+       @import url('/wp-content/nexairi/css/styles.css');
+   6.3 Save.
+
+7. Wire the navigation
+   7.1 Appearance > Editor > Navigation (or Menus).
+   7.2 Add links to /, /our_mission, /lifestyle, /sports, /technology, /travel, /sandbox, /contact, /privacy.
+   7.3 Add submenu items for Sandbox concepts if you like.
+
+8. Keep the Dispatches feed synced
+   8.1 Update /wp-content/nexairi/content_html/index.json with the latest story metadata.
+   8.2 Confirm https://www.nexairi.com/wp-content/nexairi/content_html/index.json is reachable (the homepage fetches this file).
+
+9. Test the live site
+   9.1 Visit https://www.nexairi.com/ in an incognito window and verify the new layout.
+   9.2 Click every menu link and Sandbox concept page.
+   9.3 Run Lighthouse for performance/accessibility.
+   9.4 Test on mobile to ensure the .nx- classes stack correctly.
+
+10. Post-launch checklist
+   10.1 Purge caches so visitors see the refresh.
+   10.2 Submit the homepage to Google Search Console.
+   10.3 Document that static files live in /wp-content/nexairi for future updates.

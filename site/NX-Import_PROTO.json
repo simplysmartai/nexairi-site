@@ -1,0 +1,99 @@
+{
+  "name": "NX — Import Prototype HTML to WP Page (Minimal)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual",
+      "name": "When I click Execute",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [-540, 0]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            { "name": "source_url", "value": "https://nexairi.com/nexairi/index.html" },
+            { "name": "base_url", "value": "https://nexairi.com" }
+          ],
+          "number": [
+            { "name": "target_page_id", "value": 0 }
+          ]
+        }
+      },
+      "id": "set-config",
+      "name": "Config (Set)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [-320, 0],
+      "notesInFlow": true,
+      "notes": "Set source_url to your prototype HTML, base_url to your site, and target_page_id to the WP Page ID to overwrite."
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{$json.source_url}}",
+        "responseFormat": "string"
+      },
+      "id": "http-get",
+      "name": "Fetch Prototype HTML",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [-80, 0]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": false,
+        "values": {
+          "string": [
+            { "name": "content", "value": "={{$json.data}}" },
+            { "name": "base_url", "value": "={{$json.base_url}}" }
+          ],
+          "number": [
+            { "name": "target_page_id", "value": "={{$json.target_page_id}}" }
+          ]
+        }
+      },
+      "id": "set-content",
+      "name": "Prepare Content (Set)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [160, 0],
+      "notesInFlow": true,
+      "notes": "We take the raw HTML as-is. If you need path rewrites later, we can add a text replace step."
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "={{$json.base_url}}/wp-json/wp/v2/pages/{{$json.target_page_id}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "jsonParameters": true,
+        "bodyParametersJson": "={\n  \"content\": $json.content,\n  \"status\": \"publish\"\n}"
+      },
+      "id": "http-put",
+      "name": "Publish to WordPress Page",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [420, 0]
+    }
+  ],
+  "connections": {
+    "When I click Execute": {
+      "main": [[{ "node": "Config (Set)", "type": "main", "index": 0 }]]
+    },
+    "Config (Set)": {
+      "main": [[{ "node": "Fetch Prototype HTML", "type": "main", "index": 0 }]]
+    },
+    "Fetch Prototype HTML": {
+      "main": [[{ "node": "Prepare Content (Set)", "type": "main", "index": 0 }]]
+    },
+    "Prepare Content (Set)": {
+      "main": [[{ "node": "Publish to WordPress Page", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" }
+}

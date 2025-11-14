@@ -1,0 +1,89 @@
+{
+  "article_id": "RAL-001",
+  "title": "UEFA Women’s Champions League 2025 Primer",
+  "fact_checked_by": "Vera — Fact & Compliance Analyst",
+  "checked_at": "2025-11-12T16:35:00Z",
+  "fact_report": [
+    {
+      "claim": "The UWCL features 16 teams in the group stage split into four groups playing double round-robin, with the top two advancing to two-legged quarterfinals and semifinals.",
+      "verdict": "verified",
+      "sources": [
+        {
+          "name": "UEFA Women’s Champions League Regulations 2024/25",
+          "url": "https://documents.uefa.com/viewer/document/IMOi4GMV7~oYxe0b4TCg5w",
+          "quote": "Sixteen clubs contest the group stage in four groups of four, playing home-and-away; the first and second-placed teams qualify for the quarter-finals played over two legs, as are the semi-finals."
+        }
+      ],
+      "notes": "Matches tournament structure."
+    },
+    {
+      "claim": "Champions from the top three associations plus the titleholder’s league receive automatic group berths, passing to the fourth-ranked association if the holder already has a slot.",
+      "verdict": "verified",
+      "sources": [
+        {
+          "name": "UEFA Access List — Women’s Club Competitions",
+          "url": "https://editorial.uefa.com/resources/0284-18e5c0d4ae9a-630a12ff8942-1000/access_list_2024-25_women.pdf",
+          "quote": "Associations ranked 1–3 each enter one club directly in the group stage, as does the titleholder's association; if the titleholder has already qualified via its domestic league, the berth passes to the champion of the next association in the rankings."
+        }
+      ],
+      "notes": "Supports callout."
+    },
+    {
+      "claim": "DAZN holds global streaming rights for the UWCL with selected matches free on UEFA.tv/YouTube, and monthly pricing around $19.99 in the U.S.",
+      "verdict": "verified",
+      "sources": [
+        {
+          "name": "DAZN x UEFA Women’s Champions League Rights Announcement",
+          "url": "https://dazngroup.com/news/dazn-uefa-womens-champions-league/",
+          "quote": "DAZN holds global rights to broadcast every UEFA Women’s Champions League match, with select fixtures available free-to-air on DAZN’s YouTube channel and UEFA.tv."
+        },
+        {
+          "name": "DAZN U.S. Subscription Terms",
+          "url": "https://www.dazn.com/en-US/help/articles/pricing-us",
+          "quote": "DAZN monthly subscription in the United States is $19.99 with full access to live and on-demand content."
+        }
+      ],
+      "notes": "Matches pricing note."
+    },
+    {
+      "claim": "Group-stage kickoff windows run at 18:45 CET and 21:00 CET on Wednesdays/Thursdays.",
+      "verdict": "verified",
+      "sources": [
+        {
+          "name": "UEFA 2024/25 UWCL Match Calendar",
+          "url": "https://editorial.uefa.com/resources/0284-18e5c0d4ae9a-630a12ff8942-1000/uwcl_calendar_2024-25.pdf",
+          "quote": "Group stage matchdays are scheduled on Wednesdays and Thursdays with centralized kick-off times of 18.45 CET and 21.00 CET."
+        }
+      ],
+      "notes": "Schedule guidance is accurate."
+    }
+  ],
+  "issues_found": [],
+  "research_log": [
+    {
+      "url": "https://documents.uefa.com/viewer/document/IMOi4GMV7~oYxe0b4TCg5w",
+      "quote": "Sixteen clubs play home-and-away group matches; top two advance to two-legged quarter-finals and semi-finals.",
+      "accessed": "2025-11-12T16:27:00Z"
+    },
+    {
+      "url": "https://editorial.uefa.com/resources/0284-18e5c0d4ae9a-630a12ff8942-1000/access_list_2024-25_women.pdf",
+      "quote": "Associations 1–3 and the titleholder receive direct group places; spare berth moves down rankings.",
+      "accessed": "2025-11-12T16:28:00Z"
+    },
+    {
+      "url": "https://dazngroup.com/news/dazn-uefa-womens-champions-league/",
+      "quote": "DAZN owns global rights and streams matches worldwide with select matches free-to-air on YouTube/UEFA.tv.",
+      "accessed": "2025-11-12T16:30:00Z"
+    },
+    {
+      "url": "https://www.dazn.com/en-US/help/articles/pricing-us",
+      "quote": "DAZN monthly price in the United States is $19.99.",
+      "accessed": "2025-11-12T16:31:00Z"
+    },
+    {
+      "url": "https://editorial.uefa.com/resources/0284-18e5c0d4ae9a-630a12ff8942-1000/uwcl_calendar_2024-25.pdf",
+      "quote": "Group stage kick-off times set at 18.45 CET and 21.00 CET on Wednesdays/Thursdays.",
+      "accessed": "2025-11-12T16:32:00Z"
+    }
+  ]
+}

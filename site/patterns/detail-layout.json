@@ -1,0 +1,8 @@
+{
+  "title": "Nexairi Detail Layout + Sidebar",
+  "slug": "nexairi/detail-layout",
+  "description": "Two-column workflow list and sidebar box for concept detail pages.",
+  "categories": ["columns"],
+  "viewportWidth": 1200,
+  "content": "<!-- wp:group {\"className\":\"detail-layout\"} -->\n<div class=\"wp-block-group detail-layout\"><article><h3>Workflow</h3><ol><li>Describe the first step.</li><li>Describe the second step.</li><li>Describe the third step.</li><li>Describe the fourth step.</li><li>Describe the fifth step.</li></ol></article><aside><h4>Sidebar title</h4><p>Use this area for channels, outputs, or partners.</p><h4>Second title</h4><p>Additional copy or bullet list can live here.</p></aside></div>\n<!-- /wp:group -->"
+}

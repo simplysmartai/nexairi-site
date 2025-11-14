@@ -1,0 +1,8 @@
+{
+  "title": "Nexairi Hero + Nav",
+  "slug": "nexairi/home-hero",
+  "description": "Header navigation and hero gradient panel used on the homepage.",
+  "categories": ["header", "banner", "text"],
+  "viewportWidth": 1400,
+  "content": "<!-- wp:group {\"className\":\"site-header\"} -->\n<div class=\"wp-block-group site-header\"><div class=\"brand\"><img class=\"logo\" src=\"/wp-content/nexairi/assets/logo-placeholder.svg\" alt=\"Nexairi logo\"/><div><p class=\"eyebrow\">AI Lifestyle Studio</p><h1>Nexairi</h1></div></div><nav><a href=\"#sports\">Sports</a><a href=\"#tech\">Tech</a><a href=\"#lifestyle\">Lifestyle</a><a href=\"#travel\">Travel</a><a href=\"/sandbox\">Sandbox</a><a href=\"#about\">About</a></nav></div>\n<!-- /wp:group -->\n\n<!-- wp:group {\"className\":\"hero gradient-panel\"} -->\n<div class=\"wp-block-group hero gradient-panel\"><div class=\"hero-text\"><p class=\"eyebrow\">Tasteful intelligence, instantly</p><h2>Blueprints for life, powered by AI partners.</h2><p>Nexairi pairs concierge-level curation with lightning-fast AI research so you can explore smarter gear, routines, escapes and experimental tools.</p><div class=\"cta-row\"><a class=\"btn primary\" href=\"/sandbox\">Enter the Sandbox</a><a class=\"btn ghost\" href=\"#stories\">Browse the latest</a></div></div><div class=\"hero-card\"><h3>Live Pipeline</h3><ul><li><span>Gift Scout</span><strong>3 new drop-ins</strong></li><li><span>Dog Routine Coach</span><strong>Weather tuning</strong></li><li><span>Trip Builder</span><strong>Intent boosts</strong></li></ul><a class=\"inline-link\" href=\"/sandbox#concepts\">See roadmap -></a></div></div>\n<!-- /wp:group -->"
+}

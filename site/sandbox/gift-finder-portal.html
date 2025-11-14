@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Gift Finder Portal · Nexairi Sandbox</title>
+  <meta name="description" content="Gift Finder Portal pairs a fast brief form with an AI chat intake so you can pinpoint the right gifts without a 20-question survey.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Source+Sans+3:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="icon" type="image/png" href="/Images/nexairi-mentis-favicon.png">
+  <style>
+    .giftfinder-page { max-width: 1100px; margin: 0 auto; padding: 48px 24px 120px; }
+    form label { display:block; font-weight:600; margin:18px 0 6px; }
+    form select, form input, form textarea { width:100%; padding:10px 12px; border-radius:10px; border:1px solid rgba(15,23,40,0.15); font:inherit; background:#fff; }
+    form small { display:block; margin-top:4px; color:#6d768c; }
+    .gf-grid { display:grid; gap:24px; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); }
+    .gf-chip-group { display:flex; flex-wrap:wrap; gap:10px; }
+    .gf-chip-group label { font-weight:500; border:1px solid rgba(15,23,40,0.2); border-radius:999px; padding:6px 14px; cursor:pointer; }
+    .gf-chip-group input { position:absolute; opacity:0; pointer-events:none; }
+    .gf-chip-group input:checked + span { background:rgba(74,180,255,0.12); border-color:#4ab4ff; color:#0f1728; }
+    .gf-chip-group label span { display:inline-block; }
+    .gf-budget-row { display:grid; gap:12px; grid-template-columns:1fr 1fr; }
+    .chat-box textarea { min-height:140px; }
+    .chat-log { margin-top:16px; border-radius:18px; background:rgba(15,23,40,0.05); padding:18px; min-height:120px; white-space:pre-line; }
+    button { cursor:pointer; }
+    @media (max-width:700px) { .gf-budget-row { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <header class="nx-header">
+    <div class="nx-header__inner">
+      <div class="nx-brand">
+        <a class="nx-logo-link" href="/">
+          <img class="nx-logo nx-logo--full" src="/Images/nexairi-mentis-logo-horizontal.png" alt="Nexairi logo">
+          <img class="nx-logo nx-logo--compact" src="/Images/nexairi-mentis-logo-compact.png" alt="Nexairi compact logo">
+        </a>
+        <div>
+          <p class="nx-eyebrow">AI Assisted Magazine</p>
+          <h1>Nexairi Mentis</h1>
+        </div>
+      </div>
+      <nav class="nx-nav">
+        <a href="/">Home</a>
+        <a href="/mission">Our Mission</a>
+        <a href="/lifestyle">Lifestyle</a>
+        <a href="/travel">Travel</a>
+        <a href="/technology">Technology</a>
+        <a href="/sports">Sports</a>
+        <a href="/sandbox">Sandbox</a>
+        <a href="/contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <div class="nx-subhead"><p>Sandbox · Gift Finder Portal</p></div>
+
+  <main class="giftfinder-page">
+    <section class="nx-hero nx-card">
+      <div>
+        <p class="nx-eyebrow">Concierge gifting</p>
+        <h2>Pinpoint gifts with four smart questions.</h2>
+        <p>Gift Finder Portal pairs a lightweight form with an AI chat lane. Atlas collects only the signals that matter (relationship, vibe, budget, deal-breakers) while Vega filters products and Nova writes the delivery-ready note.</p>
+        <div class="nx-taglist">
+          <span>Atlas</span><span>Vega</span><span>Nova</span><span>Echo</span><span>Sol QA</span>
+        </div>
+      </div>
+      <div class="nx-card">
+        <p class="nx-eyebrow">Run stats</p>
+        <table class="nx-table">
+          <tr><td>Avg. form time</td><td style="text-align:right;">2m 15s</td></tr>
+          <tr><td>Ideas per brief</td><td style="text-align:right;">5 + note</td></tr>
+          <tr><td>Approval rating</td><td style="text-align:right;">4.8 / 5</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section class="nx-section">
+      <div class="nx-two-col">
+        <div class="nx-card">
+          <p class="nx-eyebrow">Workflow</p>
+          <ol style="margin:0 0 0 18px;">
+            <li>Atlas captures occasion, relationship, vibe, and budget in four touches.</li>
+            <li>Vega filters the Airtable catalog by spend, category vibes, and shipping cutoffs.</li>
+            <li>Nova formats hero + alternates + wildcard and drafts the send-ready note.</li>
+            <li>Echo preps optional follow-up email or SMS, Sol validates disclosures.</li>
+          </ol>
+        </div>
+        <div class="nx-card">
+          <p class="nx-eyebrow">Data hooks</p>
+          <p>Airtable (catalog + intake log), Skimlinks/Awin IDs, SendGrid export, Notion archive, and Slack alerts for white-glove briefs.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="nx-section">
+      <h3>Structured form (fast brief)</h3>
+      <p>Embed this form as-is or host it in `/tools`. The sample `action` points to a placeholder n8n webhook &mdash; swap it with your production endpoint.</p>
+      <form class="nx-card" id="giftfinder-form" action="https://n8n.example.com/webhook/giftfinder-form" method="POST">
+        <label for="occasion">Occasion</label>
+        <select id="occasion" name="occasion" required>
+          <option value="">Choose one</option>
+          <option>Holiday</option>
+          <option>Anniversary</option>
+          <option>Birthday</option>
+          <option>Graduation / Milestone</option>
+          <option>New baby</option>
+          <option>Just because</option>
+          <option>Other life event</option>
+        </select>
+
+        <label for="relationship">Relationship</label>
+        <select id="relationship" name="relationship" required>
+          <option value="">Select</option>
+          <option>Spouse / Partner</option>
+          <option>Parent</option>
+          <option>Sibling</option>
+          <option>Child</option>
+          <option>Grandchild</option>
+          <option>Friend</option>
+          <option>Co-worker</option>
+          <option>Client</option>
+          <option>Other</option>
+        </select>
+        <small>Add age if gifting to a kid or teen.</small>
+        <input type="number" min="0" max="120" name="recipient_age" placeholder="Recipient age (optional)">
+
+        <label for="gender_vibe">Style vibe</label>
+        <select id="gender_vibe" name="gender_vibe">
+          <option value="">No preference / Gender neutral</option>
+          <option>Feminine leaning</option>
+          <option>Masculine leaning</option>
+          <option>Nonbinary / Gender expansive</option>
+        </select>
+
+        <label>Budget</label>
+        <div class="gf-budget-row">
+          <select id="budget_band" name="budget_band" required>
+            <option value="">Range</option>
+            <option>Under $50</option>
+            <option>$50 - $150</option>
+            <option>$150 - $300</option>
+            <option>$300 - $750</option>
+            <option>$750+</option>
+          </select>
+          <input type="number" id="budget_exact" name="budget_exact" min="10" step="10" placeholder="Exact or per-person (optional)">
+        </div>
+        <small>The team uses this to right-size catalog filters and affiliate targets.</small>
+
+        <label>What lights them up?</label>
+        <div class="gf-chip-group">
+          <label><input type="checkbox" name="interest_tags" value="Design objects"><span>Design objects</span></label>
+          <label><input type="checkbox" name="interest_tags" value="Wellness"><span>Wellness rituals</span></label>
+          <label><input type="checkbox" name="interest_tags" value="Outdoors"><span>Outdoors</span></label>
+          <label><input type="checkbox" name="interest_tags" value="Food and drink"><span>Food &amp; drink</span></label>
+          <label><input type="checkbox" name="interest_tags" value="Culture"><span>Culture / art</span></label>
+          <label><input type="checkbox" name="interest_tags" value="Tech"><span>Tech + gadgets</span></label>
+          <label><input type="checkbox" name="interest_tags" value="Cozy home"><span>Cozy home</span></label>
+          <label><input type="checkbox" name="interest_tags" value="Experiences"><span>Experiences</span></label>
+        </div>
+        <small>Pick up to three. This replaces a long survey.</small>
+
+        <label for="interests">Extra context (optional)</label>
+        <textarea id="interests" name="interests" rows="3" placeholder="e.g., espresso nerd, hikes rainy trails, loves Bauhaus objects, hates clutter"></textarea>
+
+        <label for="no_go">Allergies / no-go items</label>
+        <textarea id="no_go" name="no_go" rows="2" placeholder="No candles, no fragrances, avoid dairy, experiences only, etc."></textarea>
+
+        <label for="shipping_region">Shipping region</label>
+        <select id="shipping_region" name="shipping_region">
+          <option value="">Select</option>
+          <option>United States</option>
+          <option>Canada</option>
+          <option>UK / EU</option>
+          <option>Asia-Pacific</option>
+          <option>Latin America</option>
+          <option>Other / Digital only</option>
+        </select>
+
+        <label for="deadline">Need it by</label>
+        <input type="date" id="deadline" name="deadline">
+
+        <label for="email">Email for delivery (optional)</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com">
+
+        <button class="nx-btn nx-btn--filled" type="submit" style="margin-top:24px;">Send brief</button>
+        <small style="margin-top:12px;">Submitting posts JSON data to the n8n webhook. Add reCAPTCHA or rate limits before going live.</small>
+      </form>
+    </section>
+
+    <section class="nx-section">
+      <h3>AI chat (free-form briefs)</h3>
+      <div class="nx-card chat-box">
+        <p class="nx-eyebrow">Prototype widget</p>
+        <p>Replace the `chatEndpoint` constant with your chat webhook to enable live responses.</p>
+        <label for="chatPrompt">Describe your recipient</label>
+        <textarea id="chatPrompt" placeholder="Need a $150 gift for my mentor in Berlin who loves fermentation, vintage watches, and hiking. Avoid alcohol."></textarea>
+        <button class="nx-btn nx-btn--ghost" id="chatSend" type="button" style="margin-top:12px;">Ask Gift Finder Portal</button>
+        <div class="chat-log" id="chatLog">Responses will appear here.</div>
+      </div>
+    </section>
+
+    <section class="nx-section nx-section--striped">
+      <div class="nx-two-col">
+        <div class="nx-card">
+          <p class="nx-eyebrow">n8n endpoints</p>
+          <ul style="margin:0;padding-left:18px;">
+            <li><strong>/webhook/giftfinder-form</strong> &mdash; form submissions. Validate payload, enrich with LLM, send email/PDF.</li>
+            <li><strong>/webhook/giftfinder-chat</strong> &mdash; chat messages. Stream output back (SSE or JSON) and log transcripts.</li>
+          </ul>
+        </div>
+        <div class="nx-card">
+          <p class="nx-eyebrow">Catalog &amp; compliance</p>
+          <p>Use Airtable or Supabase with merchant, SKU, price, tags, affiliate link, compliance notes, shipping cutoff, and region availability. Sol checks disclosures before delivery.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="nx-section">
+      <h3>Deployment checklist</h3>
+      <ul class="nx-card" style="margin:0;padding-left:18px;">
+        <li>Swap webhook URLs and test in staging.</li>
+        <li>Enable validation + spam controls (hCaptcha, Turnstile, or rate limiting).</li>
+        <li>Update `/tools/gift-finder-portal.html` with live brand colors or embed inside your CMS.</li>
+        <li>Document privacy/consent language in the form footer if collecting personal data.</li>
+        <li>Send the first briefs through Atlas + Vega + Nova + Echo and review outputs with Sol.</li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    const chatEndpoint = "https://n8n.example.com/webhook/giftfinder-chat";
+    const chatPromptEl = document.getElementById("chatPrompt");
+    const chatLogEl = document.getElementById("chatLog");
+    document.getElementById("chatSend").addEventListener("click", async () => {
+      const prompt = chatPromptEl.value.trim();
+      if (!prompt) {
+        chatLogEl.textContent = "Please describe your recipient first.";
+        return;
+      }
+      chatLogEl.textContent = "Thinking...";
+      try {
+        const res = await fetch(chatEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt })
+        });
+        if (!res.ok) throw new Error("Request failed");
+        const data = await res.json();
+        chatLogEl.textContent = data.reply || JSON.stringify(data, null, 2);
+      } catch (err) {
+        chatLogEl.textContent = "Something went wrong. Check your webhook logs.";
+      }
+    });
+  </script>
+</body>
+</html>

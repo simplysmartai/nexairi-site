@@ -1,0 +1,70 @@
+Nexairi WordPress Deployment Plan (WordPress 6.6+)
+=================================================
+
+1. Prep the site bundle on your computer
+   1.1 In File Explorer go to C:\Users\smart\OneDrive\Documents\Side Gig\n8n\websites\nexairi\site.
+   1.2 Select every item inside (assets, css, sandbox, tools, index.html, etc.).
+   1.3 Right‑click > Send to > Compressed (zipped) folder and name it nexairi-static.zip. This is the package you will upload.
+
+2. Back up and update WordPress before touching files
+   2.1 Log into https://www.nexairi.com/wp-admin with your admin credentials.
+   2.2 Dashboard > Updates: apply any WordPress 6.6.x core, plugin, or theme updates so the UI matches current documentation.
+   2.3 Tools > Export (All Content) to download an XML backup.
+   2.4 If your host offers one-click backups (cPanel, Plesk, Managed WP), trigger a full backup so you can roll back if needed.
+
+3. Prepare a place to store the static bundle inside WordPress
+   3.1 In wp-admin go to Plugins > Add New Plugin.
+   3.2 Install and activate “WP File Manager” (by mndpsingh287) or use your host’s File Manager if it already exists. This plugin is the current lightweight way to drag-and-drop files without FTP.
+   3.3 Open WP File Manager (in the left sidebar). You are now looking at /public_html/ (or /home/.../public_html/).
+   3.4 Inside wp-content create a new folder named nexairi.
+   3.5 Upload nexairi-static.zip into wp-content/nexairi using the Upload button, then right-click the zip > Extract. You should now have:
+       - wp-content/nexairi/assets
+       - wp-content/nexairi/css
+       - wp-content/nexairi/sandbox
+       - wp-content/nexairi/tools
+       - wp-content/nexairi/index.html (plus other html files)
+
+4. Point the WordPress homepage to the static index.html
+   Option A – Block themes (Twenty Twenty-Four, 6.6 default):
+     4.1 Go to Appearance > Editor > Templates > Front Page > three-dot menu > Edit.
+     4.2 Insert a “HTML” block at the top, paste: <!-- wp:html --><?php include ABSPATH . 'wp-content/nexairi/index.html'; ?><!-- /wp:html -->
+     4.3 Save. WordPress will now render the uploaded static file while still running inside the theme.
+   Option B – Classic themes:
+     4.4 Go to Appearance > Theme File Editor.
+     4.5 Select front-page.php (or index.php if a front template does not exist) and add: <?php include ABSPATH . 'wp-content/nexairi/index.html'; ?> inside the loop. Save.
+   (If you prefer a fully static front page outside WordPress, change your home directory’s index.php to redirect to /wp-content/nexairi/index.html, but keep a copy so you can restore WordPress admin access.)
+
+5. Create sandbox and concept pages
+   5.1 Pages > Add New for each child page (Sandbox, Gift Scout, Dog Routine Coach, Trip Builder).
+   5.2 Switch the block editor to “Code Editor” (top-right three-dot menu > Code editor).
+   5.3 Replace the default markup with: <!-- wp:html --><?php include ABSPATH . 'wp-content/nexairi/sandbox/index.html'; ?><!-- /wp:html --> (and adjust the include path for each concept page).
+   5.4 Publish each page and note the permalinks; they should match /sandbox, /sandbox/gift-scout, etc.
+   5.5 Settings > Reading > Set “Homepage” to the page you created in step 4 if you chose the WordPress page approach (instead of template editing).
+
+6. Register fonts and CSS only once
+   6.1 Go to Appearance > Editor > Styles > Additional CSS (block themes) or Appearance > Customize > Additional CSS (classic themes).
+   6.2 Paste: @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Source+Sans+3:wght@400;500&display=swap');
+       @import url('/wp-content/nexairi/css/styles.css');
+   6.3 Save. WordPress will now load the Google Fonts and the shared stylesheet for every page.
+
+7. Wire the navigation so visitors can reach the sandbox pages
+   7.1 If you are on a block theme: Appearance > Editor > Navigation > select your primary menu.
+   7.2 Add menu links pointing to /#sports, /#tech, /sandbox, /sandbox/gift-scout, etc.
+   7.3 On classic themes: Appearance > Menus > select the Primary menu > Add the new pages > drag them into position > Save Menu.
+
+8. Upload the content feed for the Stories grid
+   8.1 Convert your latest posts into HTML snippets (or use the ones in websites/nexairi/content_html).
+   8.2 In WP File Manager open wp-content/nexairi/content_html and upload your updated index.json plus any .html article files.
+   8.3 Confirm https://www.nexairi.com/wp-content/nexairi/content_html/index.json is publicly reachable; the homepage fetch() call relies on that exact path.
+
+9. Test everything in the live site
+   9.1 Visit https://www.nexairi.com/ in an incognito window and verify the layout, fonts, gradients, and buttons render correctly.
+   9.2 Click every navbar link (Sports, Tech, Lifestyle, Travel, Sandbox) to ensure anchors scroll or pages load.
+   9.3 Open https://www.nexairi.com/sandbox, https://www.nexairi.com/sandbox/gift-scout, etc., and confirm the detail templates pick up the shared CSS.
+   9.4 Use a phone or browser dev tools (⌥+⌘+I / Ctrl+Shift+I > Toggle device toolbar) to confirm mobile responsiveness.
+   9.5 Lighthouse (Chrome DevTools > Lighthouse) to check performance/accessibility; verify there are no mixed-content warnings (fonts and CSS are HTTPS).
+
+10. Post-launch checklist
+   10.1 Re-enable any caching plugin (WP Super Cache, LiteSpeed, etc.) and purge caches so the new static files are served globally.
+   10.2 Submit the homepage URL to Google Search Console if you want the refreshed layout re-indexed quickly.
+   10.3 Document where the files live (wp-content/nexairi) so future updates are as easy as replacing the HTML/CSS and re-running the tests above.

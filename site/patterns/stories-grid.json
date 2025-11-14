@@ -1,0 +1,8 @@
+{
+  "title": "Nexairi Stories Grid",
+  "slug": "nexairi/stories-grid",
+  "description": "Latest stories heading plus dynamic grid fed by /content_html/index.json.",
+  "categories": ["text", "featured"],
+  "viewportWidth": 1200,
+  "content": "<!-- wp:group {\"className\":\"stories\",\"anchor\":\"stories\"} -->\n<div id=\"stories\" class=\"wp-block-group stories\"><div class=\"section-heading\"><p class=\"eyebrow\">Latest drops</p><h3>Fresh posts from the studio</h3></div><div id=\"storyGrid\" class=\"story-grid\"><p class=\"placeholder\">Stories load from /content_html once published.</p></div></div>\n<!-- /wp:group -->\n<!-- wp:html -->\n<script>\nfetch('/wp-content/nexairi/content_html/index.json')\n  .then(r => r.json())\n  .then(list => {\n    const el = document.getElementById('storyGrid');\n    if (!el) return;\n    el.innerHTML = '';\n    list.slice(0, 6).forEach(item => {\n      const article = document.createElement('a');\n      article.className = 'story';\n      article.href = item.url;\n      article.target = '_blank';\n      article.rel = 'noopener';\n      article.innerHTML = `<strong>${item.title}</strong><span class='muted small'>${item.date}</span>`;\n      el.appendChild(article);\n    });\n  })\n  .catch(() => {});\n</script>\n<!-- /wp:html -->"
+}

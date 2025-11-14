@@ -1,0 +1,160 @@
+{
+  "name": "NX-Post-Pipeline (Minimal Compatible)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual",
+      "name": "When I click Execute",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [-700, 0]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            { "name": "title", "value": "Test Post: 7 Small Upgrades for Your Morning" },
+            { "name": "slug", "value": "7-small-upgrades-morning" },
+            { "name": "category", "value": "lifestyle" },
+            { "name": "excerpt", "value": "Quick, friendly tweaks to make mornings less chaotic." },
+            { "name": "body_html", "value": "<p>Intro...</p><h2>1) Warm light</h2><p>...</p>" },
+            { "name": "source_url", "value": "https://example.com/good-source" },
+            { "name": "agent_name", "value": "Luna" },
+            { "name": "affiliate_links_str", "value": "Target Mug|https://example.com/aff/target-mug\nBestBuy Lamp|https://example.com/aff/lamp" },
+            { "name": "base_url", "value": "https://nexairi.com" }
+          ],
+          "number": [
+            { "name": "author_id", "value": 0 }
+          ]
+        }
+      },
+      "id": "set-mock",
+      "name": "Mock Agent Data (Set)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [-480, 0]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": false,
+        "values": {
+          "number": [
+            {
+              "name": "category_id",
+              "value": "={{ $json[\"category\"] === 'lifestyle' ? 0 : ($json[\"category\"] === 'technology' ? 0 : ($json[\"category\"] === 'travel' ? 0 : 0)) }}"
+            }
+          ]
+        }
+      },
+      "id": "set-cat",
+      "name": "Category Map (Set)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [-240, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$json.base_url}}/wp-json/wp/v2/posts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "jsonParameters": true,
+        "bodyParametersJson": "={\n  \"title\": {{$json.title}},\n  \"content\": {{$json.body_html}},\n  \"excerpt\": {{$json.excerpt}},\n  \"status\": \"draft\",\n  \"slug\": {{$json.slug}}\n}"
+      },
+      "id": "http-create",
+      "name": "Create Draft Post",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [20, 80]
+    },
+    {
+      "parameters": {
+        "mode": "mergeByIndex"
+      },
+      "id": "merge",
+      "name": "Merge Post + Data",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2,
+      "position": [280, 40]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$json.base_url}}/wp-json/wp/v2/posts/{{$json.id}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "jsonParameters": true,
+        "bodyParametersJson": "={\n  \"categories\": [{{$json.category_id}}],\n  \"author\": {{$json.author_id}}\n}"
+      },
+      "id": "http-assign",
+      "name": "Assign Category & Author",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [520, 40]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$json.base_url}}/wp-json/acf/v3/posts/{{$json.id}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "jsonParameters": true,
+        "bodyParametersJson": "={\n  \"fields\": {\n    \"source_url\": {{$json.source_url}},\n    \"affiliate_links\": {{$json.affiliate_links_str}},\n    \"agent_name\": {{$json.agent_name}}\n  }\n}"
+      },
+      "id": "http-acf",
+      "name": "Update ACF Fields",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [760, 40]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$json.base_url}}/wp-json/wp/v2/posts/{{$json.id}}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "jsonParameters": true,
+        "bodyParametersJson": "={\n  \"meta\": {\n    \"rank_math_title\": {{$json.title}} + \" | Nexairi\",\n    \"rank_math_description\": {{$json.excerpt}}\n  }\n}"
+      },
+      "id": "http-seo",
+      "name": "Set SEO Meta (optional)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1000, 40]
+    }
+  ],
+  "connections": {
+    "When I click Execute": {
+      "main": [[{ "node": "Mock Agent Data (Set)", "type": "main", "index": 0 }]]
+    },
+    "Mock Agent Data (Set)": {
+      "main": [
+        [{ "node": "Category Map (Set)", "type": "main", "index": 0 }],
+        [{ "node": "Merge Post + Data", "type": "main", "index": 0 }]
+      ]
+    },
+    "Category Map (Set)": {
+      "main": [[{ "node": "Create Draft Post", "type": "main", "index": 0 }]]
+    },
+    "Create Draft Post": {
+      "main": [[{ "node": "Merge Post + Data", "type": "main", "index": 1 }]]
+    },
+    "Merge Post + Data": {
+      "main": [[{ "node": "Assign Category & Author", "type": "main", "index": 0 }]]
+    },
+    "Assign Category & Author": {
+      "main": [[{ "node": "Update ACF Fields", "type": "main", "index": 0 }]]
+    },
+    "Update ACF Fields": {
+      "main": [[{ "node": "Set SEO Meta (optional)", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" }
+}
+

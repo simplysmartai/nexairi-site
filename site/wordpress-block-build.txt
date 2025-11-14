@@ -1,0 +1,140 @@
+Nexairi WordPress Block Build Guide (Theme: Block-based such as Twenty Twenty-Four)
+===============================================================================
+
+Use this checklist to recreate the Nexairi layout directly inside the Gutenberg editor without touching PHP. Each section can be pasted via “Code editor” view so the block markup matches the existing static site.
+
+0. Prerequisites
+----------------
+- WordPress 6.6+ with a block theme (Twenty Twenty-Four or similar).
+- The static assets already uploaded to /wp-content/nexairi (as in the previous plan).
+- Story data available at /wp-content/nexairi/content_html/index.json for the Stories grid.
+
+1. Global styles (Appearance → Editor → Styles)
+-----------------------------------------------
+1.1 Color palette  
+    - Background: #0b1420  
+    - Secondary background: #101b2c  
+    - Text: #e7ebf4  
+    - Muted text: #9fb3ca  
+    - Accent: #6ab4ff  
+    - Accent strong: #5a6bff  
+
+1.2 Typography  
+    - Headings font: “Space Grotesk”, weight 600.  
+    - Body font: “Source Sans 3”, weight 400/500.  
+    Add the Google Fonts link in Styles → Additional CSS:  
+    ```
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Source+Sans+3:wght@400;500&display=swap');
+    ```
+
+1.3 Import reusable patterns  
+    - Go to Appearance → Editor → Patterns → Manage all patterns → Import pattern.  
+    - Upload each JSON file from `/wp-content/nexairi/patterns/` (home-hero, topics-section, stories-grid, sandbox-cta, footer, detail-hero, detail-layout).  
+    - The patterns will appear under the “My patterns” tab for quick insertion.  
+
+1.4 Additional CSS (same panel)  
+    Paste the CSS from /wp-content/nexairi/css/styles.css or include this external file:  
+    ```
+    @import url('/wp-content/nexairi/css/styles.css');
+    ```
+    This keeps the block structure simple while the stylesheet handles gradients, layout, and responsive behavior.
+
+2. Homepage (“Home” page)
+-------------------------
+2.1 Create/identify the “Home” page (Pages → Add New). Switch to Code Editor (three dots → Code Editor) and paste each section in order. You can also insert them section-by-section in Visual mode if preferred.
+
+2.2 Hero + nav (insert the “Nexairi Hero + Nav” pattern at the top of the page, or paste manually:)
+```
+<!-- wp:group {"className":"site-header"} -->
+<div class="wp-block-group site-header"><div class="brand"><img class="logo" src="/wp-content/nexairi/assets/logo-placeholder.svg" alt="Nexairi logo"/><div><p class="eyebrow">AI Lifestyle Studio</p><h1>Nexairi</h1></div></div><nav><a href="#sports">Sports</a><a href="#tech">Tech</a><a href="#lifestyle">Lifestyle</a><a href="#travel">Travel</a><a href="/sandbox">Sandbox</a><a href="#about">About</a></nav></div>
+<!-- /wp:group -->
+
+<!-- wp:group {"className":"hero gradient-panel"} -->
+<div class="wp-block-group hero gradient-panel"><div class="hero-text"><p class="eyebrow">Tasteful intelligence, instantly</p><h2>Blueprints for life, powered by AI partners.</h2><p>Nexairi pairs concierge-level curation with lightning-fast AI research so you can explore smarter gear, routines, escapes and experimental tools.</p><div class="cta-row"><a class="btn primary" href="/sandbox">Enter the Sandbox</a><a class="btn ghost" href="#stories">Browse the latest</a></div></div><div class="hero-card"><h3>Live Pipeline</h3><ul><li><span>Gift Scout</span><strong>3 new drop-ins</strong></li><li><span>Dog Routine Coach</span><strong>Weather tuning</strong></li><li><span>Trip Builder</span><strong>Intent boosts</strong></li></ul><a class="inline-link" href="/sandbox#concepts">See roadmap -></a></div></div>
+<!-- /wp:group -->
+```
+
+2.3 Topic sections (use the “Nexairi Topic Section” pattern for each area, toggling the “alt” class in Advanced if you want the darker background, or paste manually:)
+```
+<!-- wp:group {"className":"topics","anchor":"sports"} -->
+<div id="sports" class="wp-block-group topics"><div class="section-heading"><p class="eyebrow">Sports</p><h3>Smarter training and fan rituals</h3></div><div class="topic-grid">
+<article><h4>AI-aided routines</h4><p>Custom micro-cycles that respect recovery windows plus gear picks verified by Sol, our QA agent.</p></article>
+<article><h4>Game-day concierge</h4><p>Venue-specific food, merch and transit tips streamed from Atlas to your inbox.</p></article>
+<article><h4>Collector radar</h4><p>LLM-ranked drops surfacing limited runs worth chasing with alerts for resale upside.</p></article>
+</div></div>
+<!-- /wp:group -->
+```
+For alternating background sections add class “topics alt” and change the eyebrow/headers accordingly.
+
+2.4 Stories section (insert the “Nexairi Stories Grid” pattern or paste manually:)
+```
+<!-- wp:group {"className":"stories","anchor":"stories"} -->
+<div id="stories" class="wp-block-group stories"><div class="section-heading"><p class="eyebrow">Latest drops</p><h3>Fresh posts from the studio</h3></div><div id="storyGrid" class="story-grid"><p class="placeholder">Stories load from /content_html once published.</p></div></div>
+<!-- /wp:group -->
+<!-- wp:html -->
+<script>
+fetch('/wp-content/nexairi/content_html/index.json')
+  .then(r => r.json())
+  .then(list => {
+    const el = document.getElementById('storyGrid');
+    if (!el) return;
+    el.innerHTML = '';
+    list.slice(0, 6).forEach(item => {
+      const article = document.createElement('a');
+      article.className = 'story';
+      article.href = item.url;
+      article.target = '_blank';
+      article.rel = 'noopener';
+      article.innerHTML = `<strong>${item.title}</strong><span class="muted small">${item.date}</span>`;
+      el.appendChild(article);
+    });
+  })
+  .catch(() => {});
+</script>
+<!-- /wp:html -->
+```
+
+2.5 Sandbox CTA + About sections  
+- Insert the “Nexairi Sandbox CTA” pattern for the gradient block.  
+- About grid can stay as manual HTML from the static site (or duplicate the Topics pattern and customize).
+
+2.6 Footer
+```
+<!-- wp:group {"className":"site-footer"} -->
+<div class="wp-block-group site-footer"><p>&copy; 2025 Nexairi. All rights reserved.</p></div>
+<!-- /wp:group -->
+```
+
+3. Sandbox and concept pages
+----------------------------
+Repeat the process for each page (Sandbox, Gift Scout, Dog Routine Coach, Trip Builder).
+
+3.1 Sandbox page structure  
+- Insert the “Nexairi Hero + Nav” pattern if you want the same masthead, then drop in the “Nexairi Topic Section” pattern for the concept grid (set its Advanced CSS class to `topics` and give it the `id="concepts"`), the “Nexairi Stories Grid” pattern for the roadmap (replace copy with sprint blurbs and set `id="roadmap"`), and another Topic pattern with class `topics alt` for the request section (`id="contact"`).  
+- Keep anchor IDs so nav links continue to work (`/sandbox#concepts`, `/sandbox#roadmap`, `/sandbox#contact`).  
+
+3.2 Gift Scout / Dog Routine Coach / Trip Builder pages  
+- Use the “Nexairi Detail Hero + Stats” pattern for the top block and customize the eyebrow, heading, paragraph, and stat labels.  
+- Add the “Nexairi Detail Layout + Sidebar” pattern for the workflow and info box.  
+- Follow with the Topic Section pattern (rename to Live / In Progress / Upcoming) and the Stories Grid pattern (retitle to “Access options” and replace paragraphs).  
+- Finish with the Footer pattern.
+
+4. Navigation and permalinks
+----------------------------
+4.1 Pages → ensure permalinks are `/sandbox`, `/sandbox/gift-scout`, `/sandbox/dog-routine`, `/sandbox/trip-builder`.  
+4.2 Appearance → Editor → Navigation (or Appearance → Menus for classic) and add menu items pointing to each page and to `/#sports`, `/#tech`, etc.  
+
+5. Assets and content feed
+--------------------------
+- Keep `/wp-content/nexairi/assets`, `css`, `sandbox`, `tools`, and `content_html` as previously uploaded.  
+- Update `content_html/index.json` whenever you publish new stories so the fetch call has fresh data.  
+- If you embed the sandbox tools (Gift Scout, Pup) via iframe or redirect, ensure the URLs in `/tools/*.html` point to the live workflows.
+
+6. Final verification
+---------------------
+6.1 View the “Home” page on desktop and mobile to ensure gradients, typography, and layout match the static prototype.  
+6.2 Check `/sandbox` and the concept pages; confirm the Additional CSS is loading.  
+6.3 Test the Stories grid fetch (it should populate within a second).  
+6.4 Once satisfied, consider saving each section as a reusable block or pattern for faster future edits (select the group → three dots → Create pattern).  
+
+Following these steps reproduces the static Nexairi site within WordPress’s block editor, keeping everything editable while leveraging the existing CSS design system.

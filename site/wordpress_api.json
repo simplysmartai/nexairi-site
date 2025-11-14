@@ -1,0 +1,14 @@
+{
+  "name": "wordpress_api",
+  "description": "Manage pages and posts on Nexairi.com via REST API",
+  "base_url": "https://www.nexairi.com/wp-json/wp/v2",
+  "auth": {
+    "type": "basic",
+    "username": "Codex-Bot",
+    "password": "4G2gasL0ITOVMpvauSHwxdPC"
+  },
+  "endpoints": {
+    "pages": "/pages",
+    "posts": "/posts"
+  }
+}

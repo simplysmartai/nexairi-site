@@ -1,0 +1,5 @@
+Create a futuristic, minimalist logo for **Nexairi**. 
+- Evoke connection, light, and air. 
+- Use clean geometric shapes and a subtle gradient (electric blue → soft violet). 
+- Sans-serif, soft curves. Avoid cliché AI icons (brains, chips). 
+- Provide SVG and transparent PNG at 1024x1024.

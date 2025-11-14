@@ -1,0 +1,29 @@
+agents:
+  - name: nexairi_homepage_agent
+    description: >
+      Reads the current Nexairi homepage from WordPress, rewrites the main
+      text content to match the Nexairi brand (AI automation & tools for
+      solo creators / small businesses), and updates the page via the REST API.
+    tools:
+      - wordpress_api
+    memory: ephemeral
+    entrypoint: rewrite_homepage
+
+workflows:
+  - name: rewrite_homepage
+    description: "Fetch homepage page, rewrite content, push update"
+    steps:
+      - id: load_homepage
+        tool: wordpress_api
+        method: GET
+        path: "/pages/32"
+      - id: rewrite_content
+        llm: default
+        prompt_file: "prompts/nexairi_homepage_prompt.txt"
+        inputs:
+          page_json: "{{ load_homepage.response }}"
+      - id: update_homepage
+        tool: wordpress_api
+        method: PUT
+        path: "/pages/32"
+        body_json: "{{ rewrite_content.response }}"
