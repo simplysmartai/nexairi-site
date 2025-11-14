@@ -35,8 +35,6 @@
       </nav>
     </div>
   </header>
-  <div class='nx-subhead'><p>Home</p></div>
-
   <main class="nx-shell">
     <section class="nx-hero nx-card nx-hero--home">
       <div>
@@ -195,25 +193,6 @@
       <a href=\"/sitemap.xml\">XML Sitemap</a>
     </div>
   </footer>
-
-  <script>
-    fetch('/content_html/index.json')
-      .then(r => r.json())
-      .then(list => {
-        const wrap = document.getElementById('storyGrid');
-        if (!wrap) return;
-        wrap.innerHTML = '';
-        list.slice(0, 6).forEach(item => {
-          const card = document.createElement('a');
-          card.href = item.url;
-          card.target = '_blank';
-          card.rel = 'noopener';
-          card.innerHTML = `<strong>${item.title}</strong><span class="nx-tagline">${item.date}</span>`;
-          wrap.appendChild(card);
-        });
-      })
-      .catch(() => {});
-  </script>
 </body>
 </html>
 

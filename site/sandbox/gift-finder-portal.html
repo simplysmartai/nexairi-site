@@ -53,43 +53,25 @@
       </nav>
     </div>
   </header>
-  <div class="nx-subhead"><p>Sandbox Â· Gift Finder Portal</p></div>
+  <div class="nx-subhead"><p>Sandbox · Gift Finder Portal</p></div>
 
   <main class="giftfinder-page">
-    <section class="nx-hero nx-card">
-      <div>
-        <p class="nx-eyebrow">Concierge gifting</p>
-        <h2>Pinpoint gifts with four smart questions.</h2>
-        <p>Gift Finder Portal pairs a lightweight form with an AI chat lane. Atlas collects only the signals that matter (relationship, vibe, budget, deal-breakers) while Vega filters products and Nova writes the delivery-ready note.</p>
-        <div class="nx-taglist">
-          <span>Atlas</span><span>Vega</span><span>Nova</span><span>Echo</span><span>Sol QA</span>
-        </div>
-      </div>
-      <div class="nx-card">
-        <p class="nx-eyebrow">Run stats</p>
-        <table class="nx-table">
-          <tr><td>Avg. form time</td><td style="text-align:right;">2m 15s</td></tr>
-          <tr><td>Ideas per brief</td><td style="text-align:right;">5 + note</td></tr>
-          <tr><td>Approval rating</td><td style="text-align:right;">4.8 / 5</td></tr>
-        </table>
+    <section class="nx-hero nx-card giftfinder-hero">
+      <h2>Pinpoint gifts with a few smart questions.</h2>
+      <p>Atlas gathers the signals (relationship, vibe, budget, no-go items) while Vega filters the catalog and Nova formats the stack so you simply copy, paste, and send.</p>
+      <div class="nx-taglist">
+        <span>Atlas</span><span>Vega</span><span>Nova</span><span>Echo</span><span>Sol QA</span>
       </div>
     </section>
 
     <section class="nx-section">
-      <div class="nx-two-col">
-        <div class="nx-card">
-          <p class="nx-eyebrow">Workflow</p>
-          <ol style="margin:0 0 0 18px;">
-            <li>Atlas captures occasion, relationship, vibe, and budget in four touches.</li>
-            <li>Vega filters the Airtable catalog by spend, category vibes, and shipping cutoffs.</li>
-            <li>Nova formats hero + alternates + wildcard and drafts the send-ready note.</li>
-            <li>Echo preps optional follow-up email or SMS, Sol validates disclosures.</li>
-          </ol>
-        </div>
-        <div class="nx-card">
-          <p class="nx-eyebrow">Data hooks</p>
-          <p>Airtable (catalog + intake log), Skimlinks/Awin IDs, SendGrid export, Notion archive, and Slack alerts for white-glove briefs.</p>
-        </div>
+      <div class="nx-card chat-box chat-box--wide">
+        <p class="nx-eyebrow">Chat intake</p>
+        <p>Skip the form when you want to riff. GIF-AI keeps the brief tidy for the editors and replies with a neat summary.</p>
+        <label for="chatPrompt">Tell us about who you are buying for</label>
+        <textarea id="chatPrompt" placeholder="Need a $150 gift for my mentor in Berlin who loves fermentation, vintage watches, and hiking. Avoid alcohol."></textarea>
+        <button class="gifai-btn" id="chatSend" type="button">Ask GIF-AI</button>
+        <div class="chat-log" id="chatLog">Responses will appear here.</div>
       </div>
     </section>
 
@@ -255,3 +237,4 @@
   </script>
 </body>
 </html>
+
