@@ -1,0 +1,504 @@
+{
+  "meta": {
+    "brand": "Nexairi Mentis",
+    "domain": "https://www.nexairi.com",
+    "tagline": "Human taste. Automated pace.",
+    "generated_at": "2025-11-13"
+  },
+  "homepage": {
+    "hero": {
+      "title": "Human taste. Automated pace.",
+      "subtitle": "Editors steer, agents speed things up, and every story lands polished, transparent, and ready for your next experiment.",
+      "cta_label": "Browse the latest",
+      "cta_href": "/blog"
+    },
+    "sections": {
+      "this_week": {
+        "title": "This week at Nexairi",
+        "subtitle": "Beta board",
+        "description": "Gift Finder Portal is learning new vibe filters, Trip Builder is mapping weather-aware layovers, and Matter Stack is testing renter-safe automations."
+      },
+      "departments_intro": {
+        "title": "Departments",
+        "subtitle": "Lifestyle, Technology, Travel, and Sports—each co-written by humans and agents."
+      },
+      "sandbox_intro": {
+        "title": "Sandbox in session",
+        "subtitle": "Workflows launch in public so you can see the prompts, the wiring, and what’s next.",
+        "cta_label": "See what we’re testing",
+        "cta_href": "/sandbox"
+      }
+    },
+    "article_cards": {
+      "lifestyle": [
+        {
+          "title": "Quiet Upgrades for Loud Weeks",
+          "slug": "/posts/quiet-upgrades-loud-weeks",
+          "summary": "Three micro rituals—light, scent, sound—that make a studio feel calmer without pretending deadlines vanished.",
+          "read_time_minutes": 5,
+          "byline_name": "Elena S.",
+          "image_prompt": "cozy apartment corner with warm lamp, diffuser steam, and soft headphones on a chair",
+          "tags": [
+            "habits",
+            "home",
+            "routines"
+          ],
+          "status": "published",
+          "planned_publish_date": "2025-11-13",
+          "ideal_affiliate_hooks": [
+            "desk lighting",
+            "journals",
+            "coffee gear"
+          ]
+        },
+        {
+          "title": "Gift Finder Portal Etiquette",
+          "slug": "/posts/gift-finder-portal-etiquette",
+          "summary": "How to brief GIF-AI, when to override it, and ways to hand over results gracefully.",
+          "read_time_minutes": 6,
+          "byline_name": "Sarah R.",
+          "image_prompt": "stylish tablet on gift-wrapping table with ribbon and scissors",
+          "tags": [
+            "gifting",
+            "automation",
+            "culture"
+          ],
+          "status": "coming_soon",
+          "planned_publish_date": "2025-11-18",
+          "ideal_affiliate_hooks": [
+            "stationery",
+            "subscription boxes",
+            "coffee gear"
+          ]
+        }
+      ],
+      "technology": [
+        {
+          "title": "Matter Stack, Zero Drill",
+          "slug": "/posts/matter-stack-zero-drill",
+          "summary": "Routers, hubs, and sensors renters can plug in tonight and reclaim in under ten minutes.",
+          "read_time_minutes": 7,
+          "byline_name": "Michael T.",
+          "image_prompt": "sleek shelf with discreet smart devices glowing softly",
+          "tags": [
+            "gadgets",
+            "smart home",
+            "privacy"
+          ],
+          "status": "published",
+          "planned_publish_date": "2025-11-13",
+          "ideal_affiliate_hooks": [
+            "smart hubs",
+            "routers",
+            "AI subscriptions"
+          ]
+        },
+        {
+          "title": "AI Tabs Worth Pinning",
+          "slug": "/posts/ai-tabs-worth-pinning",
+          "summary": "Notebook-caliber AI tools for researching, drafting, and checking facts without nuking focus.",
+          "read_time_minutes": 6,
+          "byline_name": "Noah V.",
+          "image_prompt": "minimal laptop screen showing organized browser tabs and calm workspace",
+          "tags": [
+            "workflow",
+            "ai",
+            "productivity"
+          ],
+          "status": "coming_soon",
+          "planned_publish_date": "2025-11-20",
+          "ideal_affiliate_hooks": [
+            "AI subscriptions",
+            "headphones",
+            "mechanical keyboards"
+          ]
+        }
+      ],
+      "travel": [
+        {
+          "title": "Kyoto in Two Dawn Walks",
+          "slug": "/posts/kyoto-two-dawn-walks",
+          "summary": "Where to wander before 9 a.m. when the streets belong to you and the tea shops still smell like toast.",
+          "read_time_minutes": 6,
+          "byline_name": "Jasmine L.",
+          "image_prompt": "misty Kyoto lane at sunrise with lone traveler and soft lighting",
+          "tags": [
+            "city breaks",
+            "planning",
+            "culture"
+          ],
+          "status": "published",
+          "planned_publish_date": "2025-11-13",
+          "ideal_affiliate_hooks": [
+            "carry-on bags",
+            "packing cubes",
+            "noise-cancelling headphones"
+          ]
+        },
+        {
+          "title": "Carry-On Rituals for Red-Eye Routes",
+          "slug": "/posts/carry-on-rituals-redeye",
+          "summary": "Packing cues, compression hacks, and sleep tricks that make the overnight flight feel less like a dare.",
+          "read_time_minutes": 5,
+          "byline_name": "Sarah R.",
+          "image_prompt": "traveler seated by airplane window with neatly organized carry-on bag",
+          "tags": [
+            "packing",
+            "air travel",
+            "wellness"
+          ],
+          "status": "coming_soon",
+          "planned_publish_date": "2025-11-25",
+          "ideal_affiliate_hooks": [
+            "carry-on bags",
+            "travel pillows",
+            "noise-cancelling headphones"
+          ]
+        }
+      ],
+      "sports": [
+        {
+          "title": "UWCL 2025: What Matters Now",
+          "slug": "/posts/uwcl-2025-what-matters",
+          "summary": "Format tweaks, press triggers, and the clubs reshaping knockout math this season.",
+          "read_time_minutes": 4,
+          "byline_name": "Noah V.",
+          "image_prompt": "stadium lights shining over women soccer players mid-play",
+          "tags": [
+            "sports culture",
+            "analytics",
+            "soccer"
+          ],
+          "status": "published",
+          "planned_publish_date": "2025-11-13",
+          "ideal_affiliate_hooks": [
+            "team merch",
+            "sports streaming",
+            "match-day snacks"
+          ]
+        },
+        {
+          "title": "Microcycles for Busy Fans",
+          "slug": "/posts/microcycles-busy-fans",
+          "summary": "Four-day training blocks that leave room for watch parties, travel, and actual recovery.",
+          "read_time_minutes": 5,
+          "byline_name": "Sarah R.",
+          "image_prompt": "home gym corner with resistance bands, yoga mat, and TV showing a match",
+          "tags": [
+            "training",
+            "time management",
+            "wellness"
+          ],
+          "status": "coming_soon",
+          "planned_publish_date": "2025-11-22",
+          "ideal_affiliate_hooks": [
+            "home workout gear",
+            "recovery tools",
+            "sports tech"
+          ]
+        }
+      ]
+    },
+    "image_slots": [
+      {
+        "slot_id": "hero_background",
+        "usage": "Homepage hero background",
+        "image_prompt": "abstract vortex motif lightly echoing Nexairi Mentis logo, dark mode, subtle electric blue and silver"
+      },
+      {
+        "slot_id": "lifestyle_feature",
+        "usage": "Featured Lifestyle story",
+        "image_prompt": "warm modern home interior with soft lighting and minimal design"
+      },
+      {
+        "slot_id": "technology_feature",
+        "usage": "Featured Technology story",
+        "image_prompt": "clean desk setup with subtle futuristic elements and soft light"
+      },
+      {
+        "slot_id": "travel_feature",
+        "usage": "Featured Travel story",
+        "image_prompt": "golden-hour street in a modern city, cinematic, inviting"
+      },
+      {
+        "slot_id": "sports_feature",
+        "usage": "Featured Sports story",
+        "image_prompt": "stadium lights, abstract view, high clarity and energy"
+      }
+    ]
+  },
+  "categories": {
+    "lifestyle": {
+      "section_intro": {
+        "title": "Field Guide: Living Well in a Loud World",
+        "subtitle": "Habits, home upgrades, and gentle routines that make daily life calmer without pretending chaos disappeared. Our editors and agents test the rituals; you just pick what fits."
+      },
+      "library": [
+        {
+          "title": "Soft Starts for Hard Deadlines",
+          "slug": "/posts/soft-starts-hard-deadlines",
+          "summary": "Morning cues—light, scent, movement—that keep your nervous system calm before Slack wakes up.",
+          "read_time_minutes": 5,
+          "byline_name": "Elena S.",
+          "image_prompt": "sunlit kitchen table with tea, notebook, and indoor plant",
+          "tags": [
+            "habits",
+            "morning routines",
+            "mindfulness"
+          ],
+          "status": "published",
+          "planned_publish_date": "2025-11-14",
+          "ideal_affiliate_hooks": [
+            "desk lighting",
+            "journals",
+            "coffee gear"
+          ]
+        },
+        {
+          "title": "Micro Home Retreats",
+          "slug": "/posts/micro-home-retreats",
+          "summary": "Turn a one-bedroom into a weekend sanctuary using lighting scenes, aroma cues, and soundscapes.",
+          "read_time_minutes": 5,
+          "byline_name": "Jasmine L.",
+          "image_prompt": "small apartment with sheer curtains, candles, and soft textiles",
+          "tags": [
+            "home",
+            "wellness",
+            "design"
+          ],
+          "status": "coming_soon",
+          "planned_publish_date": "2025-11-24",
+          "ideal_affiliate_hooks": [
+            "desk lighting",
+            "journals",
+            "aroma diffusers"
+          ]
+        },
+        {
+          "title": "Gift Finder Prep Notes",
+          "slug": "/posts/gift-finder-prep-notes",
+          "summary": "A cheat sheet for briefing GIF-AI—relationship cues, budgets, and the polite way to override it.",
+          "read_time_minutes": 5,
+          "byline_name": "Sarah R.",
+          "image_prompt": "desk with laptop, gift wrap materials, and handwritten list",
+          "tags": [
+            "gifting",
+            "automation",
+            "etiquette"
+          ],
+          "status": "coming_soon",
+          "planned_publish_date": "2025-11-30",
+          "ideal_affiliate_hooks": [
+            "stationery",
+            "subscription boxes",
+            "coffee gear"
+          ]
+        }
+      ]
+    },
+    "technology": {
+      "section_intro": {
+        "title": "Signal in the Noise",
+        "subtitle": "Everyday tech and AI tools that truly earn space in your setup. We cut through specs, log trade-offs, and show how each stack behaves in real homes."
+      },
+      "library": [
+        {
+          "title": "Portable Matter Kit",
+          "slug": "/posts/portable-matter-kit",
+          "summary": "A renter-friendly combo of hubs, sensors, and scripts you can pack up before the lease ends.",
+          "read_time_minutes": 6,
+          "byline_name": "Michael T.",
+          "image_prompt": "compact tech pouch with neatly labeled smart devices",
+          "tags": [
+            "smart home",
+            "privacy",
+            "renters"
+          ],
+          "status": "published",
+          "planned_publish_date": "2025-11-13",
+          "ideal_affiliate_hooks": [
+            "keyboards",
+            "headphones",
+            "AI subscriptions"
+          ]
+        },
+        {
+          "title": "Desk That Breathes",
+          "slug": "/posts/desk-that-breathes",
+          "summary": "Ventilation tricks, cable hides, and lighting macros that keep your workstation from overheating or overwhelming you.",
+          "read_time_minutes": 6,
+          "byline_name": "Sarah R.",
+          "image_prompt": "minimal workspace with concealed cables and adjustable lamp",
+          "tags": [
+            "workspace",
+            "productivity",
+            "design"
+          ],
+          "status": "coming_soon",
+          "planned_publish_date": "2025-11-21",
+          "ideal_affiliate_hooks": [
+            "smart lighting",
+            "monitor stands",
+            "AI subscriptions"
+          ]
+        },
+        {
+          "title": "AI Tabs Audit",
+          "slug": "/posts/ai-tabs-audit",
+          "summary": "Which AI tools deserve a pinned tab and which belong in bookmarks until needed.",
+          "read_time_minutes": 5,
+          "byline_name": "Noah V.",
+          "image_prompt": "browser window with neatly organized colored tabs on neutral background",
+          "tags": [
+            "ai",
+            "workflow",
+            "productivity"
+          ],
+          "status": "coming_soon",
+          "planned_publish_date": "2025-11-28",
+          "ideal_affiliate_hooks": [
+            "AI subscriptions",
+            "noise-cancelling headphones",
+            "ergonomic keyboards"
+          ]
+        }
+      ]
+    },
+    "travel": {
+      "section_intro": {
+        "title": "Get There Smarter",
+        "subtitle": "Micro-adventures and city playbooks that fit real calendars. Trip Builder logs the routes and rituals; you show up with a carry-on and curiosity."
+      },
+      "library": [
+        {
+          "title": "Kyoto Dawn Circuit",
+          "slug": "/posts/kyoto-dawn-circuit",
+          "summary": "Sunrise walks, tea stops, and etiquette cues stitched into a 48-hour loop.",
+          "read_time_minutes": 6,
+          "byline_name": "Jasmine L.",
+          "image_prompt": "Kyoto temple pathway at dawn with warm light and mist",
+          "tags": [
+            "city breaks",
+            "culture",
+            "planning"
+          ],
+          "status": "published",
+          "planned_publish_date": "2025-11-13",
+          "ideal_affiliate_hooks": [
+            "carry-on bags",
+            "packing cubes",
+            "noise-cancelling headphones"
+          ]
+        },
+        {
+          "title": "Lisbon Reset Weekend",
+          "slug": "/posts/lisbon-reset-weekend",
+          "summary": "Miradouros at dawn, atelier crawls in the afternoon, late-night river walks with curated playlists.",
+          "read_time_minutes": 6,
+          "byline_name": "Sarah R.",
+          "image_prompt": "Lisbon rooftop terrace with view over red-tiled roofs at sunset",
+          "tags": [
+            "city breaks",
+            "design",
+            "food"
+          ],
+          "status": "coming_soon",
+          "planned_publish_date": "2025-11-23",
+          "ideal_affiliate_hooks": [
+            "carry-on bags",
+            "travel sneakers",
+            "packing cubes"
+          ]
+        },
+        {
+          "title": "Carry-On Rituals",
+          "slug": "/posts/carry-on-rituals",
+          "summary": "Packing and pre-flight sequences that make TSA lines feel less chaotic.",
+          "read_time_minutes": 5,
+          "byline_name": "Noah V.",
+          "image_prompt": "open suitcase neatly packed on bed with travel accessories",
+          "tags": [
+            "packing",
+            "air travel",
+            "wellness"
+          ],
+          "status": "coming_soon",
+          "planned_publish_date": "2025-11-30",
+          "ideal_affiliate_hooks": [
+            "packing cubes",
+            "travel pillows",
+            "noise-cancelling headphones"
+          ]
+        }
+      ]
+    },
+    "sports": {
+      "section_intro": {
+        "title": "Games, Stats, and Stories",
+        "subtitle": "Smart takes on sports culture, analytics, and the rituals that stretch beyond the court or pitch. Less hot takes, more context."
+      },
+      "library": [
+        {
+          "title": "UWCL Watchlist",
+          "slug": "/posts/uwcl-watchlist",
+          "summary": "Clubs, players, and metrics worth tracking before the knockouts begin.",
+          "read_time_minutes": 4,
+          "byline_name": "Noah V.",
+          "image_prompt": "women’s soccer team huddled under stadium lights",
+          "tags": [
+            "soccer",
+            "analytics",
+            "culture"
+          ],
+          "status": "published",
+          "planned_publish_date": "2025-11-12",
+          "ideal_affiliate_hooks": [
+            "team merch",
+            "sports streaming",
+            "sports tech"
+          ]
+        },
+        {
+          "title": "Microcycles 4-Day Blueprint",
+          "slug": "/posts/microcycles-four-day",
+          "summary": "Balanced training blocks with built-in recovery and space for game nights.",
+          "read_time_minutes": 5,
+          "byline_name": "Sarah R.",
+          "image_prompt": "calendar planner with workout icons and rest day highlights",
+          "tags": [
+            "training",
+            "wellness",
+            "time management"
+          ],
+          "status": "coming_soon",
+          "planned_publish_date": "2025-11-20",
+          "ideal_affiliate_hooks": [
+            "home workout gear",
+            "recovery tools",
+            "sports tech"
+          ]
+        },
+        {
+          "title": "Collector Radar",
+          "slug": "/posts/collector-radar",
+          "summary": "Memorabilia drops scored for authenticity, story, and long-term joy.",
+          "read_time_minutes": 4,
+          "byline_name": "Michael T.",
+          "image_prompt": "display case with limited-edition sports memorabilia and soft spotlights",
+          "tags": [
+            "collecting",
+            "culture",
+            "design"
+          ],
+          "status": "coming_soon",
+          "planned_publish_date": "2025-11-27",
+          "ideal_affiliate_hooks": [
+            "display cases",
+            "team merch",
+            "authenticator services"
+          ]
+        }
+      ]
+    }
+  }
+}
