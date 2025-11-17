@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -37,7 +37,7 @@
   <main class="nx-shell">
     <article class="nx-article">
       <section class="nx-article__meta">
-        <span class="nx-eyebrow">By Michael T. · 7 min read</span>
+        <span class="nx-eyebrow">By Michael T. Â· 7 min read</span>
         <div class="nx-tags">
           <span class="nx-tag">software</span>
           <span class="nx-tag">analysis</span>
@@ -51,8 +51,8 @@
           </div>
           <div style="flex:2 1 360px;min-width:320px;">
             <p>We tested five AI sidebar co-pilots for latency, memory footprint, and privacy controls. Two patterns emerged: lightweight co-pilots that summarize and cite cleanly, and heavy ones that try to do everything at the cost of RAM.</p>
-            <p>Baseline checks: does it run locally for quick actions, does it respect container tabs, and can you export cleanly to your notes tool without dragging styling cruft? If a co-pilot chokes when you open more than 10 tabs, it’s off the list.</p>
-            <p>Pick one tool per mode: research (fast, cite-friendly), drafting (good at structure and tone), and fact checking (strict about sources). Pay for only what you use daily; sunset the rest to keep your machine—and your focus—fast.</p>
+            <p>Baseline checks: does it run locally for quick actions, does it respect container tabs, and can you export cleanly to your notes tool without dragging styling cruft? If a co-pilot chokes when you open more than 10 tabs, itâ€™s off the list.</p>
+            <p>Pick one tool per mode: research (fast, cite-friendly), drafting (good at structure and tone), and fact checking (strict about sources). Pay for only what you use daily; sunset the rest to keep your machineâ€”and your focusâ€”fast.</p>
           </div>
         </div>
       </section>
@@ -74,5 +74,8 @@
       </div>
     </article>
   </main>
+  <div id="nx-footer-slot"></div>
+  <script>fetch('/footer.html').then(r=>r.text()).then(html=>{ const slot = document.getElementById('nx-footer-slot'); if(slot){slot.innerHTML = html;} });</script>
 </body>
 </html>
+

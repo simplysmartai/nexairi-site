@@ -210,5 +210,8 @@
       <a href="/sitemap.xml">XML Sitemap</a>
     </div>
   </footer>
+  <div id="nx-footer-slot"></div>
+  <script>fetch('/footer.html').then(r=>r.text()).then(html=>{ const slot = document.getElementById('nx-footer-slot'); if(slot){slot.innerHTML = html;} });</script>
 </body>
 </html>
+

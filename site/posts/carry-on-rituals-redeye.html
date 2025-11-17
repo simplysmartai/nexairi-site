@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -37,7 +37,7 @@
   <main class="nx-shell">
     <article class="nx-article">
       <section class="nx-article__meta">
-        <span class="nx-eyebrow">By Noah V. · 5 min read</span>
+        <span class="nx-eyebrow">By Noah V. Â· 5 min read</span>
       </section>
 
       <section class="nx-article__body">
@@ -46,9 +46,9 @@
             <img src="/Images/banner_background.png" alt="Carry-on bag neatly packed" style="width:100%;height:auto;border-radius:12px;">
           </div>
           <div style="flex:2 1 360px;min-width:320px;">
-            <p>Build a repeatable overnight kit: compression socks, a soft neck wrap, and a mini sleep mask. Keep it in a clear pouch so you can grab it without re-packing your whole bag. Include a tiny moisturizer and lip balm—cabin air is relentless.</p>
+            <p>Build a repeatable overnight kit: compression socks, a soft neck wrap, and a mini sleep mask. Keep it in a clear pouch so you can grab it without re-packing your whole bag. Include a tiny moisturizer and lip balmâ€”cabin air is relentless.</p>
             <p>Eat light, hydrate early, and set a 90-minute timer after takeoff to dim screens and swap into your sleep kit. Save one upbeat playlist for landing so your brain knows the flight is over. If you can, book an aisle so you can stand every few hours without climbing over anyone.</p>
-            <p>On arrival, move: 10 minutes of walking, water, and daylight. You’re not trying to beat jet lag—just trimming the worst of it so you can enjoy the first day. Keep a simple ritual for hotel arrivals: unpack only the essentials, set out tomorrow’s clothes, and note one local spot to visit before noon.</p>
+            <p>On arrival, move: 10 minutes of walking, water, and daylight. Youâ€™re not trying to beat jet lagâ€”just trimming the worst of it so you can enjoy the first day. Keep a simple ritual for hotel arrivals: unpack only the essentials, set out tomorrowâ€™s clothes, and note one local spot to visit before noon.</p>
           </div>
         </div>
       </section>
@@ -70,5 +70,8 @@
       </div>
     </article>
   </main>
+  <div id="nx-footer-slot"></div>
+  <script>fetch('/footer.html').then(r=>r.text()).then(html=>{ const slot = document.getElementById('nx-footer-slot'); if(slot){slot.innerHTML = html;} });</script>
 </body>
 </html>
+
