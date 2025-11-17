@@ -237,6 +237,19 @@ a {
   margin-right: 8px;
 }
 
+/* Normalize article layouts */
+.nx-article__body .nx-two-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.nx-article__body img {
+  max-width: 720px;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
 .nx-btn--filled:hover {
   background: var(--dusk);
 }
