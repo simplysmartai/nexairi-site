@@ -169,6 +169,8 @@ a {
 
 .nx-btn--ghost {
   color: var(--ink);
+  background: #f4f4f4;
+  text-align: center;
 }
 
 .nx-btn--filled:hover {
