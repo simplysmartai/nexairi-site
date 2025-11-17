@@ -1,0 +1,425 @@
+{
+  "name": "Nexairi Page Critique & Rewrite",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "b121b063-9c80-42ac-a2e9-c7537ef82289",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -912,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "pageName",
+              "value": "Home"
+            }
+          ],
+          "number": [
+            {
+              "name": "pageId",
+              "value": 32
+            }
+          ],
+          "boolean": [
+            {
+              "name": "applyChanges",
+              "value": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "931c26b0-13bd-4ece-82a4-0dada574d337",
+      "name": "Settings",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -688,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://www.nexairi.com/wp-json/wp/v2/pages/323",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "options": {}
+      },
+      "id": "6bec9022-bd70-4b12-8ea9-6c61fc47b530",
+      "name": "Get Page",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        -464,
+        176
+      ],
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "lyvmmhML9dAoQxAB",
+          "name": "Codex-Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$item(0).$node[\"Settings\"].json[\"applyChanges\"]}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "0ceb8bf9-b8e1-4933-b300-86a045c6c546",
+      "name": "Apply Changes?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        16,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "pageName",
+              "value": "={{$item(0).$node[\"Settings\"].json[\"pageName\"]}}"
+            },
+            {
+              "name": "originalHtml",
+              "value": "={{$item(0).$node[\"Get Page\"].json[\"content\"][\"rendered\"]}}"
+            },
+            {
+              "name": "critiqueJson",
+              "value": "={{$json[\"data\"][0][\"text\"]}}"
+            }
+          ],
+          "number": [
+            {
+              "name": "pageId",
+              "value": "={{$item(0).$node[\"Settings\"].json[\"pageId\"]}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6ed760a8-e61a-440f-8084-e466837b64d7",
+      "name": "Merge Original + Critique",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        320,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "content",
+              "value": "={{$json[\"data\"][0][\"text\"]}}"
+            }
+          ],
+          "number": [
+            {
+              "name": "pageId",
+              "value": "={{$item(0).$node[\"Merge Original + Critique\"].json[\"pageId\"]}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "113e9005-f7df-4f50-8317-82acf3a64a99",
+      "name": "Prepare Update",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        816,
+        16
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "pageName",
+              "value": "={{$item(0).$node[\"Settings\"].json[\"pageName\"]}}"
+            },
+            {
+              "name": "critiqueJson",
+              "value": "={{$json[\"data\"][0][\"text\"]}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ecd70f41-6056-4081-8edd-9805087eea91",
+      "name": "Critique Summary",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        368,
+        368
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -256,
+        176
+      ],
+      "id": "6e3c2a84-3eba-4c0e-bb92-e4319029185b",
+      "name": "When chat message received",
+      "webhookId": "499d34e0-3cea-44d2-8f5b-65dd8ca9c2ba"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        352
+      ],
+      "id": "7c703eeb-d33a-4632-8b7f-419ae0c33c09",
+      "name": "Design Critic",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "uQyMxt2p8Tp4INB8",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "You are the Nexairi Design Critic. Analyze the provided HTML and output a JSON object with keys: issues (array of strings), cssAdjustments (array of strings), callouts (array of strings). Focus on how well it reflects Nexairi as an AI-automation brand using CSS classes .nx-hero, .nx-section, .nx-grid, .nx-cta, .nx-ad.",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "You are the Nexairi Design Critic. Analyze the provided HTML and output a JSON object with keys: issues (array of strings), cssAdjustments (array of strings), callouts (array of strings). Focus on how well it reflects Nexairi as an AI-automation brand using CSS classes .nx-hero, .nx-section, .nx-grid, .nx-cta, .nx-ad."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        -80,
+        176
+      ],
+      "id": "ec26613c-1082-457d-b7d4-cf72d41c3662",
+      "name": "Critic LLM Design"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "You are the Nexairi Page Rewriter. Using the critique JSON and original HTML, rewrite the page so heroes, sections, grids, CTAs and ads use Nexairi's CSS classes (.nx-hero, .nx-section, .nx-grid, .nx-cta, .nx-ad). Keep the voice premium, confident, automation-focused. Return only valid HTML.",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "You are the Nexairi Page Rewriter. Using the critique JSON and original HTML, rewrite the page so heroes, sections, grids, CTAs and ads use Nexairi's CSS classes (.nx-hero, .nx-section, .nx-grid, .nx-cta, .nx-ad). Keep the voice premium, confident, automation-focused. Return only valid HTML."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        480,
+        0
+      ],
+      "id": "5be3c9bd-aaf4-4448-807f-bb05f1c73c2f",
+      "name": "Page LLM Rewriter"
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "https://www.nexairi.com/wp-json/wp/v2/pages/323",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "{\n  \"Content-Type\": \"application/json\"\n}\n",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "={{$json[\"text\"]}}"
+            },
+            {
+              "name": "status",
+              "value": "publish"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9583608c-068c-4769-8625-53168efba38a",
+      "name": "Update Home Page",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [
+        976,
+        16
+      ],
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "lyvmmhML9dAoQxAB",
+          "name": "Codex-Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        512,
+        192
+      ],
+      "id": "c7854635-450f-4c6b-9d15-7b9a3083a93d",
+      "name": "Page Rewriter",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "uQyMxt2p8Tp4INB8",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Settings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Settings": {
+      "main": [
+        [
+          {
+            "node": "Get Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apply Changes?": {
+      "main": [
+        [
+          {
+            "node": "Merge Original + Critique",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Critique Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Update": {
+      "main": [
+        [
+          {
+            "node": "Update Home Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Critic LLM Design",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Original + Critique": {
+      "main": [
+        [
+          {
+            "node": "Page LLM Rewriter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Design Critic": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Critic LLM Design",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Page Rewriter": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Page LLM Rewriter",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "5a632c41-694e-4936-a952-ce30db8785d1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "18650a3a25f34d23a1f16a85aac4f74537e19beebe36365643682167a5f77b99"
+  },
+  "id": "DHA8tLV1Euvx1MqW",
+  "tags": []
+}

@@ -1,0 +1,209 @@
+{
+  "name": "NEX_IMAGE_PROMPTS",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "ManualTrigger",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -820,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "outputPath",
+              "value": "content/image_prompts.json"
+            },
+            {
+              "name": "commitTitle",
+              "value": "Update image prompts via NEX_IMAGE_PROMPTS"
+            }
+          ]
+        }
+      },
+      "id": "Config",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -620,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "const slots = [\n  { slot_id: 'hero_background', usage: 'Homepage hero background', aspect: '16:9' },\n  { slot_id: 'lifestyle_feature', usage: 'Featured Lifestyle story image', aspect: '4:3' },\n  { slot_id: 'technology_feature', usage: 'Featured Technology story image', aspect: '4:3' },\n  { slot_id: 'travel_feature', usage: 'Featured Travel story image', aspect: '4:3' },\n  { slot_id: 'sports_feature', usage: 'Featured Sports story image', aspect: '4:3' }\n];\nconst prompt = `You are the visual stylist for Nexairi Mentis (Human taste. Automated pace.). Generate clean, modern, web-safe image prompts for each slot. Return STRICT JSON: { \"prompts\": [ {\"slot_id\":\"...\",\"usage\":\"...\",\"prompt\":\"...\"} ] }. Keep prompts grounded (no people names), on-brand: calm, intelligent, modern. Use slot_id and usage from the list. MATCH aspect suggestions.`;\nreturn [{ json: { prompt, slots } }];"
+      },
+      "id": "DefineSlots",
+      "name": "Define Slots",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "const { prompt, slots } = items[0].json;\nconst text = `${prompt}\\nSLOTS:\\n${JSON.stringify(slots, null, 2)}`;\nreturn [{ json: { contents: [{ role: \"user\", parts: [{ text }] }] } }];"
+      },
+      "id": "BuildGeminiPayload",
+      "name": "Build Gemini Payload",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        -180,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent",
+        "jsonParameters": true,
+        "options": {
+          "bodyContentType": "json",
+          "responseFormat": "json"
+        },
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "key",
+              "value": "={{$env.GEMINI_API_KEY}}"
+            }
+          ]
+        },
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "bodyParametersJson": "={{JSON.stringify($json)}}"
+      },
+      "id": "GeminiRequest",
+      "name": "Gemini Generate Prompts",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        60,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "const payload = items[0].json;\nconst parts = payload?.candidates?.[0]?.content?.parts ?? [];\nconst text = parts.map(p => p.text || '').join('').trim();\nif (!text) throw new Error('Gemini response missing text content.');\nlet parsed;\ntry { parsed = JSON.parse(text); } catch (err) { throw new Error('Failed to parse JSON: ' + err.message); }\nif (!parsed.prompts || !Array.isArray(parsed.prompts)) throw new Error('Parsed JSON missing prompts array.');\nreturn [{ json: parsed }];"
+      },
+      "id": "ParsePrompts",
+      "name": "Parse Prompts JSON",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        300,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "createOrUpdate",
+        "resource": "file",
+        "owner": "simplysmartai",
+        "repository": "nexairi-site",
+        "filePath": "={{$node[\"Config\"].json[\"outputPath\"]}}",
+        "branch": "main",
+        "fileContent": "={{JSON.stringify($json, null, 2)}}",
+        "commitTitle": "={{$node[\"Config\"].json[\"commitTitle\"]}}"
+      },
+      "id": "CommitPrompts",
+      "name": "Commit image_prompts.json",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        540,
+        80
+      ]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Define Slots",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Define Slots": {
+      "main": [
+        [
+          {
+            "node": "Build Gemini Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Gemini Payload": {
+      "main": [
+        [
+          {
+            "node": "Gemini Generate Prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Generate Prompts": {
+      "main": [
+        [
+          {
+            "node": "Parse Prompts JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Prompts JSON": {
+      "main": [
+        [
+          {
+            "node": "Commit image_prompts.json",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "active": false,
+  "versionId": "1"
+}

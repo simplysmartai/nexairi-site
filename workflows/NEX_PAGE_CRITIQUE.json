@@ -1,0 +1,319 @@
+{
+  "name": "NEX_PAGE_CRITIQUE",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "ManualTrigger",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -960,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "pageName",
+              "value": "Home"
+            },
+            {
+              "name": "pagePath",
+              "value": "site/index.html"
+            },
+            {
+              "name": "rewritePath",
+              "value": "content_html/rewrite/homepage.html"
+            }
+          ],
+          "boolean": [
+            {
+              "name": "applyChanges",
+              "value": false
+            }
+          ]
+        }
+      },
+      "id": "PageSettings",
+      "name": "Page Settings",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        -720,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "resource": "file",
+        "owner": "simplysmartai",
+        "repository": "nexairi-site",
+        "filePath": "={{$json[\"pagePath\"]}}"
+      },
+      "id": "FetchPageHTML",
+      "name": "Fetch Page HTML",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "const content = items[0].json?.content;\nif (!content) {\n  throw new Error('GitHub response missing file content.');\n}\nconst html = Buffer.from(content, 'base64').toString('utf8');\nreturn [{ json: { html } }];"
+      },
+      "id": "DecodeHTML",
+      "name": "Decode HTML",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "const settings = $node[\"Page Settings\"].json;\nconst html = items[0].json.html;\nconst prompt = `You are the Nexairi Mentis layout critic and gentle rewriter. Page name: ${settings.pageName}.\\n\\nReturn strict JSON with keys:\\n  summary: short paragraph\\n  priority_fixes: array of bullet strings\\n  rewrite_html: full HTML maintaining existing classes.\\n\\nRespond ONLY with JSON.\\n\\n--- PAGE HTML START ---\\n${html}\\n--- PAGE HTML END ---`;\nreturn [{\n  json: {\n    contents: [\n      {\n        role: \"user\",\n        parts: [\n          { text: prompt }\n        ]\n      }\n    ]\n  }\n}];"
+      },
+      "id": "BuildGeminiPayload",
+      "name": "Prepare Gemini Payload",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        0,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent",
+        "jsonParameters": true,
+        "options": {
+          "bodyContentType": "json",
+          "responseFormat": "json"
+        },
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "key",
+              "value": "={{$env.GEMINI_API_KEY}}"
+            }
+          ]
+        },
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "bodyParametersJson": "={{JSON.stringify($json)}}"
+      },
+      "id": "GeminiRequest",
+      "name": "Gemini Critique + Rewrite",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        240,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "const payload = items[0].json;\nconst parts = payload?.candidates?.[0]?.content?.parts ?? [];\nconst text = parts.map(part => part.text || '').join('').trim();\nif (!text) {\n  throw new Error('Gemini response missing text content.');\n}\nlet parsed;\ntry {\n  parsed = JSON.parse(text);\n} catch (error) {\n  throw new Error('Failed to parse Gemini JSON: ' + error.message);\n}\nreturn [{ json: parsed }];"
+      },
+      "id": "ParseGeminiJSON",
+      "name": "Parse Critique JSON",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        480,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{$node[\"Page Settings\"].json[\"applyChanges\"]}}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "ApplyRewriteCheck",
+      "name": "Apply rewrite?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        720,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "filePath",
+              "value": "={{$node[\"Page Settings\"].json[\"rewritePath\"]}}"
+            },
+            {
+              "name": "fileContent",
+              "value": "={{$json[\"rewrite_html\"]}}"
+            },
+            {
+              "name": "commitTitle",
+              "value": "={{`Draft rewrite for ${$node[\"Page Settings\"].json[\"pageName\"]}`}}"
+            }
+          ]
+        }
+      },
+      "id": "PrepRewriteDraft",
+      "name": "Prep Rewrite File",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [
+        960,
+        -60
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "createOrUpdate",
+        "resource": "file",
+        "owner": "simplysmartai",
+        "repository": "nexairi-site",
+        "filePath": "={{$json[\"filePath\"]}}",
+        "branch": "main",
+        "fileContent": "={{$json[\"fileContent\"]}}",
+        "commitTitle": "={{$json[\"commitTitle\"]}}"
+      },
+      "id": "CommitRewriteDraft",
+      "name": "Commit Rewrite Draft",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        -60
+      ]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Page Settings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Page Settings": {
+      "main": [
+        [
+          {
+            "node": "Fetch Page HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Page HTML": {
+      "main": [
+        [
+          {
+            "node": "Decode HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Decode HTML": {
+      "main": [
+        [
+          {
+            "node": "Prepare Gemini Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Gemini Payload": {
+      "main": [
+        [
+          {
+            "node": "Gemini Critique + Rewrite",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini Critique + Rewrite": {
+      "main": [
+        [
+          {
+            "node": "Parse Critique JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Critique JSON": {
+      "main": [
+        [
+          {
+            "node": "Apply rewrite?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Apply rewrite?": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Prep Rewrite File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prep Rewrite File": {
+      "main": [
+        [
+          {
+            "node": "Commit Rewrite Draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {},
+  "staticData": null,
+  "active": false,
+  "versionId": "1"
+}
