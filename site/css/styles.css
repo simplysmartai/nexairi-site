@@ -232,6 +232,11 @@ a {
   background: #fdfdfd;
 }
 
+.nx-article__meta .nx-eyebrow {
+  display: inline-block;
+  margin-right: 8px;
+}
+
 .nx-btn--filled:hover {
   background: var(--dusk);
 }
