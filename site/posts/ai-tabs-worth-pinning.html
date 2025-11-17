@@ -70,8 +70,27 @@
       </div>
     </article>
   </main>
-  <div id="nx-footer-slot"></div>
-  <script>fetch('/footer.html').then(r=>r.text()).then(html=>{ const slot = document.getElementById('nx-footer-slot'); if(slot){slot.innerHTML = html;} });</script>
+    <footer class="nx-footer">
+    <div class="nx-shell nx-footer__wrap">
+      <div class="nx-footer__links nx-footer__left">
+        <a href="/">Home</a>
+        <a href="/mission">Our Mission</a>
+        <a href="/lifestyle">Lifestyle</a>
+        <a href="/technology">Technology</a>
+        <a href="/travel">Travel</a>
+        <a href="/sports">Sports</a>
+      </div>
+      <div class="nx-footer__center">(c) 2025 Nexairi Mentis</div>
+      <div class="nx-footer__links nx-footer__right">
+        <a href="/sandbox">Sandbox</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/sitemap.html">Sitemap</a>
+        <a href="/sitemap.xml">XML Sitemap</a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
+
 
