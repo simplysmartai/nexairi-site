@@ -171,6 +171,7 @@ a {
   color: var(--ink);
   background: #f4f4f4;
   text-align: center;
+  display: inline-block;
 }
 
 .nx-btn--filled:hover {
