@@ -243,6 +243,9 @@ a {
   flex-direction: column;
   gap: 12px;
 }
+.nx-article__body .nx-two-col img {
+  display: none; /* suppress duplicate inline images when hero already present */
+}
 .nx-article__body img {
   max-width: 720px;
   width: 100%;
