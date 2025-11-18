@@ -265,6 +265,16 @@ a {
   box-shadow: 0 10px 30px rgba(10, 15, 30, 0.08);
 }
 
+.nx-card a.nx-card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.nx-card a.nx-card-link:hover h4 {
+  text-decoration: underline;
+}
+
 .nx-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
