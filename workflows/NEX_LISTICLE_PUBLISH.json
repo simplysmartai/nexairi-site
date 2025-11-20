@@ -15,7 +15,7 @@
     {
       "parameters": {
         "mode": "raw",
-        "jsonOutput": "{\n  \"topic\": \"Thanksgiving desserts that set overnight (no last-minute stress)\",\n  \"search_type\": \"recipes\"\n}\n\n",
+        "jsonOutput": "{\n  \"topic\": \"Cozy Thanksgiving desserts that travel and can be made ahead of time\",\n  \"search_type\": \"recipes, holiday desserts\"\n}\n\n",
         "options": {}
       },
       "type": "n8n-nodes-base.set",
@@ -74,11 +74,11 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=You are Nexairi\u2019s blog writer. Return ONLY valid JSON in this shape:\n  {\n    \"items\": [\n      { \"slug\": \"...\", \"title\": \"...\", \"blurb\": \"...\", \"url\": \"...\", \"image_prompt\": \"...\", \"caption\": \"...\" }\n    ]\n  }\n\n  Topic: {{ $json.topic }}\n  Allowed_urls: {{ ($json.urls || []).join(\", \") }}\n  Pick the best 10 Thanksgiving desserts that can be made ahead (prefer overnight set-and-serve pies/tarts/cheesecakes; include 2-3 vegan/DF/GF options) using only Allowed_urls.\n\n  Rules:\n  - Each blurb: 3\u20134 sentences, warm/persuasive; include make-ahead note (overnight set/chill) and a travel/storage tip.\n  - Slugs URL-safe.\n  - No prose outside the JSON object.",
+        "text": "=You are Nexairi’s food blog writer. Return ONLY valid JSON in this shape:\n  {\n    \"items\": [\n      { \"slug\": \"...\", \"title\": \"...\", \"blurb\": \"...\", \"url\": \"...\", \"image_prompt\": \"...\", \"caption\": \"...\" }\n    ]\n  }\n\n  Topic: {{ $json.topic }}\n  Allowed_urls: {{ ($json.urls || []).join(\", \") }}\n  Pick the best 10 Thanksgiving desserts that can be made ahead (prefer overnight set-and-serve pies/tarts/cheesecakes; include 2-3 vegan/DF/GF options) using only Allowed_urls.\n\n  Rules:\n  - Each blurb: 3–4 sentences, warm/persuasive; include make-ahead note (overnight set/chill) and a travel/storage tip.\n  - Slugs URL-safe.\n  - No prose outside the JSON object.\n  - Links must be the actual recipe page (not listicles, category pages, or homepages); skip any URL that does not load or returns an error.\n  - Prefer pages exposing Schema.org Recipe (JSON-LD) with ingredients/instructions; require aggregateRating >= 4.4 with 100+  ratings when available, otherwise choose the most authoritative recipe source.",
         "messages": {
           "messageValues": [
             {
-              "message": "=You are Nexairi\u2019s blog writer. Return ONLY valid JSON in this shape:   {     \"items\": [       { \"slug\": \"...\", \"title\": \"...\", \"blurb\": \"...\", \"url\": \"...\", \"image_prompt\": \"...\", \"caption\": \"...\" }     ]   }    Topic: {{ $json.topic }}   Allowed_urls: {{ ($json.urls || []).join(\", \") }}   Pick the best 10 Thanksgiving desserts that can be made ahead (prefer overnight set-and-serve pies/tarts/cheesecakes; include 2-3 vegan/DF/GF options) using only Allowed_urls.    Rules:   - Each blurb: 3\u20134 sentences, warm/persuasive; include make-ahead note (overnight set/chill) and a travel/storage tip.   - Slugs URL-safe.   - No prose outside the JSON object."
+              "message": "=You are Nexairi’s food blog writer. Return ONLY valid JSON in this shape:   {     \"items\": [       { \"slug\": \"...\", \"title\": \"...\", \"blurb\": \"...\", \"url\": \"...\", \"image_prompt\": \"...\", \"caption\": \"...\" }     ]   }    Topic: {{ $json.topic }}   Allowed_urls: {{ ($json.urls || []).join(\", \") }}   Pick the best 10 soups (make-ahead/reheat friendly; mix vegan/veg/meat) using only Allowed_urls.    Rules:   - Each blurb: 3–4 sentences, warm/persuasive; note if vegan/DF/GF and a reheating/travel tip.   - Slugs URL-safe.   - No prose outside the JSON object."
             }
           ]
         },
@@ -127,7 +127,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const items = $items().map(i => i.json);\n  const topic = $json.topic || \"Thanksgiving Desserts (Make-Ahead)\";\n\n  function block(item) {\n    const cap = item.caption || \"\";\n    const url = item.url || \"#\";\n    return `<figure style=\"margin:12px 0;max-width:480px;\"><img src=\"/Images/banner_background.png\" alt=\"${item.title}\"\n  style=\"width:100%;height:auto;border-radius:12px;display:block;\"><figcaption class=\"nx-tagline\" style=\"margin-\n  top:6px;\">${cap}</figcaption></figure><h3>${item.title}</h3><p>${item.blurb}</p><p><a href=\"${url}\" target=\"_blank\"\n  rel=\"noopener\">Recipe link</a></p>`;\n  }\n\n  const body = items.map(block).join('\\n\\n');\n  const html = `<!doctype html>\n  <html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n    <title>${topic} | Nexairi Mentis</title>\n    <link rel=\"stylesheet\" href=\"/css/styles.css\">\n  </head>\n  <body>\n    <main class=\"nx-shell\">\n      <article class=\"nx-article\">\n        <header><h1>${topic}</h1></header>\n        <section class=\"nx-article__body\">\n          ${body}\n        </section>\n      </article>\n    </main>\n  </body>\n  </html>`;\n\n  return [{ json: { html, targetPath: \"site/posts/thanksgiving-make-ahead-desserts.html\" } }];"
+        "jsCode": "const items = $items().map(i => i.json);\n  const topic = $json.topic || \"Cozy Thanksgiving Soups\";\n\n  function block(item) {\n    const cap = item.caption || \"\";\n    const url = item.url || \"#\";\n    return `<figure style=\"margin:12px 0;max-width:480px;\"><img src=\"/Images/banner_background.png\" alt=\"${item.title}\"\n  style=\"width:100%;height:auto;border-radius:12px;display:block;\"><figcaption class=\"nx-tagline\" style=\"margin-\n  top:6px;\">${cap}</figcaption></figure><h3>${item.title}</h3><p>${item.blurb}</p><p><a href=\"${url}\" target=\"_blank\"\n  rel=\"noopener\">Recipe link</a></p>`;\n  }\n\n  const body = items.map(block).join('\\n\\n');\n  const html = `<!doctype html>\n  <html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n    <title>${topic} | Nexairi Mentis</title>\n    <link rel=\"stylesheet\" href=\"/css/styles.css\">\n  </head>\n  <body>\n    <main class=\"nx-shell\">\n      <article class=\"nx-article\">\n        <header><h1>${topic}</h1></header>\n        <section class=\"nx-article__body\">\n          ${body}\n        </section>\n      </article>\n    </main>\n  </body>\n  </html>`;\n\n  return [{ json: { html, targetPath: \"site/posts/thanksgiving-cozy-soups.html\" } }];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -140,7 +140,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const targetPath = $json.targetPath || \"site/posts/thanksgiving-make-ahead-desserts.html\";\n  const html = $json.html || \"\"; // make sure the previous node outputs `html`\n\n  return [{ json: { targetPath, html } }];"
+        "jsCode": "const targetPath = $json.targetPath || \"site/posts/thanksgiving-cozy-soups.html\";\n  const html = $json.html || \"\"; // make sure the previous node outputs `html`\n\n  return [{ json: { targetPath, html } }];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -153,7 +153,81 @@
     },
     {
       "parameters": {
-        "jsCode": "const items = $items().map(i => i.json);\n  const topic = $json.topic || \"Thanksgiving Desserts (Make-Ahead)\";\n\n  function block(item) {\n    const cap = item.caption || \"\";\n    const url = item.url || \"#\";\n    return `<figure style=\"margin:12px 0;max-width:640px;\"><img src=\"/Images/banner_background.png\" alt=\"${item.title}\"\n  style=\"width:100%;height:auto;border-radius:12px;display:block;\"><figcaption class=\"nx-tagline\" style=\"margin-\n  top:6px;\">${cap}</figcaption></figure><h3>${item.title}</h3><p>${item.blurb}</p><p><a href=\"${url}\" target=\"_blank\"\n  rel=\"noopener\">Recipe link</a></p>`;\n  }\n\n  const body = items.map(block).join('\\n\\n');\n\n  const html = `<!doctype html>\n  <html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n    <title>${topic} | Nexairi Mentis</title>\n    <link rel=\"stylesheet\" href=\"/css/styles.css\">\n    <link rel=\"icon\" type=\"image/png\" href=\"/Images/nexairi-mentis-favicon.png\">\n  </head>\n  <body>\n    <header class=\"nx-header\">\n      <div class=\"nx-header__inner\">\n        <div class=\"nx-brand\">\n          <a class=\"nx-logo-link\" href=\"/\">\n            <img class=\"nx-logo nx-logo--full\" src=\"/Images/nexairi-mentis-logo-horizontal.png\" alt=\"Nexairi logo\">\n            <img class=\"nx-logo nx-logo--compact\" src=\"/Images/nexairi-mentis-logo-compact.png\" alt=\"Nexairi compact logo\">\n          </a>\n          <div>\n            <p class=\"nx-eyebrow\">Lifestyle</p>\n            <p class=\"nx-tagline\">Human taste. Automated pace.</p>\n          </div>\n        </div>\n        <nav class=\"nx-nav\">\n          <a href=\"/\">Home</a>\n          <a href=\"/mission\">Our Mission</a>\n          <a href=\"/lifestyle\">Lifestyle</a>\n          <a href=\"/travel\">Travel</a>\n          <a href=\"/technology\">Technology</a>\n          <a href=\"/sports\">Sports</a>\n          <a href=\"/sandbox\">Sandbox</a>\n          <a href=\"/contact\">Contact</a>\n        </nav>\n      </div>\n    </header>\n\n    <main class=\"nx-shell\">\n      <article class=\"nx-article\">\n        <header>\n          <h1>${topic}</h1>\n        </header>\n        <section class=\"nx-article__meta\">\n          <span class=\"nx-eyebrow\">By Sarah R. \u00b7 7 min read</span>\n        </section>\n        <section class=\"nx-article__body\">\n          ${body}\n        </section>\n        <p class=\"nx-eyebrow\" style=\"margin:12px 0 8px 0;\">TAGS: thanksgiving \u00b7 desserts \u00b7 recipes \u00b7 lifestyle</p>\n        <div style=\"border-top:1px solid rgba(15,23,40,0.1);margin:24px 0;\"></div>\n        <div class=\"nx-ad\" style=\"margin:0 0 16px 0;\"><strong>Ad slot</strong><span>970x250 / responsive</span></div>\n        <aside class=\"nx-related\" style=\"margin-top:16px;\">\n          <h4>Other articles</h4>\n          <ul class=\"nx-list\">\n            <li><a href=\"/posts/thanksgiving-signature-sides.html\">Signature Thanksgiving Sides</a></li>\n            <li><a href=\"/posts/holiday-evenings-reset.html\">Holiday Evenings Reset</a></li>\n            <li><a href=\"/posts/holiday-gift-closet-rapid.html\">Holiday Gift Closet Rapid Setup</a></li>\n            <li><a href=\"/posts/quiet-upgrades-loud-weeks.html\">Quiet Upgrades for Loud Weeks</a></li>\n            <li><a href=\"/posts/winter-smart-home-routine.html\">Winter Smart Home Routine</a></li>\n          </ul>\n        </aside>\n      </article>\n    </main>\n\n    <footer class=\"nx-footer\">\n      <div class=\"nx-shell nx-footer__wrap\">\n        <div class=\"nx-footer__links nx-footer__left\">\n          <a href=\"/\">Home</a>\n          <a href=\"/mission\">Our Mission</a>\n          <a href=\"/lifestyle\">Lifestyle</a>\n          <a href=\"/technology\">Technology</a>\n          <a href=\"/travel\">Travel</a>\n          <a href=\"/sports\">Sports</a>\n        </div>\n        <div class=\"nx-footer__center\">&copy; 2025 Nexairi Mentis</div>\n        <div class=\"nx-footer__links nx-footer__right\">\n          <a href=\"/sandbox\">Sandbox</a>\n          <a href=\"/contact\">Contact</a>\n          <a href=\"/privacy\">Privacy</a>\n          <a href=\"/sitemap.html\">Sitemap</a>\n          <a href=\"/sitemap.xml\">XML Sitemap</a>\n        </div>\n      </div>\n    </footer>\n  </body>\n  </html>`;"
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
+          "__rl": true,
+          "value": "simplysmartai",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "nexairi-site",
+          "mode": "name"
+        },
+        "filePath": "={{$json.targetPath || \"site/posts/thanksgiving-cozy-soups.html\"}}",
+        "fileContent": "={{$json.html}}",
+        "commitMessage": "=Publish {{ $json.targetPath || \"site/posts/thanksgiving-cozy-soups.html\" }}",
+        "additionalParameters": {
+          "branch": {
+            "branch": "main"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        272,
+        624
+      ],
+      "id": "f70f4028-1ca4-47e0-9c28-ab217725bf9c",
+      "name": "Edit a file",
+      "webhookId": "f4489e21-3b1a-4a66-86c9-ac8b83e64253",
+      "credentials": {
+        "githubApi": {
+          "id": "EOtsvSkHtHWqitqs",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "simplysmartai",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "nexairi-site",
+          "mode": "name"
+        },
+        "filePath": "site/posts/thanksgiving-cozy-soups.html",
+        "additionalParameters": {
+          "reference": "main"
+        }
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        48,
+        624
+      ],
+      "id": "6dd29171-c3f3-4966-a911-df08115a3ba6",
+      "name": "Get a file",
+      "webhookId": "7402ad79-0fd1-4dea-8a15-9dba615a3656",
+      "credentials": {
+        "githubApi": {
+          "id": "EOtsvSkHtHWqitqs",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $items().map(i => i.json);\n  const topic = $json.topic || \"Cozy Thanksgiving Soups\";\n\n  function block(item) {\n    const cap = item.caption || \"\";\n    const url = item.url || \"#\";\n    return `<figure style=\"margin:12px 0;max-width:640px;\"><img src=\"/Images/banner_background.png\" alt=\"${item.title}\"\n  style=\"width:100%;height:auto;border-radius:12px;display:block;\"><figcaption class=\"nx-tagline\" style=\"margin-\n  top:6px;\">${cap}</figcaption></figure><h3>${item.title}</h3><p>${item.blurb}</p><p><a href=\"${url}\" target=\"_blank\"\n  rel=\"noopener\">Recipe link</a></p>`;\n  }\n\n  const body = items.map(block).join('\\n\\n');\n\n  const html = `<!doctype html>\n  <html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n    <title>${topic} | Nexairi Mentis</title>\n    <link rel=\"stylesheet\" href=\"/css/styles.css\">\n    <link rel=\"icon\" type=\"image/png\" href=\"/Images/nexairi-mentis-favicon.png\">\n  </head>\n  <body>\n    <header class=\"nx-header\">\n      <div class=\"nx-header__inner\">\n        <div class=\"nx-brand\">\n          <a class=\"nx-logo-link\" href=\"/\">\n            <img class=\"nx-logo nx-logo--full\" src=\"/Images/nexairi-mentis-logo-horizontal.png\" alt=\"Nexairi logo\">\n            <img class=\"nx-logo nx-logo--compact\" src=\"/Images/nexairi-mentis-logo-compact.png\" alt=\"Nexairi compact logo\">\n          </a>\n          <div>\n            <p class=\"nx-eyebrow\">Lifestyle</p>\n            <p class=\"nx-tagline\">Human taste. Automated pace.</p>\n          </div>\n        </div>\n        <nav class=\"nx-nav\">\n          <a href=\"/\">Home</a>\n          <a href=\"/mission\">Our Mission</a>\n          <a href=\"/lifestyle\">Lifestyle</a>\n          <a href=\"/travel\">Travel</a>\n          <a href=\"/technology\">Technology</a>\n          <a href=\"/sports\">Sports</a>\n          <a href=\"/sandbox\">Sandbox</a>\n          <a href=\"/contact\">Contact</a>\n        </nav>\n      </div>\n    </header>\n\n    <main class=\"nx-shell\">\n      <article class=\"nx-article\">\n        <header>\n          <h1>${topic}</h1>\n        </header>\n        <section class=\"nx-article__meta\">\n          <span class=\"nx-eyebrow\">By Sarah R. · 7 min read</span>\n        </section>\n        <section class=\"nx-article__body\">\n          ${body}\n        </section>\n        <p class=\"nx-eyebrow\" style=\"margin:12px 0 8px 0;\">TAGS: thanksgiving · soups · recipes · lifestyle</p>\n        <div style=\"border-top:1px solid rgba(15,23,40,0.1);margin:24px 0;\"></div>\n        <div class=\"nx-ad\" style=\"margin:0 0 16px 0;\"><strong>Ad slot</strong><span>970x250 / responsive</span></div>\n        <aside class=\"nx-related\" style=\"margin-top:16px;\">\n          <h4>Other articles</h4>\n          <ul class=\"nx-list\">\n            <li><a href=\"/posts/thanksgiving-signature-sides.html\">Signature Thanksgiving Sides</a></li>\n            <li><a href=\"/posts/holiday-evenings-reset.html\">Holiday Evenings Reset</a></li>\n            <li><a href=\"/posts/holiday-gift-closet-rapid.html\">Holiday Gift Closet Rapid Setup</a></li>\n            <li><a href=\"/posts/quiet-upgrades-loud-weeks.html\">Quiet Upgrades for Loud Weeks</a></li>\n            <li><a href=\"/posts/winter-smart-home-routine.html\">Winter Smart Home Routine</a></li>\n          </ul>\n        </aside>\n      </article>\n    </main>\n\n    <footer class=\"nx-footer\">\n      <div class=\"nx-shell nx-footer__wrap\">\n        <div class=\"nx-footer__links nx-footer__left\">\n          <a href=\"/\">Home</a>\n          <a href=\"/mission\">Our Mission</a>\n          <a href=\"/lifestyle\">Lifestyle</a>\n          <a href=\"/technology\">Technology</a>\n          <a href=\"/travel\">Travel</a>\n          <a href=\"/sports\">Sports</a>\n        </div>\n        <div class=\"nx-footer__center\">&copy; 2025 Nexairi Mentis</div>\n        <div class=\"nx-footer__links nx-footer__right\">\n          <a href=\"/sandbox\">Sandbox</a>\n          <a href=\"/contact\">Contact</a>\n          <a href=\"/privacy\">Privacy</a>\n          <a href=\"/sitemap.html\">Sitemap</a>\n          <a href=\"/sitemap.xml\">XML Sitemap</a>\n        </div>\n      </div>\n    </footer>\n  </body>\n  </html>`;"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -163,38 +237,6 @@
       ],
       "id": "5e74f62c-6d27-41dd-a9f2-a5e08c2e5f27",
       "name": "Code in JavaScript1"
-    },
-    {
-      "parameters": {
-        "setAllData": false,
-        "binaryPropertyName": "data",
-        "dataPropertyName": "html",
-        "options": {
-          "encoding": "utf8"
-        }
-      },
-      "id": "c9a3f0b8-5f24-4a2a-9c2f-7a5c2f5e1d11",
-      "name": "Text to Binary",
-      "type": "n8n-nodes-base.moveBinaryData",
-      "typeVersion": 1,
-      "position": [
-        984,
-        80
-      ]
-    },
-    {
-      "parameters": {
-        "fileName": "={{'site/posts/' + (($json.slug || $json.topic || 'nexairi-article').toString().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')) + '.html'}}",
-        "dataPropertyName": "data"
-      },
-      "id": "bd5e1c61-07bd-4b71-910d-b3ae8382975d",
-      "name": "Write to /site/posts",
-      "type": "n8n-nodes-base.writeBinaryFile",
-      "typeVersion": 1,
-      "position": [
-        1200,
-        80
-      ]
     }
   ],
   "pinData": {},
@@ -258,7 +300,7 @@
       "main": [
         [
           {
-            "node": "Code in JavaScript2",
+            "node": "Code in JavaScript1",
             "type": "main",
             "index": 0
           }
@@ -269,7 +311,7 @@
       "main": [
         [
           {
-            "node": "Code in JavaScript1",
+            "node": "Code in JavaScript3",
             "type": "main",
             "index": 0
           }
@@ -287,18 +329,33 @@
         ]
       ]
     },
-    "Code in JavaScript1": [
-      {
-        "node": "Text to Binary",
-        "type": "main",
-        "index": 0
-      }
-    ],
-    "Text to Binary": {
+    "Code in JavaScript4": {
       "main": [
         [
           {
-            "node": "Write to /site/posts",
+            "node": "Get a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file": {
+      "main": [
+        [
+          {
+            "node": "Edit a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
             "type": "main",
             "index": 0
           }
@@ -310,7 +367,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "8d566c71-aae6-4885-9aae-9603fb1c723f",
+  "versionId": "5c3f9867-c5fa-4910-a7dc-7ea57584a78d",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "18650a3a25f34d23a1f16a85aac4f74537e19beebe36365643682167a5f77b99"
