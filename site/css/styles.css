@@ -75,12 +75,12 @@ a {
 
 .nx-logo {
   display: block;
-  height: 96px;
+  height: 88px;
 }
 
 .nx-logo--compact {
   display: none;
-  height: 72px;
+  height: 56px;
 }
 
 .nx-brand h1 {
@@ -636,7 +636,7 @@ a {
 
   .nx-logo--compact {
   display: none;
-  height: 72px;
+  height: 56px;
   font-size: 1rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -644,3 +644,16 @@ a {
 
 
 
+
+@media (max-width: 768px) {
+  .nx-logo { height: 56px; }
+}
+/* Ensure CTA ghost button is readable on dark background */
+.nx-cta .nx-btn--ghost {
+  background: var(--muted);
+  border-color: var(--muted);
+  color: var(--sand);
+}
+.nx-cta .nx-btn--ghost:hover {
+  background: #8a93a8;
+}
