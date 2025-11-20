@@ -646,7 +646,9 @@ a {
 
 
 @media (max-width: 768px) {
-  .nx-logo { height: 56px; }
+  .nx-logo {
+  display: block;
+  height: 88px; }
 }
 /* Ensure CTA ghost button is readable on dark background */
 .nx-cta .nx-btn--ghost {

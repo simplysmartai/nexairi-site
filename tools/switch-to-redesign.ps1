@@ -96,8 +96,9 @@ if(Test-Path $cssPath){
   if($css -notmatch "\.nx-cta \.nx-btn--ghost"){ $css += "`n.nx-cta .nx-btn--ghost { background: #6d768c; border-color: #6d768c; color: #f5f2ee; }`n.nx-cta .nx-btn--ghost:hover { background: #8a93a8; }`n" }
   Set-Content -NoNewline -Path $cssPath -Value $css
 } else {
-  Warn "CSS not found at $cssPath — ensure the prototype build includes or references your stylesheet."
+  Warn "CSS not found at $cssPath - ensure the prototype build includes or references your stylesheet."
 }
 
 Info "Switch complete. Review locally, then commit and push the 'redesign' branch."
+
 
