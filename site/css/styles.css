@@ -75,12 +75,12 @@ a {
 
 .nx-logo {
   display: block;
-  height: 44px;
+  height: 72px;
 }
 
 .nx-logo--compact {
   display: none;
-  height: 36px;
+  height: 56px;
 }
 
 .nx-brand h1 {
