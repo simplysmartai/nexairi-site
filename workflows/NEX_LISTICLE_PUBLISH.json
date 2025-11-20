@@ -1,0 +1,320 @@
+{
+  "name": "NEX_LISTICLE_PUBLISH",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "cb991533-3250-4900-b932-2030272dda33",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -544,
+        64
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n  \"topic\": \"Thanksgiving desserts that set overnight (no last-minute stress)\",\n  \"search_type\": \"recipes\"\n}\n\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -320,
+        64
+      ],
+      "id": "8b559f43-a9ee-4525-be8b-419809ba9b88",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "url": "https://www.googleapis.com/customsearch/v1",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "AIzaSyDyeH0MI6J957HOGKu63F8anZ3khSl3Gqw"
+            },
+            {
+              "name": "cx",
+              "value": "f264442c391154683"
+            },
+            {
+              "name": "q",
+              "value": "=={{ $json.topic }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -96,
+        64
+      ],
+      "id": "dc96d10a-053d-4cfc-adb7-9f15cb9ea8ea",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Collect links from CSE results, dedupe, filter\n  const itemsArr = $json.items || [];\n  const blacklist = [\n    /nytimes\\.com/,\n    /foodnetwork\\.com/,\n    /allrecipes\\.com/,\n    /bonappetit\\.com/,\n    /epicurious\\.com/,\n    /simplyrecipes\\.com/,\n    /delish\\.com/,\n    /thekitchn\\.com/\n  ]; // adjust as you like\n\n  const links = [];\n  for (const it of itemsArr) {\n    const url = it.link || it.url;\n    if (!url) continue;\n    if (blacklist.some(rx => rx.test(url))) continue;\n    links.push(url);\n  }\n\n  // dedupe and cap\n  const unique = [...new Set(links)].slice(0, 25);\n\n  return [{ json: { urls: unique, topic: $json.topic } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        128,
+        64
+      ],
+      "id": "9b6f7cd1-5e74-4f1c-b4a9-df289c5be5e4",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are Nexairi\u2019s blog writer. Return ONLY valid JSON in this shape:\n  {\n    \"items\": [\n      { \"slug\": \"...\", \"title\": \"...\", \"blurb\": \"...\", \"url\": \"...\", \"image_prompt\": \"...\", \"caption\": \"...\" }\n    ]\n  }\n\n  Topic: {{ $json.topic }}\n  Allowed_urls: {{ ($json.urls || []).join(\", \") }}\n  Pick the best 10 Thanksgiving desserts that can be made ahead (prefer overnight set-and-serve pies/tarts/cheesecakes; include 2-3 vegan/DF/GF options) using only Allowed_urls.\n\n  Rules:\n  - Each blurb: 3\u20134 sentences, warm/persuasive; include make-ahead note (overnight set/chill) and a travel/storage tip.\n  - Slugs URL-safe.\n  - No prose outside the JSON object.",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You are Nexairi\u2019s blog writer. Return ONLY valid JSON in this shape:   {     \"items\": [       { \"slug\": \"...\", \"title\": \"...\", \"blurb\": \"...\", \"url\": \"...\", \"image_prompt\": \"...\", \"caption\": \"...\" }     ]   }    Topic: {{ $json.topic }}   Allowed_urls: {{ ($json.urls || []).join(\", \") }}   Pick the best 10 Thanksgiving desserts that can be made ahead (prefer overnight set-and-serve pies/tarts/cheesecakes; include 2-3 vegan/DF/GF options) using only Allowed_urls.    Rules:   - Each blurb: 3\u20134 sentences, warm/persuasive; include make-ahead note (overnight set/chill) and a travel/storage tip.   - Slugs URL-safe.   - No prose outside the JSON object."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        432,
+        80
+      ],
+      "id": "821dfd75-af8c-4acc-b0ef-16456a8fc56c",
+      "name": "Home LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        224,
+        336
+      ],
+      "id": "7f326fe8-fbe0-4c39-b65a-213a309ce900",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "uQyMxt2p8Tp4INB8",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Grab the text from the LLM node (adjust the first line if your field name differs)\n  let raw = $json.text || $json.output || $json.data || \"\";\n\n  // If the LLM wrapped it in ```json ... ```\n  raw = raw.trim();\n  if (raw.startsWith(\"```\")) {\n    raw = raw.replace(/^```[a-zA-Z]*\\n?/, \"\").replace(/```$/, \"\");\n  }\n\n  if (!raw) {\n    throw new Error(\"No text content from LLM\");\n  }\n\n  let parsed;\n  try {\n    parsed = JSON.parse(raw);\n  } catch (e) {\n    throw new Error(\"Parse error: \" + e.message + \" RAW: \" + raw.slice(0, 400));\n  }\n\n  if (!parsed.items || !Array.isArray(parsed.items)) {\n    throw new Error(\"No items array. Parsed: \" + JSON.stringify(parsed).slice(0, 400));\n  }\n\n  // Emit one item per result\n  return parsed.items.map(i => ({ json: i }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -608,
+        624
+      ],
+      "id": "a1076d2e-2e76-46a4-8ffd-3cb9f7957089",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $items().map(i => i.json);\n  const topic = $json.topic || \"Thanksgiving Desserts (Make-Ahead)\";\n\n  function block(item) {\n    const cap = item.caption || \"\";\n    const url = item.url || \"#\";\n    return `<figure style=\"margin:12px 0;max-width:480px;\"><img src=\"/Images/banner_background.png\" alt=\"${item.title}\"\n  style=\"width:100%;height:auto;border-radius:12px;display:block;\"><figcaption class=\"nx-tagline\" style=\"margin-\n  top:6px;\">${cap}</figcaption></figure><h3>${item.title}</h3><p>${item.blurb}</p><p><a href=\"${url}\" target=\"_blank\"\n  rel=\"noopener\">Recipe link</a></p>`;\n  }\n\n  const body = items.map(block).join('\\n\\n');\n  const html = `<!doctype html>\n  <html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n    <title>${topic} | Nexairi Mentis</title>\n    <link rel=\"stylesheet\" href=\"/css/styles.css\">\n  </head>\n  <body>\n    <main class=\"nx-shell\">\n      <article class=\"nx-article\">\n        <header><h1>${topic}</h1></header>\n        <section class=\"nx-article__body\">\n          ${body}\n        </section>\n      </article>\n    </main>\n  </body>\n  </html>`;\n\n  return [{ json: { html, targetPath: \"site/posts/thanksgiving-make-ahead-desserts.html\" } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -384,
+        624
+      ],
+      "id": "ff2f4ff1-950e-4ed0-bc81-b8684983ca6a",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "jsCode": "const targetPath = $json.targetPath || \"site/posts/thanksgiving-make-ahead-desserts.html\";\n  const html = $json.html || \"\"; // make sure the previous node outputs `html`\n\n  return [{ json: { targetPath, html } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -160,
+        624
+      ],
+      "id": "64200afd-e463-442a-bf51-34ce0c8451aa",
+      "name": "Code in JavaScript4"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $items().map(i => i.json);\n  const topic = $json.topic || \"Thanksgiving Desserts (Make-Ahead)\";\n\n  function block(item) {\n    const cap = item.caption || \"\";\n    const url = item.url || \"#\";\n    return `<figure style=\"margin:12px 0;max-width:640px;\"><img src=\"/Images/banner_background.png\" alt=\"${item.title}\"\n  style=\"width:100%;height:auto;border-radius:12px;display:block;\"><figcaption class=\"nx-tagline\" style=\"margin-\n  top:6px;\">${cap}</figcaption></figure><h3>${item.title}</h3><p>${item.blurb}</p><p><a href=\"${url}\" target=\"_blank\"\n  rel=\"noopener\">Recipe link</a></p>`;\n  }\n\n  const body = items.map(block).join('\\n\\n');\n\n  const html = `<!doctype html>\n  <html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n    <title>${topic} | Nexairi Mentis</title>\n    <link rel=\"stylesheet\" href=\"/css/styles.css\">\n    <link rel=\"icon\" type=\"image/png\" href=\"/Images/nexairi-mentis-favicon.png\">\n  </head>\n  <body>\n    <header class=\"nx-header\">\n      <div class=\"nx-header__inner\">\n        <div class=\"nx-brand\">\n          <a class=\"nx-logo-link\" href=\"/\">\n            <img class=\"nx-logo nx-logo--full\" src=\"/Images/nexairi-mentis-logo-horizontal.png\" alt=\"Nexairi logo\">\n            <img class=\"nx-logo nx-logo--compact\" src=\"/Images/nexairi-mentis-logo-compact.png\" alt=\"Nexairi compact logo\">\n          </a>\n          <div>\n            <p class=\"nx-eyebrow\">Lifestyle</p>\n            <p class=\"nx-tagline\">Human taste. Automated pace.</p>\n          </div>\n        </div>\n        <nav class=\"nx-nav\">\n          <a href=\"/\">Home</a>\n          <a href=\"/mission\">Our Mission</a>\n          <a href=\"/lifestyle\">Lifestyle</a>\n          <a href=\"/travel\">Travel</a>\n          <a href=\"/technology\">Technology</a>\n          <a href=\"/sports\">Sports</a>\n          <a href=\"/sandbox\">Sandbox</a>\n          <a href=\"/contact\">Contact</a>\n        </nav>\n      </div>\n    </header>\n\n    <main class=\"nx-shell\">\n      <article class=\"nx-article\">\n        <header>\n          <h1>${topic}</h1>\n        </header>\n        <section class=\"nx-article__meta\">\n          <span class=\"nx-eyebrow\">By Sarah R. \u00b7 7 min read</span>\n        </section>\n        <section class=\"nx-article__body\">\n          ${body}\n        </section>\n        <p class=\"nx-eyebrow\" style=\"margin:12px 0 8px 0;\">TAGS: thanksgiving \u00b7 desserts \u00b7 recipes \u00b7 lifestyle</p>\n        <div style=\"border-top:1px solid rgba(15,23,40,0.1);margin:24px 0;\"></div>\n        <div class=\"nx-ad\" style=\"margin:0 0 16px 0;\"><strong>Ad slot</strong><span>970x250 / responsive</span></div>\n        <aside class=\"nx-related\" style=\"margin-top:16px;\">\n          <h4>Other articles</h4>\n          <ul class=\"nx-list\">\n            <li><a href=\"/posts/thanksgiving-signature-sides.html\">Signature Thanksgiving Sides</a></li>\n            <li><a href=\"/posts/holiday-evenings-reset.html\">Holiday Evenings Reset</a></li>\n            <li><a href=\"/posts/holiday-gift-closet-rapid.html\">Holiday Gift Closet Rapid Setup</a></li>\n            <li><a href=\"/posts/quiet-upgrades-loud-weeks.html\">Quiet Upgrades for Loud Weeks</a></li>\n            <li><a href=\"/posts/winter-smart-home-routine.html\">Winter Smart Home Routine</a></li>\n          </ul>\n        </aside>\n      </article>\n    </main>\n\n    <footer class=\"nx-footer\">\n      <div class=\"nx-shell nx-footer__wrap\">\n        <div class=\"nx-footer__links nx-footer__left\">\n          <a href=\"/\">Home</a>\n          <a href=\"/mission\">Our Mission</a>\n          <a href=\"/lifestyle\">Lifestyle</a>\n          <a href=\"/technology\">Technology</a>\n          <a href=\"/travel\">Travel</a>\n          <a href=\"/sports\">Sports</a>\n        </div>\n        <div class=\"nx-footer__center\">&copy; 2025 Nexairi Mentis</div>\n        <div class=\"nx-footer__links nx-footer__right\">\n          <a href=\"/sandbox\">Sandbox</a>\n          <a href=\"/contact\">Contact</a>\n          <a href=\"/privacy\">Privacy</a>\n          <a href=\"/sitemap.html\">Sitemap</a>\n          <a href=\"/sitemap.xml\">XML Sitemap</a>\n        </div>\n      </div>\n    </footer>\n  </body>\n  </html>`;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        784,
+        80
+      ],
+      "id": "5e74f62c-6d27-41dd-a9f2-a5e08c2e5f27",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "setAllData": false,
+        "binaryPropertyName": "data",
+        "dataPropertyName": "html",
+        "options": {
+          "encoding": "utf8"
+        }
+      },
+      "id": "c9a3f0b8-5f24-4a2a-9c2f-7a5c2f5e1d11",
+      "name": "Text to Binary",
+      "type": "n8n-nodes-base.moveBinaryData",
+      "typeVersion": 1,
+      "position": [
+        984,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "fileName": "={{'site/posts/' + (($json.slug || $json.topic || 'nexairi-article').toString().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'')) + '.html'}}",
+        "dataPropertyName": "data"
+      },
+      "id": "bd5e1c61-07bd-4b71-910d-b3ae8382975d",
+      "name": "Write to /site/posts",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        80
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Home LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Home LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Home LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": [
+      {
+        "node": "Text to Binary",
+        "type": "main",
+        "index": 0
+      }
+    ],
+    "Text to Binary": {
+      "main": [
+        [
+          {
+            "node": "Write to /site/posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8d566c71-aae6-4885-9aae-9603fb1c723f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "18650a3a25f34d23a1f16a85aac4f74537e19beebe36365643682167a5f77b99"
+  },
+  "id": "vIXKOmGL2EXrUTVp",
+  "tags": []
+}
