@@ -1,7 +1,8 @@
 /* Global overrides for the React-driven prototype homepage */
 
 /* Make header non-floating even if bundle sets it fixed */
-header[role="banner"] {
+/* Make any header non-floating on the prototype homepage */
+header {
   position: static !important;
   top: auto !important;
 }
@@ -18,4 +19,3 @@ header[role="banner"] {
 /* Safety: ensure footer has comfortable padding */
 footer { padding-top: 1rem; padding-bottom: 1rem; }
 @media (min-width: 768px){ footer { padding-top: 1.25rem; padding-bottom: 1.25rem; } }
-
