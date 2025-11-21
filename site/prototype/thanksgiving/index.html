@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nexairi Thanksgiving Series — Prototype</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                black: '#0B0F19',
+                dark: '#151B2B',
+                border: '#2A3447',
+                blue: '#3B82F6',
+                cyan: '#06b6d4',
+                text: '#E2E8F0',
+                muted: '#94A3B8'
+              }
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              serif: ['Merriweather', 'serif'],
+              mono: ['Fira Code', 'monospace'],
+            }
+          }
+        }
+      }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/prototype/thanksgiving/index.css">
+  </head>
+  <body class="bg-brand-black text-brand-text antialiased">
+    <!-- Lightweight header aligned with prototype styling -->
+    <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-brand-black/70 border-b border-brand-border">
+      <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+        <a href="/prototype/" class="flex items-center gap-3">
+          <img src="/Images/nexairi_header_logo.png" alt="Nexairi" class="h-7 w-auto" />
+          <span class="text-sm text-brand-muted hidden sm:inline">Human taste. Automated pace.</span>
+        </a>
+        <nav class="flex items-center gap-4 text-sm">
+          <a href="/prototype/" class="hover:text-brand-cyan">Home</a>
+          <a href="/lifestyle" class="hover:text-brand-cyan">Lifestyle</a>
+          <a href="/technology" class="hover:text-brand-cyan">Technology</a>
+          <a href="/travel" class="hover:text-brand-cyan">Travel</a>
+          <a href="/sports" class="hover:text-brand-cyan">Sports</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-6xl px-4 pt-10 pb-20">
+      <!-- Hero -->
+      <section class="grid gap-8 md:grid-cols-2 items-stretch">
+        <div class="flex flex-col justify-center">
+          <p class="text-xs tracking-widest text-brand-muted uppercase">Nexairi Thanksgiving Series · Nov 18–26</p>
+          <h1 class="mt-3 font-serif text-3xl md:text-4xl">Eight calm dishes for a warmer table</h1>
+          <p class="mt-3 text-brand-muted">A daily drop of sides, soups, mains, and make‑ahead tricks you can actually use. Vegan‑friendly, regionally varied, and built to travel.</p>
+          <div class="mt-5 flex flex-wrap gap-2">
+            <a class="nx-btn nx-btn--ghost" href="/posts/thanksgiving-signature-sides.html"><span>Read Day 1</span></a>
+            <a class="nx-btn nx-btn--ghost" href="/posts/thanksgiving-cozy-soups.html"><span>Read Day 2</span></a>
+            <a class="nx-btn nx-btn--ghost" href="/posts/thanksgiving-delicious-desserts.html"><span>Read Day 3</span></a>
+            <a class="nx-btn nx-btn--filled" href="/posts/thanksgiving-turkey-main-dishes.html"><span>Read Day 4</span></a>
+          </div>
+        </div>
+        <div class="rounded-xl border border-brand-border overflow-hidden bg-brand-dark">
+          <img src="/Images/thanksgiving/thanksgiving_side_dishes.png" alt="Thanksgiving table" class="w-full h-full object-cover" />
+        </div>
+      </section>
+
+      <!-- Published -->
+      <section class="mt-12">
+        <div class="flex items-end justify-between gap-4">
+          <div>
+            <p class="text-xs tracking-widest text-brand-muted uppercase">Live now</p>
+            <h2 class="font-serif text-2xl">Published installments</h2>
+          </div>
+          <span class="text-sm text-brand-muted">Bookmark this page—new drops every day.</span>
+        </div>
+        <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <a href="/posts/thanksgiving-signature-sides.html" class="block group rounded-xl border border-brand-border bg-brand-dark p-5 hover:-translate-y-0.5 transition">
+            <p class="text-xs text-brand-muted">Day 1</p>
+            <h3 class="mt-1 font-medium">Signature Thanksgiving Sides</h3>
+            <p class="mt-2 text-sm text-brand-muted">Warm, crowd‑loved sides that travel well and keep the table happy.</p>
+          </a>
+          <a href="/posts/thanksgiving-cozy-soups.html" class="block group rounded-xl border border-brand-border bg-brand-dark p-5 hover:-translate-y-0.5 transition">
+            <p class="text-xs text-brand-muted">Day 2</p>
+            <h3 class="mt-1 font-medium">Cozy Soups That Travel</h3>
+            <p class="mt-2 text-sm text-brand-muted">Silky, reheatable bowls that greet guests and calm the kitchen.</p>
+          </a>
+          <a href="/posts/thanksgiving-delicious-desserts.html" class="block group rounded-xl border border-brand-border bg-brand-dark p-5 hover:-translate-y-0.5 transition">
+            <p class="text-xs text-brand-muted">Day 3</p>
+            <h3 class="mt-1 font-medium">Delicious Thanksgiving Desserts</h3>
+            <p class="mt-2 text-sm text-brand-muted">No‑bake pies, overnight cheesecakes, and travel‑friendly bars.</p>
+          </a>
+          <a href="/posts/thanksgiving-turkey-main-dishes.html" class="block group rounded-xl border border-brand-border bg-brand-dark p-5 hover:-translate-y-0.5 transition">
+            <p class="text-xs text-brand-muted">Day 4</p>
+            <h3 class="mt-1 font-medium">Turkey planning + alternative mains</h3>
+            <p class="mt-2 text-sm text-brand-muted">Herb rubs, spatchcock timing, and a salmon/veg main for non‑turkey tables.</p>
+          </a>
+        </div>
+      </section>
+
+      <!-- Coming up -->
+      <section class="mt-12">
+        <div class="flex items-end justify-between gap-4">
+          <div>
+            <p class="text-xs tracking-widest text-brand-muted uppercase">Coming up</p>
+            <h2 class="font-serif text-2xl">Daily drops through Thanksgiving</h2>
+          </div>
+          <span class="text-sm text-brand-muted">Watch for mains, make‑ahead plans, and day‑of game plans.</span>
+        </div>
+        <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="rounded-xl border border-brand-border bg-brand-dark p-5">
+            <p class="text-xs text-brand-muted">Day 5</p>
+            <h3 class="mt-1 font-medium">Make‑ahead everything</h3>
+            <p class="mt-2 text-sm text-brand-muted">What to cook 48 hours out, how to chill, and how to reheat without drying.</p>
+          </div>
+          <div class="rounded-xl border border-brand-border bg-brand-dark p-5">
+            <p class="text-xs text-brand-muted">Day 6</p>
+            <h3 class="mt-1 font-medium">Thanksgiving game plan</h3>
+            <p class="mt-2 text-sm text-brand-muted">Hour‑by‑hour flow that keeps the kitchen calm and guests fed.</p>
+          </div>
+          <div class="rounded-xl border border-brand-border bg-brand-dark p-5">
+            <p class="text-xs text-brand-muted">Day 7</p>
+            <h3 class="mt-1 font-medium">What to do on Thanksgiving day</h3>
+            <p class="mt-2 text-sm text-brand-muted">Final touch‑ups, table resets, and “in case of” backups.</p>
+          </div>
+          <div class="rounded-xl border border-brand-border bg-brand-dark p-5">
+            <p class="text-xs text-brand-muted">Day 8</p>
+            <h3 class="mt-1 font-medium">Leftover alchemy</h3>
+            <p class="mt-2 text-sm text-brand-muted">Sandwiches, soups, and next‑day snacks that feel considered, not forced.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-brand-border/60">
+      <div class="mx-auto max-w-6xl px-4 py-8 text-sm text-brand-muted flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <img src="/Images/nexairi_header_logo.png" alt="Nexairi" class="h-6 w-auto" />
+          <span>&copy; 2025 Nexairi Mentis</span>
+        </div>
+        <nav class="flex items-center gap-4">
+          <a href="/prototype/" class="hover:text-brand-cyan">Home</a>
+          <a href="/sandbox" class="hover:text-brand-cyan">Sandbox</a>
+          <a href="/privacy" class="hover:text-brand-cyan">Privacy</a>
+          <a href="/sitemap.html" class="hover:text-brand-cyan">Sitemap</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+  </html>
+
