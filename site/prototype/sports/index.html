@@ -9,21 +9,7 @@
     <link rel="stylesheet" href="/prototype/thanksgiving/index.css">
   </head>
   <body class="bg-[#0B0F19] text-[#E2E8F0] antialiased">
-    <header class="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-black/40 border-b border-[#2A3447]">
-      <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-        <a href="/prototype/" class="flex items-center gap-3">
-          <img src="/Images/nexairi-mentis-logo-horizontal.png" alt="Nexairi" class="h-7 w-auto" />
-          <span class="text-sm text-slate-400 hidden sm:inline">Human taste. Automated pace.</span>
-        </a>
-        <nav class="flex items-center gap-4 text-sm">
-          <a href="/prototype/" class="hover:text-cyan-400">Home</a>
-          <a href="/prototype/lifestyle/" class="hover:text-cyan-400">Lifestyle</a>
-          <a href="/prototype/technology/" class="hover:text-cyan-400">Technology</a>
-          <a href="/prototype/travel/" class="hover:text-cyan-400">Travel</a>
-          <a href="/prototype/sports/" class="text-cyan-400">Sports</a>
-        </nav>
-      </div>
-    </header>
+    <div id="proto-header"></div>
     <main class="mx-auto max-w-6xl px-4 pt-10 pb-20">
       <section class="grid gap-8 md:grid-cols-2 items-stretch">
         <div class="flex flex-col justify-center">
@@ -61,18 +47,7 @@
         </div>
       </section>
     </main>
-    <footer class="border-t border-[#2A3447]">
-      <div class="mx-auto max-w-6xl px-4 py-8 text-sm text-slate-400 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <img src="/Images/nexairi-mentis-logo-horizontal.png" alt="Nexairi" class="h-6 w-auto" />
-          <span>&copy; 2025 Nexairi Mentis</span>
-        </div>
-        <nav class="flex items-center gap-4">
-          <a href="/prototype/" class="hover:text-cyan-400">Home</a>
-          <a href="/sandbox" class="hover:text-cyan-400">Sandbox</a>
-          <a href="/privacy" class="hover:text-cyan-400">Privacy</a>
-        </nav>
-      </div>
-    </footer>
+    <div id="proto-footer"></div>
+    <script src="/prototype/_partials/partials-loader.js" defer></script>
   </body>
   </html>
