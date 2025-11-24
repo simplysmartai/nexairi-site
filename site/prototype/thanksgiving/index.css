@@ -5,3 +5,7 @@
 .nx-btn--ghost:hover { border-color:#3B82F6; color:#06b6d4; }
 .nx-btn--filled { background: linear-gradient(180deg,#3B82F6,#2563eb); color:#0B0F19; border-color:transparent; }
 .nx-btn--filled:hover { filter: brightness(1.05); }
+
+/* Global spacing for prototype pages using partials */
+main { margin-top: 2rem; margin-bottom: 2rem; }
+@media (min-width: 768px){ main { margin-top: 2.5rem; margin-bottom: 2.5rem; } }
