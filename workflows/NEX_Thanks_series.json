@@ -1,0 +1,266 @@
+
+{
+  "name": "NEX_Thanksgiving_Days5to8_clean",
+  "nodes": [
+    {
+      "id": "manual",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 0],
+      "parameters": {}
+    },
+    {
+      "id": "topics",
+      "name": "Topics (Days 5–8)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [220, 0],
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      topic: \"Make-Ahead Everything: What to cook 48h out, chill, and reheat.\",\n      search_type: \"recipes\",\n      targetPath: \"site/posts/thanksgiving-make-ahead-dishes.html\"\n    }\n  },\n  {\n    json: {\n      topic: \"Thanksgiving Game Plan: Hour-by-hour timeline, oven map, safe holding temps.\",\n      search_type: \"guide\",\n      targetPath: \"site/posts/thanksgiving-game-plan.html\"\n    }\n  },\n  {\n    json: {\n      topic: \"Thanksgiving Day Guide: Final touch-ups, table resets, backup plans.\",\n      search_type: \"guide\",\n      targetPath: \"site/posts/thanksgiving-day-guide.html\"\n    }\n  },\n  {\n    json: {\n      topic: \"Thanksgiving Leftover Alchemy: Sandwiches, soups, and smart next-day snacks.\",\n      search_type: \"recipes\",\n      targetPath: \"site/posts/thanksgiving-leftover-alchemy.html\"\n    }\n  }\n];"
+      }
+    },
+    {
+      "id": "cse",
+      "name": "Google CSE",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [460, 0],
+      "parameters": {
+        "url": "https://www.googleapis.com/customsearch/v1",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "YOUR_GOOGLE_CSE_API_KEY"
+            },
+            {
+              "name": "cx",
+              "value": "YOUR_GOOGLE_CSE_ID"
+            },
+            {
+              "name": "q",
+              "value": "={{ $json.topic }}"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "link",
+      "name": "Link Collector",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [700, 0],
+      "parameters": {
+        "jsCode": "// Take Google CSE JSON and produce a clean urls[] array per topic\nconst itemsArr = $json.items || [];\nconst links = [];\nfor (const it of itemsArr) {\n  const url = it.link || it.url;\n  if (!url) continue;\n  links.push(url);\n}\n// dedupe and cap\nconst unique = [...new Set(links)].slice(0, 15);\nreturn [{\n  json: {\n    urls: unique,\n    topic: $json.topic,\n    search_type: $json.search_type,\n    targetPath: $json.targetPath\n  }\n}];"
+      }
+    },
+    {
+      "id": "gemini",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [880, 180],
+      "parameters": {
+        "options": {}
+      },
+      "credentials": {
+        "googlePalmApi": {
+          "id": "",
+          "name": "YOUR_GEMINI_CREDENTIAL"
+        }
+      }
+    },
+    {
+      "id": "chain",
+      "name": "Home LLM Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [940, 0],
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are Nexairi’s food & lifestyle blog writer. Return ONLY valid JSON in this exact shape:\\n  {\\n    \"items\": [\\n      { \"slug\": \"...\", \"title\": \"...\", \"blurb\": \"...\", \"url\": \"...\", \"image_prompt\": \"...\", \"caption\": \"...\" }\\n    ]\\n  }\\n\\nTopic: {{ $json.topic }}\\nAllowed_urls: {{ ($json.urls || []).join(\", \") }}\\n\\nYour job:\\n- Use only Allowed_urls.\\n- Pick the best ~10 links that match the Topic.\\n- For recipe-focused topics (e.g., make-ahead dishes, leftovers):\\n  - Prefer individual recipe or detailed method pages, not listicles/homepages.\\n  - Each blurb: 3–4 sentences, warm and persuasive. Explain what the dish is, why it fits Thanksgiving, give high-level cook time/temperature and a simple make-ahead or reheat tip.\\n  - In caption, give a tight method + timing line, e.g., \"Bake 375°F, 30–35 min; assemble 2 days ahead. (GF option)\".\\n- For guide/plan topics (e.g., Thanksgiving game plan, Thanksgiving day guide):\\n  - Prefer practical guides, checklists, and activity ideas.\\n  - Each blurb: 3–4 sentences summarizing what the page offers and who it helps (hosts, guests, families, etc.).\\n  - Captions should be short and action-focused, e.g., \"Hour-by-hour hosting game plan with printable checklist.\"\\n\\nGeneral rules:\\n- Use only Allowed_urls; skip any URL that errors or clearly lacks useful detail.\\n- slug: URL-safe, kebab-case from the title (no spaces, only [a-z0-9-]).\\n- image_prompt: short art direction for a hero shot (no URLs), e.g., \"Overhead photo of a cozy Thanksgiving table with make-ahead dishes.\"\\n- caption: one concise line; note DF/GF/vegan in parentheses when applicable.\\n- No prose outside the JSON object.",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You are Nexairi’s food & lifestyle blog writer. Return ONLY valid JSON in this exact shape:\\n  {\\n    \"items\": [\\n      { \"slug\": \"...\", \"title\": \"...\", \"blurb\": \"...\", \"url\": \"...\", \"image_prompt\": \"...\", \"caption\": \"...\" }\\n    ]\\n  }\\n\\nTopic: {{ $json.topic }}\\nAllowed_urls: {{ ($json.urls || []).join(\", \") }}\\n\\nYour job:\\n- Use only Allowed_urls.\\n- Pick the best ~10 links that match the Topic.\\n- For recipe-focused topics (e.g., make-ahead dishes, leftovers):\\n  - Prefer individual recipe or detailed method pages, not listicles/homepages.\\n  - Each blurb: 3–4 sentences, warm and persuasive. Explain what the dish is, why it fits Thanksgiving, give high-level cook time/temperature and a simple make-ahead or reheat tip.\\n  - In caption, give a tight method + timing line, e.g., \"Bake 375°F, 30–35 min; assemble 2 days ahead. (GF option)\".\\n- For guide/plan topics (e.g., Thanksgiving game plan, Thanksgiving day guide):\\n  - Prefer practical guides, checklists, and activity ideas.\\n  - Each blurb: 3–4 sentences summarizing what the page offers and who it helps (hosts, guests, families, etc.).\\n  - Captions should be short and action-focused, e.g., \"Hour-by-hour hosting game plan with printable checklist.\"\\n\\nGeneral rules:\\n- Use only Allowed_urls; skip any URL that errors or clearly lacks useful detail.\\n- slug: URL-safe, kebab-case from the title (no spaces, only [a-z0-9-]).\\n- image_prompt: short art direction for a hero shot (no URLs), e.g., \"Overhead photo of a cozy Thanksgiving table with make-ahead dishes.\"\\n- caption: one concise line; note DF/GF/vegan in parentheses when applicable.\\n- No prose outside the JSON object."
+            }
+          ]
+        },
+        "batching": {}
+      }
+    },
+    {
+      "id": "code1",
+      "name": "Code in JavaScript1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1180, 0],
+      "parameters": {
+        "jsCode": "let raw = ($json.text || $json.output || $json.data || '').toString().trim();\nif (!raw) throw new Error('Code JS1: No LLM text on text/output/data');\nif (raw.startsWith('```')) raw = raw.replace(/^```[a-zA-Z]*\\n?/, '').replace(/```$/, '');\nlet parsed;\ntry { parsed = JSON.parse(raw); } catch (e) {\n  throw new Error('Code JS1: JSON parse failed: ' + e.message + ' RAW: ' + raw.slice(0, 300));\n}\nif (!Array.isArray(parsed.items) || !parsed.items.length) throw new Error('Code JS1: No items[] in parsed JSON');\n\nreturn [{\n  json: {\n    topic: $json.topic,\n    targetPath: $json.targetPath,\n    search_type: $json.search_type,\n    items: parsed.items\n  }\n}];"
+      }
+    },
+    {
+      "id": "code2",
+      "name": "Code in JavaScript2",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1420, 0],
+      "parameters": {
+        "jsCode": "const topic = ($json.topic || 'Daily Feature').toString();\nconst targetPath = $json.targetPath || (\n  'site/posts/' +\n  topic.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'') +\n  '.html'\n);\nconst items = Array.isArray($json.items) ? $json.items : [];\nconst tags = ['thanksgiving','recipes','lifestyle'].join(' · ');\n\nfunction block(it) {\n  const title = it.title || it.slug || 'Item';\n  const blurb = it.blurb || '';\n  const url = it.url || '#';\n  const cap = it.caption || '';\n  return `\n    <figure style=\"margin:12px 0;max-width:640px;\">\n      <img src=\"/Images/banner_background.png\" alt=\"${title}\" style=\"width:100%;height:auto;border-radius:12px;display:block;\">\n      ${cap ? `<figcaption class=\"nx-tagline\" style=\"margin-top:6px;\">${cap}</figcaption>` : ''}\n    </figure>\n    <h3>${title}</h3>\n    <p>${blurb}</p>\n    <p><a href=\"${url}\" target=\"_blank\" rel=\"noopener\">Recipe link</a></p>`;\n}\n\nconst body = items.map(block).join('\\n\\n');\n\nconst html = `<!doctype html>\n<html lang=\"en\"><head>\n  <meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n  <title>${topic} | Nexairi Mentis</title>\n  <link rel=\"stylesheet\" href=\"/css/styles.css\">\n  <link rel=\"icon\" type=\"image/png\" href=\"/Images/nexairi-mentis-favicon.png\">\n</head><body>\n  <header class=\"nx-header\">...</header>\n  <main class=\"nx-shell\">\n    <article class=\"nx-article\">\n      <header><h1>${topic}</h1></header>\n      <section class=\"nx-article__meta\"><span class=\"nx-eyebrow\">By Sarah R. · 7 min read</span></section>\n      <section class=\"nx-article__body\">${body}</section>\n      <p class=\"nx-eyebrow\" style=\"margin:12px 0 8px 0;\">TAGS: ${tags}</p>\n      <div style=\"border-top:1px solid rgba(15,23,40,0.1);margin:24px 0;\"></div>\n      <div class=\"nx-ad\" style=\"margin:0 0 16px 0;\"><strong>Ad slot</strong><span>970x250 / responsive</span></div>\n    </article>\n  </main>\n  <footer class=\"nx-footer\">...</footer>\n</body></html>`;\n\nreturn [{\n  json: { html, topic, targetPath }\n}];"
+      }
+    },
+    {
+      "id": "code4",
+      "name": "Code in JavaScript4",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1660, 0],
+      "parameters": {
+        "jsCode": "const targetPath = $json.targetPath;\nconst html = $json.html;\nconst topic = $json.topic;\nreturn [{ json: { targetPath, html, topic } }];"
+      }
+    },
+    {
+      "id": "gh",
+      "name": "Off to Github",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [1900, 0],
+      "parameters": {
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "simplysmartai",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "nexairi-site",
+          "mode": "name"
+        },
+        "filePath": "={{ $json.targetPath }}",
+        "fileContent": "={{ $json.html }}",
+        "commitMessage": "={{ 'Publish: ' + ($json.topic || $json.targetPath) }}",
+        "additionalParameters": {
+          "branch": {
+            "branch": "main"
+          }
+        }
+      },
+      "credentials": {
+        "githubApi": {
+          "id": "",
+          "name": "GitHub account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Topics (Days 5–8)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Topics (Days 5–8)": {
+      "main": [
+        [
+          {
+            "node": "Google CSE",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google CSE": {
+      "main": [
+        [
+          {
+            "node": "Link Collector",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Link Collector": {
+      "main": [
+        [
+          {
+            "node": "Home LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Home LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Home LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript4": {
+      "main": [
+        [
+          {
+            "node": "Off to Github",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

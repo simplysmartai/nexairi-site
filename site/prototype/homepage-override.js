@@ -36,8 +36,28 @@
       </div>
     `;
 
-    // Insert before the React app root so this stays on top
-    root.parentNode.insertBefore(wrap, root);
+    // Prefer replacing the existing Featured Story inside the app
+    let featuredContainer = null;
+    const targetText = 'the future of sustainable ai in urban planning';
+    const heading = Array.from(root.querySelectorAll('h1,h2,h3')).find(h => ((h.textContent||'').trim().toLowerCase() === targetText));
+    if (heading) {
+      let n = heading;
+      for (let i=0; i<6 && n; i++) {
+        if (n.tagName === 'SECTION' || n.tagName === 'ARTICLE') { featuredContainer = n; break; }
+        if (n.className && (n.className.includes('grid') || n.className.includes('rounded') || n.className.includes('mx-auto'))) { featuredContainer = n; break; }
+        n = n.parentElement;
+      }
+    }
+    if (!featuredContainer) {
+      featuredContainer = root.querySelector('section,article,div');
+    }
+    if (featuredContainer && featuredContainer.parentNode) {
+      featuredContainer.parentNode.insertBefore(wrap, featuredContainer);
+      featuredContainer.style.display = 'none';
+    } else {
+      // Fallback: insert before app root
+      root.parentNode.insertBefore(wrap, root);
+    }
     root.dataset.nxFeaturedInjected = '1';
   }
 
@@ -94,4 +114,3 @@
     document.addEventListener('DOMContentLoaded', () => setTimeout(run, 100));
   }
 })();
-
