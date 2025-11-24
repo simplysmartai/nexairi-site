@@ -1,0 +1,5 @@
+# Add .html for any post path that omits it
+/posts/:slug /posts/:slug.html 301
+
+# Specific correction for common typo/mislabeled link
+/posts/thanksgiving-main-dishes /posts/thanksgiving-turkey-main-dishes.html 301
