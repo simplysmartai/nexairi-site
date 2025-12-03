@@ -1,0 +1,452 @@
+[
+  {
+    "id": "home-racing-simulator-guide",
+    "title": "How to Build a Home Racing Simulator in Three Tiers",
+    "slug": "home-racing-simulator-guide",
+    "excerpt": "A budget, mid-range, and top-tier breakdown of sim racing cockpits, from plywood DIYs to motion-ready flagships.",
+    "category": "Technology",
+    "author": "Nexairi Technology",
+    "date": "Dec 12, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1626245903903-8d07659cb421?auto=format&fit=crop&q=80&w=1600",
+    "isFeatured": true
+  },
+  {
+    "id": "top-15-games-holiday-2025",
+    "title": "Cross-Platform Greatness: The 15 Games Defining Holiday 2025",
+    "slug": "top-15-games-holiday-2025",
+    "excerpt": "The console wars are over; the content wars are here. From Zelda to GTA VI hype, these are the essential titles for PS5, Xbox, and Switch.",
+    "category": "Technology",
+    "author": "Nexairi Technology",
+    "date": "Nov 29, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1606318801954-d46d46d3360a?auto=format&fit=crop&q=80&w=1600",
+    "isFeatured": false,
+    "series": "Holiday Shopping",
+    "seriesLabel": "Guide 1"
+  },
+  {
+    "id": "top-15-gifts-girls",
+    "title": "Curated Chaos: 15 Brilliant Gifts for Girls (Ages 2–14)",
+    "slug": "top-15-gifts-girls",
+    "excerpt": "Moving beyond the pink aisle: STEM kits, creative tools, and active play that lasts longer than Christmas morning.",
+    "category": "Lifestyle",
+    "author": "Nexairi Lifestyle",
+    "date": "Nov 29, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&q=80&w=1600",
+    "series": "Holiday Shopping",
+    "seriesLabel": "Guide 2"
+  },
+  {
+    "id": "holiday-gift-guide-boys-2-18",
+    "title": "Engineering Play: The Holiday Gift Guide for Boys (Ages 2–18)",
+    "slug": "holiday-gift-guide-boys-2-18",
+    "excerpt": "From toddler balance bikes to teen tech labs—15 high-signal gifts that build skills, not just clutter.",
+    "category": "Lifestyle",
+    "author": "Nexairi Lifestyle",
+    "date": "Dec 05, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1596464716127-f9a8759d1d5a?auto=format&fit=crop&q=80&w=1600",
+    "series": "Holiday Shopping",
+    "seriesLabel": "Guide 3"
+  },
+  {
+    "id": "pros-and-cons-of-milling-your-own-grains",
+    "title": "Should You Mill Your Own Flour at Home? The Real Pros and Cons",
+    "slug": "pros-and-cons-of-milling-your-own-grains",
+    "excerpt": "Is fresh flour worth the counter space? A friendly breakdown of flavor, nutrition, and logistics for the curious baker.",
+    "category": "Lifestyle",
+    "author": "Nexairi Lifestyle",
+    "date": "Nov 30, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=1600",
+    "series": "Home Milling Guide",
+    "seriesLabel": "Part 1"
+  },
+  {
+    "id": "choosing-a-home-grain-mill-and-grains",
+    "title": "Choosing a Home Grain Mill and Picking the Right Grains",
+    "slug": "choosing-a-home-grain-mill-and-grains",
+    "excerpt": "Stone vs. Impact? Hard Red vs. Soft White? A simple guide to the gear and grains you actually need to start baking.",
+    "category": "Lifestyle",
+    "author": "Nexairi Lifestyle",
+    "date": "Dec 01, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&q=80&w=1600",
+    "series": "Home Milling Guide",
+    "seriesLabel": "Part 2"
+  },
+  {
+    "id": "how-to-store-whole-grains-and-freshly-milled-flour",
+    "title": "How to Store Whole Grains and Freshly Milled Flour",
+    "slug": "how-to-store-whole-grains-and-freshly-milled-flour",
+    "excerpt": "Maximize shelf life and flavor with simple storage habits. From pantry jars to freezer rotation.",
+    "category": "Lifestyle",
+    "author": "Nexairi Lifestyle",
+    "date": "Dec 02, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1584269631720-9d3c0587d5a5?auto=format&fit=crop&q=80&w=1600",
+    "series": "Home Milling Guide",
+    "seriesLabel": "Part 3"
+  },
+  {
+    "id": "mindful-reset-ritual-2026",
+    "title": "The 2026 Reset Protocol: Designing a Ritual for Intentionality",
+    "slug": "mindful-reset-ritual-2026",
+    "excerpt": "A structured guide to auditing the past year and designing a high-signal framework for the next.",
+    "category": "Lifestyle",
+    "author": "Nexairi Lifestyle",
+    "date": "Dec 04, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&q=80&w=1600",
+    "isFeatured": false
+  },
+  {
+    "id": "college-football-championship-guide-2025",
+    "title": "The Viewer’s Guide to the 2025 Conference Championship Games",
+    "slug": "college-football-championship-guide-2025",
+    "excerpt": "Friday night drama and Saturday glory. A tactical viewing grid for the 10 title games that will define the playoff bracket.",
+    "category": "Sports",
+    "author": "Nexairi Sports",
+    "date": "Dec 03, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1628891892233-358133318721?auto=format&fit=crop&q=80&w=1600",
+    "isFeatured": false
+  },
+  {
+    "id": "alps-winter-guide",
+    "title": "The Silent Heights: A Modern Guide to the Alps This Winter",
+    "slug": "alps-winter-guide",
+    "excerpt": "Beyond the ski lift—finding thermal calm, rail journeys, and culinary warmth in the Dolomites, Swiss Valais, and French Savoy.",
+    "category": "Travel",
+    "author": "Nexairi Travel",
+    "date": "Nov 28, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=1600",
+    "isFeatured": false
+  },
+  {
+    "id": "top-10-travel-tech-under-300",
+    "title": "The Frictionless Transit Stack: 10 Tech Essentials Under $300",
+    "slug": "top-10-travel-tech-under-300",
+    "excerpt": "A curated list of gear that solves the specific pain points of modern travel—power, connectivity, silence, and backup.",
+    "category": "Technology",
+    "author": "Trevor L.",
+    "date": "Nov 27, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=1600",
+    "isFeatured": false
+  },
+  {
+    "id": "top-10-ps5-games-holiday",
+    "title": "Next-Gen Escapism: The 10 PS5 Titles Defining This Holiday Season",
+    "slug": "top-10-ps5-games-holiday",
+    "excerpt": "From open-world epics to precise platformers—the definitive shortlist for your console (or your gift list).",
+    "category": "Technology",
+    "author": "Nexairi Technology",
+    "date": "Nov 28, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?auto=format&fit=crop&q=80&w=1600",
+    "isFeatured": false
+  },
+  {
+    "id": "thanksgiving-pause",
+    "title": "A Thanksgiving Pause: Making Space for the People We Love",
+    "slug": "a-thanksgiving-pause",
+    "excerpt": "Life speeds up at the exact moment we desperately want it to slow down. Thanksgiving isn’t a command to be joyful; it’s an invitation to be present.",
+    "category": "Lifestyle",
+    "author": "James S.",
+    "date": "Nov 26, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&q=80&w=1600",
+    "isFeatured": false
+  },
+  {
+    "id": "thanksgiving-signature-sides",
+    "title": "Signature Thanksgiving Sides",
+    "slug": "thanksgiving-signature-sides",
+    "excerpt": "Thanksgiving sides carry the meal: they balance the turkey, keep guests happy while you carve, and travel well if you’re a guest.",
+    "category": "Lifestyle",
+    "author": "Sarah R.",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "thanksgiving-cozy-soups_new",
+    "title": "Cozy Soups That Travel",
+    "slug": "thanksgiving-cozy-soups_new",
+    "excerpt": "Earthy, creamy, and comforting—plant-based mushroom richness layers caramelized mushrooms, aromatics, and silky cashew 'cream'.",
+    "category": "Lifestyle",
+    "author": "Sarah R.",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1547592166-23acbe34071b?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "thanksgiving-delicious-desserts",
+    "title": "Delicious Thanksgiving Desserts",
+    "slug": "thanksgiving-delicious-desserts",
+    "excerpt": "Ditch the oven stress this Thanksgiving with a delightful no-bake pumpkin pie! Its creamy, spiced filling rests on a crisp gingersnap crust.",
+    "category": "Lifestyle",
+    "author": "Sarah R.",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "thanksgiving-turkey-main-dishes",
+    "title": "Turkey Planning + Alternative Mains",
+    "slug": "thanksgiving-turkey-main-dishes",
+    "excerpt": "Achieve incredibly crispy skin and succulent, juicy meat with this fuss-free dry-brined turkey method.",
+    "category": "Lifestyle",
+    "author": "Sarah R.",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1574672280600-4accfa5b6f98?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "thanksgiving-make-ahead-dishes",
+    "title": "Make-Ahead Everything",
+    "slug": "thanksgiving-make-ahead-dishes",
+    "excerpt": "Hosting Thanksgiving doesn’t mean you have to live in the kitchen for 48 straight hours. Cook 48h out, chill, and reheat.",
+    "category": "Lifestyle",
+    "author": "Sarah R.",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1556910103-1c02745a30bf?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "thanksgiving-game-plan",
+    "title": "Thanksgiving Game Plan",
+    "slug": "thanksgiving-game-plan",
+    "excerpt": "Hour-by-hour timeline, oven map, and safe holding temps. Everything has to be hot, carved, sauced, and on the table at once.",
+    "category": "Lifestyle",
+    "author": "Sarah R.",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "thanksgiving-day-guide",
+    "title": "What To Do on Thanksgiving Day",
+    "slug": "thanksgiving-day-guide",
+    "excerpt": "A simple game plan — written down, not just in your head — turns the day from improv panic into a series of small, clear steps.",
+    "category": "Lifestyle",
+    "author": "Sarah R.",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1516684669134-de6d7c47dbdc?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "thanksgiving-leftovers-alchemy",
+    "title": "Leftover Alchemy",
+    "slug": "thanksgiving-leftovers-alchemy",
+    "excerpt": "Sandwiches, soups, and smart next-day snacks. Leftovers can be either a gift or a guilt pile, depending on how you treat them.",
+    "category": "Lifestyle",
+    "author": "Sarah R.",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1595133698236-4c34a21e07b5?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "30-day-holiday-reset",
+    "title": "The 30‑Day Holiday Reset",
+    "slug": "30-day-holiday-reset",
+    "excerpt": "A conversational, practical 30‑day plan to trade holiday overwhelm for a calmer season—routines, boundaries, and small rituals.",
+    "category": "Lifestyle",
+    "author": "Nexairi Lifestyle",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1512413914633-b5043f4041ea?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "arrival-architecture-city-onboarding",
+    "title": "Arrival Architecture: A 24‑Hour Ritual",
+    "slug": "arrival-architecture-city-onboarding",
+    "excerpt": "How to shake off transit, learn the map with your feet, pick a neighborhood to belong to, and eat well on night one.",
+    "category": "Travel",
+    "author": "Nexairi Travel",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "carry-on-winter-one-bag",
+    "title": "Carry‑On Winter: One Bag Strategy",
+    "slug": "carry-on-winter-one-bag",
+    "excerpt": "A deeply practical guide to winter travel with a single carry‑on: layers that work, shoes that earn their space, and laundry tricks.",
+    "category": "Travel",
+    "author": "Nexairi Travel",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1553531384-cc64ac80f931?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "hosting-without-burning-out",
+    "title": "Hosting Without Burning Out",
+    "slug": "hosting-without-burning-out",
+    "excerpt": "A field guide to hosting multi‑generational holiday gatherings without losing your calm. Boundaries, food flow, and room craft.",
+    "category": "Lifestyle",
+    "author": "Nexairi Lifestyle",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1519671482538-eb62635ca436?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "italy-slow-travel-guide",
+    "title": "Traveling Through Italy: A Slow, Savvy Field Guide",
+    "slug": "italy-slow-travel-guide",
+    "excerpt": "Italy rewards the traveler who lets time widen. A map of habits—how to move, what to expect, and where to give yourself space.",
+    "category": "Travel",
+    "author": "Nexairi Travel",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "korea-travel-rhythm",
+    "title": "Traveling Through Korea: City Pace, Countryside Calm",
+    "slug": "korea-travel-rhythm",
+    "excerpt": "South Korea is built for movement. A guide to making Seoul readable, using the KTX, and understanding markets and manners.",
+    "category": "Travel",
+    "author": "Nexairi Travel",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1538485399081-7191377e8241?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "family-holiday-games-playbook",
+    "title": "The Family Games Playbook",
+    "slug": "family-holiday-games-playbook",
+    "excerpt": "Quick, low-friction ways to move while the bird’s in the oven. Backyard football, pickleball, and indoor challenges for all ages.",
+    "category": "Sports",
+    "author": "Nexairi Sports",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1511252972751-2470eb2099d8?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "holiday-sports-week-watchlist",
+    "title": "Holiday Sports Week: Watchlist",
+    "slug": "holiday-sports-week-watchlist",
+    "excerpt": "A concise guide to the holiday sports slate: NBA, NFL, College Football, and how to watch sanely with family.",
+    "category": "Sports",
+    "author": "Nexairi Sports",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "future-tech-2026-watchlist",
+    "title": "2026 Tech That Actually Matters",
+    "slug": "future-tech-2026-watchlist",
+    "excerpt": "A grounded look at technologies poised to matter in 2026: Edge AI, practical AR, resilient home networks, and materials that last.",
+    "category": "Technology",
+    "author": "Nexairi Technology",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "tech-that-makes-holiday-weeks-easier",
+    "title": "Tech That Makes Holiday Weeks Easier",
+    "slug": "tech-that-makes-holiday-weeks-easier",
+    "excerpt": "Simple, reliable tech to reduce friction: Guest Wi-Fi, charging stations, warm lighting, and privacy controls.",
+    "category": "Technology",
+    "author": "Nexairi Technology",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1550009158-9ebf69173e03?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "nontraditional-holiday-getaways",
+    "title": "Non-Traditional Holiday Getaways",
+    "slug": "nontraditional-holiday-getaways",
+    "excerpt": "If your perfect holiday doesn’t involve a crowded table, these getaways trade tradition for intention—quiet, warm, or just different.",
+    "category": "Travel",
+    "author": "Nexairi Travel",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "holiday-travel-prep-by-car-train-plane",
+    "title": "Holiday Travel Prep: Car, Train, and Plane",
+    "slug": "holiday-travel-prep-by-car-train-plane",
+    "excerpt": "Turn peak-season chaos into a set of simple containers: timing, bags, and contingencies. Aiming for uneventful, not perfect.",
+    "category": "Travel",
+    "author": "Nexairi Travel",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "decorating-for-thanksgiving-into-december",
+    "title": "Decorating: Thanksgiving into December",
+    "slug": "decorating-for-thanksgiving-into-december",
+    "excerpt": "A layered approach to holiday decor: warm autumn textures that convert, evergreen anchors that last, and a few clever swaps.",
+    "category": "Lifestyle",
+    "author": "Nexairi Lifestyle",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "calm-amid-the-holiday-rush",
+    "title": "Finding Calm Amid the Holiday Rush",
+    "slug": "calm-amid-the-holiday-rush",
+    "excerpt": "A field guide for the way real people live during the season: traveling, hosting, cooking, and still wanting space to feel grateful.",
+    "category": "Lifestyle",
+    "author": "Nexairi Lifestyle",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "ai-holiday-shopping-stack",
+    "title": "The AI Holiday Shopping Stack",
+    "slug": "ai-holiday-shopping-stack",
+    "excerpt": "Using LLMs to filter noise, vet products for durability, and protect privacy. A protocol for high-signal gifting.",
+    "category": "Technology",
+    "author": "Nexairi Technology",
+    "date": "Nov 24, 2025",
+    "imageUrl": "https://images.unsplash.com/photo-1555421689-d68471e189f2?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "feat-1",
+    "title": "The Future of Sustainable AI in Urban Planning",
+    "slug": "future-sustainable-ai",
+    "excerpt": "How city planners are utilizing next-generation algorithms to reduce carbon footprints and optimize traffic flow without compromising privacy.",
+    "category": "Technology",
+    "author": "Dr. Elena Vance",
+    "date": "Oct 28, 2023",
+    "imageUrl": "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "auto-1",
+    "title": "Minimalist Travel: Packing Smart",
+    "slug": "minimalist-travel-packing",
+    "excerpt": "A comprehensive guide to reducing luggage weight while maximizing utility on international trips.",
+    "category": "Travel",
+    "author": "Marcus Chen",
+    "date": "Oct 25, 2023",
+    "imageUrl": "https://images.unsplash.com/photo-1553531384-cc64ac80f931?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "auto-2",
+    "title": "HIIT: Cognitive Benefits",
+    "slug": "hiit-cognitive-benefits",
+    "excerpt": "New research suggests short bursts of intense exercise may have neuroprotective effects for aging adults.",
+    "category": "Sports",
+    "author": "Sarah Jenkins",
+    "date": "Oct 22, 2023",
+    "imageUrl": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "auto-3",
+    "title": "Reclaiming Attention Spans",
+    "slug": "digital-detox-guide",
+    "excerpt": "Practical strategies for setting boundaries with technology to improve mental clarity and focus.",
+    "category": "Lifestyle",
+    "author": "Alex Thorne",
+    "date": "Oct 19, 2023",
+    "imageUrl": "https://images.unsplash.com/photo-1499750310159-52f0f83463cc?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "auto-4",
+    "title": "The Rise of E-Sports Medicine",
+    "slug": "esports-medicine",
+    "excerpt": "How professional gamers are adopting olympic-level recovery protocols to prevent repetitive strain.",
+    "category": "Sports",
+    "author": "Marcus Chen",
+    "date": "Oct 15, 2023",
+    "imageUrl": "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "auto-5",
+    "title": "Tokyo's Hidden Analog Cafes",
+    "slug": "tokyo-analog-cafes",
+    "excerpt": "A guide to the strictly offline spaces in the world's most connected metropolis.",
+    "category": "Travel",
+    "author": "Sarah Jenkins",
+    "date": "Oct 12, 2023",
+    "imageUrl": "https://images.unsplash.com/photo-1554797589-7241bb691973?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    "id": "auto-6",
+    "title": "Bio-Wearables Beyond the Wrist",
+    "slug": "future-bio-wearables",
+    "excerpt": "The next generation of health trackers are invisible, implantable, and powered by your body heat.",
+    "category": "Technology",
+    "author": "Dr. Elena Vance",
+    "date": "Oct 10, 2023",
+    "imageUrl": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800"
+  }
+]

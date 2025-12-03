@@ -1,0 +1,48 @@
+name: Daily Content Generator
+
+on:
+  schedule:
+    # Runs at 09:00 UTC every day
+    - cron: '0 9 * * *'
+  # Allows you to run this workflow manually from the Actions tab for testing
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+        # If you don't have a package-lock.json yet, use 'npm install' instead
+        # run: npm install
+
+      - name: Generate New Post
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+        run: node scripts/auto-generate.js
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name 'Nexairi Bot'
+          git config --global user.email 'bot@nexairi.com'
+          
+          # Check if there are changes to commit
+          if [[ -n $(git status -s) ]]; then
+            git add posts.ts public/content/*.html
+            git commit -m "feat(content): Daily auto-generated post"
+            git push
+          else
+            echo "No changes to commit."
+          fi

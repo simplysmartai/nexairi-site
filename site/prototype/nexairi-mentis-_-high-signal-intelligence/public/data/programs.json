@@ -1,0 +1,22 @@
+[
+  {"institution_id": "wake_forest", "program_name": "BS Engineering", "major_tags": ["engineering"], "notes": "General engineering curriculum with concentrations."},
+  {"institution_id": "wake_forest", "program_name": "BS Computer Science", "major_tags": ["cs"], "notes": "Strong theory focus."},
+  {"institution_id": "duke", "program_name": "BS Electrical & Computer Engineering", "major_tags": ["engineering", "electrical", "ece", "cs"], "notes": "Direct admit to Pratt School of Engineering."},
+  {"institution_id": "duke", "program_name": "BS Biomedical Engineering", "major_tags": ["engineering", "biology"], "notes": "Top tier program."},
+  {"institution_id": "nc_state", "program_name": "BS Electrical Engineering", "major_tags": ["engineering", "electrical"], "notes": "First Year Engineering (FYE) entry requirement."},
+  {"institution_id": "nc_state", "program_name": "BS Computer Science", "major_tags": ["cs", "engineering"], "notes": "Highly competitive matriculation."},
+  {"institution_id": "unc_charlotte", "program_name": "BS Electrical Engineering", "major_tags": ["engineering", "electrical"], "notes": "Strong industry connections in Charlotte."},
+  {"institution_id": "unc_charlotte", "program_name": "BS Computer Science", "major_tags": ["cs"], "notes": "Largest computing college in NC."},
+  {"institution_id": "unc_chapel_hill", "program_name": "BS Computer Science", "major_tags": ["cs"], "notes": "Application required after sophomore year."},
+  {"institution_id": "unc_chapel_hill", "program_name": "BS Biomedical Engineering", "major_tags": ["engineering", "biology"], "notes": "Joint program with NC State."},
+  {"institution_id": "virginia_tech", "program_name": "BS Electrical Engineering", "major_tags": ["engineering", "electrical"], "notes": "General engineering entry."},
+  {"institution_id": "georgia_tech", "program_name": "BS Electrical Engineering", "major_tags": ["engineering", "electrical"], "notes": "Rigorous tech focus."},
+  {"institution_id": "purdue", "program_name": "BS Engineering", "major_tags": ["engineering", "electrical"], "notes": "First Year Engineering entry."},
+  {"institution_id": "umich", "program_name": "BS Computer Science", "major_tags": ["cs", "engineering"], "notes": "Very competitive direct admit."},
+  {"institution_id": "ut_austin", "program_name": "BS Electrical & Computer Engineering", "major_tags": ["engineering", "electrical", "ece"], "notes": "Cockrell School direct admit."},
+  {"institution_id": "mit", "program_name": "BS Electrical Engineering & CS", "major_tags": ["engineering", "electrical", "cs"], "notes": "Course 6-2."},
+  {"institution_id": "stanford", "program_name": "BS Engineering", "major_tags": ["engineering", "cs", "electrical"], "notes": "Declare major sophomore year."},
+  {"institution_id": "clemson", "program_name": "BS Engineering", "major_tags": ["engineering"], "notes": "General engineering first year."},
+  {"institution_id": "florida", "program_name": "BS Computer Science", "major_tags": ["cs", "engineering"], "notes": "Herbert Wertheim College."},
+  {"institution_id": "ucla", "program_name": "BS Computer Science", "major_tags": ["cs", "engineering"], "notes": "Samueli School direct admit."}
+]
