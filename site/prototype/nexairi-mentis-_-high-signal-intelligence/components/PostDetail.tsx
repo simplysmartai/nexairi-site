@@ -5,6 +5,7 @@ import { AdUnit } from './AdUnit';
 import { TLDRSlider } from './TLDRSlider';
 import { ActionPlanGenerator } from './ActionPlanGenerator';
 import { siteConfig } from '../config';
+import { FALLBACK_POST_IMAGE } from '../constants/media';
 
 interface PostDetailProps {
   post: BlogPost;
@@ -151,11 +152,11 @@ export const PostDetail: React.FC<PostDetailProps> = ({ post, allPosts }) => {
              {/* Featured Image */}
              <div className="mb-12 rounded-xl overflow-hidden border border-brand-border/30">
                <img 
-                 src={post.imageUrl} 
+                 src={post.imageUrl || FALLBACK_POST_IMAGE} 
                  alt={post.title} 
                  className="w-full h-full object-cover max-h-[500px]"
                  onError={(e) => {
-                   e.currentTarget.src = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1600';
+                   e.currentTarget.src = FALLBACK_POST_IMAGE;
                  }} 
                />
              </div>
@@ -209,11 +210,11 @@ export const PostDetail: React.FC<PostDetailProps> = ({ post, allPosts }) => {
                       <a key={rec.id} href={`#${rec.slug}`} className="group flex gap-5 items-start p-4 rounded-xl hover:bg-brand-dark/30 transition-colors">
                          <div className="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden border border-brand-border/50">
                             <img 
-                              src={rec.imageUrl} 
+                              src={rec.imageUrl || FALLBACK_POST_IMAGE} 
                               alt={rec.title} 
                               className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
                               onError={(e) => {
-                                e.currentTarget.src = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1600';
+                                e.currentTarget.src = FALLBACK_POST_IMAGE;
                               }}
                             />
                          </div>

@@ -15,6 +15,8 @@
     "validate-posts": "tsx scripts/validatePosts.ts",
     "generate-post": "tsx scripts/generatePost.ts",
     "generate-batch": "tsx scripts/generateBatch.ts",
+    "sync-frontmatter": "tsx scripts/syncFrontmatter.ts",
+    "enforce-affiliates": "tsx scripts/enforceAffiliateCompliance.ts",
     "test-env": "tsx scripts/test-env.ts"
   },
   "dependencies": {

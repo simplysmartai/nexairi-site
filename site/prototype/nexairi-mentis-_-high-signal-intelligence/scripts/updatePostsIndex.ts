@@ -1,6 +1,8 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { parse as parseYaml } from 'yaml';
+import { FALLBACK_POST_IMAGE } from '../constants/media.ts';
+import { normalizeCategoryLabel } from '../utils/category.ts';
 
 interface Frontmatter {
   id?: string;
@@ -11,6 +13,12 @@ interface Frontmatter {
   summary?: string;
   tags?: string[] | string;
   contentFile?: string;
+  category?: string;
+  excerpt?: string;
+  imageUrl?: string;
+  isFeatured?: boolean;
+  series?: string;
+  seriesLabel?: string;
 }
 
 export interface Post {
@@ -20,8 +28,14 @@ export interface Post {
   date: string; // ISO 8601
   author: string;
   summary: string;
+  excerpt: string;
+  category: string;
   tags: string[];
   contentFile: string;
+  imageUrl: string;
+  isFeatured?: boolean;
+  series?: string;
+  seriesLabel?: string;
 }
 
 const ROOT_DIR = process.cwd();
@@ -141,6 +155,24 @@ function deriveSummary(body: string): string {
   return clean || 'Further analysis coming soon.';
 }
 
+function deriveExcerpt(fm: Frontmatter, body: string): string {
+  if (fm.excerpt) return fm.excerpt.trim();
+  if (fm.summary) return fm.summary.trim();
+  return stripHtml(body).slice(0, 200).trim() || 'High-signal intelligence dispatch coming online.';
+}
+
+function deriveCategory(fm: Frontmatter, tags: string[], slug: string): string {
+  return normalizeCategoryLabel(fm.category, slug, tags);
+}
+
+function extractFirstImage(body: string): string | undefined {
+  const match = body.match(/<img[^>]+src="([^"]+)"/i);
+  if (match && match[1]) {
+    return match[1];
+  }
+  return undefined;
+}
+
 async function buildPostFromFile(filePath: string): Promise<Post> {
   const raw = await fs.readFile(filePath, 'utf8');
   const { data, body } = parseFrontmatter(raw);
@@ -148,6 +180,11 @@ async function buildPostFromFile(filePath: string): Promise<Post> {
   const slug = data.slug || slugify(fileName);
   const stats = await fs.stat(filePath);
   const isoDate = toIsoDate(data.date, stats.mtime);
+  const tags = normalizeTags(data.tags);
+  const category = deriveCategory(data, tags, slug);
+  const summary = data.summary || deriveSummary(body);
+  const excerpt = deriveExcerpt(data, body);
+  const imageUrl = data.imageUrl || extractFirstImage(body) || FALLBACK_POST_IMAGE;
 
   return {
     id: data.id || slug,
@@ -155,9 +192,15 @@ async function buildPostFromFile(filePath: string): Promise<Post> {
     slug,
     date: isoDate,
     author: data.author || DEFAULT_AUTHOR,
-    summary: data.summary || deriveSummary(body),
-    tags: normalizeTags(data.tags),
+    summary,
+    excerpt,
+    category,
+    tags,
     contentFile: path.relative(path.resolve(ROOT_DIR, 'public'), filePath).replace(/\\/g, '/'),
+    imageUrl,
+    isFeatured: data.isFeatured,
+    series: data.series,
+    seriesLabel: data.seriesLabel,
   };
 }
 
