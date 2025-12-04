@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { BlogPost } from '../types';
+import { FALLBACK_POST_IMAGE } from '../constants/media';
 
 interface HeroProps {
   post?: BlogPost;
@@ -11,6 +12,8 @@ export const Hero: React.FC<HeroProps> = ({ post }) => {
 
   // Fallback if no featured post is found
   if (!post) return null;
+
+  const heroImage = imgError || !post.imageUrl ? FALLBACK_POST_IMAGE : post.imageUrl;
 
   return (
     <section className="relative pt-32 pb-16 md:pt-48 md:pb-24 border-b border-brand-border/50">
@@ -54,7 +57,7 @@ export const Hero: React.FC<HeroProps> = ({ post }) => {
              <div className="absolute inset-0 border border-brand-border/30 rounded-lg bg-brand-dark/20 backdrop-blur-sm p-4 rotate-3 hover:rotate-0 transition-transform duration-500">
                 <div className="h-full w-full border border-brand-border/20 relative overflow-hidden rounded">
                   <img 
-                    src={imgError ? '/abstract-bg.png' : post.imageUrl}
+                    src={heroImage}
                     alt={post.title}
                     onError={() => setImgError(true)}
                     className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity"

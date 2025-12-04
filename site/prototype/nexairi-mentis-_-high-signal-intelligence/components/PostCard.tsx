@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { BlogPost } from '../types';
+import { FALLBACK_POST_IMAGE } from '../constants/media';
 
 interface PostCardProps {
   post: BlogPost;
@@ -9,7 +10,7 @@ interface PostCardProps {
 
 export const PostCard: React.FC<PostCardProps> = ({ post, featured = false }) => {
   const [imgError, setImgError] = useState(false);
-  const fallbackImage = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=1600';
+  const cardImage = imgError || !post.imageUrl ? FALLBACK_POST_IMAGE : post.imageUrl;
 
   if (featured) {
     return (
@@ -17,7 +18,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post, featured = false }) =>
         <div className="lg:col-span-8 relative overflow-hidden rounded-lg border border-brand-border/50">
            <div className="absolute inset-0 bg-gradient-to-t from-brand-black/60 to-transparent z-10 pointer-events-none"></div>
            <img 
-             src={imgError ? fallbackImage : post.imageUrl} 
+             src={cardImage} 
              alt={post.title} 
              onError={() => setImgError(true)}
              className="w-full h-[400px] lg:h-[500px] object-cover transform group-hover:scale-105 transition-transform duration-700"
@@ -50,7 +51,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post, featured = false }) =>
       <div className="relative overflow-hidden rounded-lg mb-6 aspect-[3/2] border border-brand-border/30">
         <div className="absolute inset-0 bg-brand-black/10 group-hover:bg-transparent transition-colors z-10"></div>
         <img 
-          src={imgError ? fallbackImage : post.imageUrl} 
+          src={cardImage} 
           alt={post.title} 
           onError={() => setImgError(true)}
           className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 grayscale-[20%] group-hover:grayscale-0"
