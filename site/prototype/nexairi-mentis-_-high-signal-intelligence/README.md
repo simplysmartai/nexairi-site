@@ -18,3 +18,9 @@ View your app in AI Studio: https://ai.studio/apps/drive/13IRLC3FXXSPFM_kIrvua8J
 2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
 3. Run the app:
    `npm run dev`
+
+## Cloudflare Pages Deployment
+
+- This folder is the true repo root for the Vite app. If your Git provider still tracks a larger monorepo, set Cloudflare's *Root Directory* to `site/prototype/nexairi-mentis-_-high-signal-intelligence` so it builds from here.
+- Use `npm run build` as the *Build Command* and `dist` as the *Output Directory*.
+- All nested Git metadata and submodule references have been removed, so the repo is now self-contained and can be cloned without needing `git submodule` commands.

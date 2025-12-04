@@ -1,0 +1,6 @@
+Build an n8n workflow:
+1) Trigger: Cron daily 9am.
+2) Node: LLM -> generate 1 blog idea + full Markdown draft using /prompts/blog_agent_prompt.txt.
+3) Node: Repo -> create file at /content/YYYY-MM-DD-slug.md (new branch).
+4) Node: PR -> open PR “Content: New post”.
+5) Optional: Convert to HTML into /content_html/ and update /content_html/index.json.

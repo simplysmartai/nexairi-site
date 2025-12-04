@@ -1,0 +1,7 @@
+/* Prototype Thanksgiving page: small layout helpers */
+:root { color-scheme: dark; }
+.nx-btn { display:inline-flex; align-items:center; gap:.5rem; border:1px solid #2A3447; border-radius:.625rem; padding:.5rem .875rem; font-weight:500; }
+.nx-btn--ghost { background: transparent; color:#E2E8F0; }
+.nx-btn--ghost:hover { border-color:#3B82F6; color:#06b6d4; }
+.nx-btn--filled { background: linear-gradient(180deg,#3B82F6,#2563eb); color:#0B0F19; border-color:transparent; }
+.nx-btn--filled:hover { filter: brightness(1.05); }

@@ -1,0 +1,6 @@
+Nexairi SEO checklist:
+- Title tag 55–60 chars; meta description ~150 chars.
+- H1 unique; H2s descriptive.
+- Add internal links to relevant tools.
+- JSON-LD: WebSite + Article where appropriate.
+- Core Web Vitals: images lazy-loaded; CLS-safe hero.

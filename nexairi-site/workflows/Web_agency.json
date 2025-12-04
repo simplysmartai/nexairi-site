@@ -1,0 +1,470 @@
+{
+  "name": "Ultimate AI Web Agency",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "00000000-0000-0000-0000-000000000001",
+      "name": "Execute Workflow",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -820,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "user_prompt",
+              "name": "user_prompt",
+              "value": "I want to add a pricing section with 3 tiers: Basic, Pro, and Enterprise.",
+              "type": "string"
+            },
+            {
+              "id": "url",
+              "name": "url",
+              "value": "https://example.com",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "00000000-0000-0000-0000-000000000002",
+      "name": "User Input (Form)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        -600,
+        360
+      ],
+      "notes": "ENTER YOUR PROMPT AND URL HERE. Leave URL empty to generate from scratch."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.url }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "00000000-0000-0000-0000-000000000003",
+      "name": "Has URL?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -380,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {}
+      },
+      "id": "00000000-0000-0000-0000-000000000004",
+      "name": "Fetch HTML",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        -160,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4o"
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are an SEO Specialist. Analyze the HTML. \nOutput: A bulleted list of missing meta tags, hierarchy issues, and keyword opportunities."
+            },
+            {
+              "content": "={{ $json.data }}"
+            }
+          ]
+        }
+      },
+      "id": "00000000-0000-0000-0000-000000000005",
+      "name": "SEO Agent",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        60,
+        -20
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "YOUR_OPENAI_CREDENTIAL_ID",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4o"
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are a UI/UX Designer. Analyze the HTML.\nOutput: A bulleted list of accessibility issues, poor contrast, and layout clutter."
+            },
+            {
+              "content": "={{ $json.data }}"
+            }
+          ]
+        }
+      },
+      "id": "00000000-0000-0000-0000-000000000006",
+      "name": "UX Agent",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        60,
+        140
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "YOUR_OPENAI_CREDENTIAL_ID",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4o"
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are a Feature Implementation Analyst. \nTask: Read the USER PROMPT and the HTML. \nOutput: Specific instructions on WHERE in the DOM the new feature should be inserted to look natural. Do not write code, just architectural instructions."
+            },
+            {
+              "content": "User Prompt: {{ $(\"User Input (Form)\").item.json.user_prompt }}\n\nHTML: {{ $json.data }}"
+            }
+          ]
+        }
+      },
+      "id": "00000000-0000-0000-0000-000000000007",
+      "name": "Feature Analyst",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        60,
+        300
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "YOUR_OPENAI_CREDENTIAL_ID",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combinationMode": "mergeByPosition",
+        "options": {}
+      },
+      "id": "00000000-0000-0000-0000-000000000008",
+      "name": "Merge Reports",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        340,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4o"
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are a Senior Web Developer. \n\nTask: Rewrite the provided HTML.\n\nInputs:\n1. Original HTML\n2. SEO & UX critiques\n3. Feature Implementation Plan (The user wants to change/add something)\n\nGuidelines:\n- STRICTLY maintain the original CSS class naming convention (BEM, Tailwind, etc).\n- Implement the user's feature request seamlessly.\n- Fix the SEO/UX issues listed.\n- Output ONLY valid HTML code."
+            },
+            {
+              "role": "user",
+              "content": "ORIGINAL HTML: {{ $(\"Fetch HTML\").item.json.data }}\n\nSEO REPORT: {{ $json[\"content\"] }}\nUX REPORT: {{ $(\"Merge Reports\").input.json.content }}\nFEATURE PLAN: {{ $(\"Feature Analyst\").item.json.content }}"
+            }
+          ]
+        }
+      },
+      "id": "00000000-0000-0000-0000-000000000009",
+      "name": "Dev: Enhancer",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        600,
+        140
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "YOUR_OPENAI_CREDENTIAL_ID",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4o"
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are a Website Architect.\nTask: Create a blueprint for a new website based on the user's idea.\nOutput: \n1. Recommended Tech Stack (e.g., HTML5 + Tailwind via CDN).\n2. Structure (Header, Hero, Features, Footer).\n3. Color Palette & Vibe.\n4. List of necessary sections."
+            },
+            {
+              "content": "User Idea: {{ $json.user_prompt }}"
+            }
+          ]
+        }
+      },
+      "id": "00000000-0000-0000-0000-000000000010",
+      "name": "Architect Agent",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        500
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "YOUR_OPENAI_CREDENTIAL_ID",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4o"
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are a Content Strategist.\nTask: Write the actual text content for the website based on the Architect's plan.\nOutput: JSON object with 'hero_headline', 'about_text', 'services_list', etc."
+            },
+            {
+              "content": "User Idea: {{ $(\"User Input (Form)\").item.json.user_prompt }}\n\nArchitect Plan: {{ $json.content }}"
+            }
+          ]
+        }
+      },
+      "id": "00000000-0000-0000-0000-000000000011",
+      "name": "Content Agent",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        60,
+        500
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "YOUR_OPENAI_CREDENTIAL_ID",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4o"
+        },
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are a Senior Frontend Developer.\nTask: Build a complete, single-file HTML website from scratch.\nInputs:\n1. Architect's Structure Plan\n2. Content Strategist's Text\n\nRequirements:\n- Use Tailwind CSS via CDN for styling.\n- Ensure mobile responsiveness.\n- Make it look modern and professional.\n- Output ONLY the raw HTML code."
+            },
+            {
+              "content": "Architect Plan: {{ $(\"Architect Agent\").item.json.content }}\n\nContent: {{ $json.content }}"
+            }
+          ]
+        }
+      },
+      "id": "00000000-0000-0000-0000-000000000012",
+      "name": "Dev: Creator",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        280,
+        500
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "YOUR_OPENAI_CREDENTIAL_ID",
+          "name": "OpenAI account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Execute Workflow": {
+      "main": [
+        [
+          {
+            "node": "User Input (Form)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "User Input (Form)": {
+      "main": [
+        [
+          {
+            "node": "Has URL?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has URL?": {
+      "main": [
+        [
+          {
+            "node": "Fetch HTML",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Architect Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch HTML": {
+      "main": [
+        [
+          {
+            "node": "SEO Agent",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "UX Agent",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Feature Analyst",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SEO Agent": {
+      "main": [
+        [
+          {
+            "node": "Merge Reports",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "UX Agent": {
+      "main": [
+        [
+          {
+            "node": "Merge Reports",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Feature Analyst": {
+      "main": [
+        [
+          {
+            "node": "Dev: Enhancer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Reports": {
+      "main": [
+        [
+          {
+            "node": "Dev: Enhancer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Architect Agent": {
+      "main": [
+        [
+          {
+            "node": "Content Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Content Agent": {
+      "main": [
+        [
+          {
+            "node": "Dev: Creator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
+
