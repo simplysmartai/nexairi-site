@@ -1,27 +1,21 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Global overrides for the React-driven prototype homepage */
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
+/* Make header non-floating even if bundle sets it fixed */
+/* Make any header non-floating on the prototype homepage */
+header {
+  position: static !important;
+  top: auto !important;
 }
 
-::-webkit-scrollbar-track {
-  background: #0B0F19;
+/* Give the app some breathing room */
+#root { 
+  margin-top: 2rem; 
+  margin-bottom: 2rem; 
+}
+@media (min-width: 768px){
+  #root { margin-top: 2.5rem; margin-bottom: 2.5rem; }
 }
 
-::-webkit-scrollbar-thumb {
-  background: #2A3447;
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #06b6d4;
-}
-
-/* Base Styles */
-body {
-  background-color: #0B0F19;
-  color: #E2E8F0;
-}
+/* Safety: ensure footer has comfortable padding */
+footer { padding-top: 1rem; padding-bottom: 1rem; }
+@media (min-width: 768px){ footer { padding-top: 1.25rem; padding-bottom: 1.25rem; } }

@@ -1,0 +1,223 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "simply-smart-lead"
+      },
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ],
+      "id": "e45f9e77-980b-42c2-8059-43c3d527181c"
+    },
+    {
+      "parameters": {
+        "model": "gemini-2.5-flash",
+        "query": {
+          "text": "Analyze the following lead inquiry message and output your response strictly in JSON format. Do not include any explanatory text outside the JSON object.\n\nMessage: {{ $json.message }}\n\nJSON Output Rules:\n1. **classification**: Must be 'Fractional CFO' or 'Bookkeeping'.\n2. **priority**: Must be 'High', 'Medium', or 'Low'.\n3. **summary**: A 1-sentence personalized summary of their needs.\n\nExample Output: {\"classification\": \"Fractional CFO\", \"priority\": \"High\", \"summary\": \"Client needs strategic financial modeling for a planned expansion.\"\n",
+          "systemPrompt": "You are an expert AI Lead Agent for Simply Smart Consulting. Your task is to analyze a prospective client's inquiry message and classify the service needed, prioritize the lead, and generate a concise summary. Always output a single JSON object."
+        },
+        "responseFormat": "json"
+      },
+      "name": "AI Lead Agent (Gemini)",
+      "type": "n8n-nodes-ai-language.llmChat",
+      "typeVersion": 1,
+      "position": [
+        480,
+        300
+      ],
+      "id": "0d3c0a22-3837-4346-a4c3-5682b1d31c89",
+      "credentials": {
+        "google-ai-api": {
+          "id": "YOUR_GEMINI_CREDENTIALS_ID",
+          "name": "Gemini API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": [
+          {
+            "type": "string",
+            "value1": "={{ JSON.parse($json.response).classification }}",
+            "operation": "equalTo",
+            "value2": "Fractional CFO"
+          }
+        ]
+      },
+      "name": "Route by Service Classification",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        720,
+        300
+      ],
+      "id": "276b1b74-3238-4061-807e-7511c751221f"
+    },
+    {
+      "parameters": {
+        "values": [
+          {
+            "name": "Classification",
+            "value": "={{ JSON.parse($json.response).classification }}"
+          },
+          {
+            "name": "Priority",
+            "value": "={{ JSON.parse($json.response).priority }}"
+          },
+          {
+            "name": "AISummary",
+            "value": "={{ JSON.parse($json.response).summary }}"
+          }
+        ]
+      },
+      "name": "Set AI Data (CFO Branch)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        960,
+        200
+      ],
+      "id": "e229a1e0-3168-450f-a99f-e3955685a4a5"
+    },
+    {
+      "parameters": {
+        "values": [
+          {
+            "name": "Classification",
+            "value": "={{ JSON.parse($json.response).classification }}"
+          },
+          {
+            "name": "Priority",
+            "value": "={{ JSON.parse($json.response).priority }}"
+          },
+          {
+            "name": "AISummary",
+            "value": "={{ JSON.parse($json.response).summary }}"
+          }
+        ]
+      },
+      "name": "Set AI Data (Bookkeeping Branch)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        960,
+        400
+      ],
+      "id": "e229a1e0-3168-450f-a99f-e3955685a4a6"
+    },
+    {
+      "parameters": {
+        "resource": "sheet",
+        "operation": "append",
+        "sheetId": "YOUR_GOOGLE_SHEET_ID_CFO_LEADS",
+        "sheetName": "CFO Leads",
+        "data": {
+          "columnName": {
+            "name": "=Name",
+            "email": "=Email",
+            "classification": "={{ $item(\"Set AI Data (CFO Branch)\").$json.Classification }}",
+            "priority": "={{ $item(\"Set AI Data (CFO Branch)\").$json.Priority }}",
+            "aiSummary": "={{ $item(\"Set AI Data (CFO Branch)\").$json.AISummary }}",
+            "originalMessage": "=Message"
+          }
+        }
+      },
+      "name": "Log to Google Sheets (CFO)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1200,
+        200
+      ],
+      "id": "f5d0b445-9764-42b7-a3f5-0814c449174d",
+      "credentials": {
+        "googleSheetsApi": {
+          "id": "YOUR_GOOGLE_SHEETS_CREDENTIALS_ID",
+          "name": "Google Sheets Creds"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "sheet",
+        "operation": "append",
+        "sheetId": "YOUR_GOOGLE_SHEET_ID_BOOKKEEPING_LEADS",
+        "sheetName": "Bookkeeping Leads",
+        "data": {
+          "columnName": {
+            "name": "=Name",
+            "email": "=Email",
+            "classification": "={{ $item(\"Set AI Data (Bookkeeping Branch)\").$json.Classification }}",
+            "priority": "={{ $item(\"Set AI Data (Bookkeeping Branch)\").$json.Priority }}",
+            "aiSummary": "={{ $item(\"Set AI Data (Bookkeeping Branch)\").$json.AISummary }}",
+            "originalMessage": "=Message"
+          }
+        }
+      },
+      "name": "Log to Google Sheets (Bookkeeping)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [
+        1200,
+        400
+      ],
+      "id": "18f3a38e-8a9d-488b-a329-84725595995e",
+      "credentials": {
+        "googleSheetsApi": {
+          "id": "YOUR_GOOGLE_SHEETS_CREDENTIALS_ID",
+          "name": "Google Sheets Creds"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "Webhook Trigger",
+      "to": "AI Lead Agent (Gemini)",
+      "fromNode": "e45f9e77-980b-42c2-8059-43c3d527181c",
+      "toNode": "0d3c0a22-3837-4346-a4c3-5682b1d31c89"
+    },
+    {
+      "from": "AI Lead Agent (Gemini)",
+      "to": "Route by Service Classification",
+      "fromNode": "0d3c0a22-3837-4346-a4c3-5682b1d31c89",
+      "toNode": "276b1b74-3238-4061-807e-7511c751221f"
+    },
+    {
+      "from": "Route by Service Classification",
+      "to": "Set AI Data (CFO Branch)",
+      "fromNode": "276b1b74-3238-4061-807e-7511c751221f",
+      "toNode": "e229a1e0-3168-450f-a99f-e3955685a4a5",
+      "type": "main",
+      "index": 0
+    },
+    {
+      "from": "Route by Service Classification",
+      "to": "Set AI Data (Bookkeeping Branch)",
+      "fromNode": "276b1b74-3238-4061-807e-7511c751221f",
+      "toNode": "e229a1e0-3168-450f-a99f-e3955685a4a6",
+      "type": "main",
+      "index": 1
+    },
+    {
+      "from": "Set AI Data (CFO Branch)",
+      "to": "Log to Google Sheets (CFO)",
+      "fromNode": "e229a1e0-3168-450f-a99f-e3955685a4a5",
+      "toNode": "f5d0b445-9764-42b7-a3f5-0814c449174d"
+    },
+    {
+      "from": "Set AI Data (Bookkeeping Branch)",
+      "to": "Log to Google Sheets (Bookkeeping)",
+      "fromNode": "e229a1e0-3168-450f-a99f-e3955685a4a6",
+      "toNode": "18f3a38e-8a9d-488b-a329-84725595995e"
+    }
+  ],
+  "name": "Simply Smart AI Lead Qualification",
+  "active": false,
+  "nodesPositions": {}
+}

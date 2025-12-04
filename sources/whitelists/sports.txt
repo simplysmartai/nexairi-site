@@ -1,0 +1,13 @@
+ncaa.com
+espn.com
+theathletic.com
+nba.com
+nfl.com
+nhl.com
+mlssoccer.com
+uefa.com
+fifa.com
+si.com
+cbssports.com
+foxsports.com
+

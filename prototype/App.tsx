@@ -1,0 +1,156 @@
+import React, { useState } from 'react';
+import { Layout } from './components/Layout';
+import { Hero } from './components/Hero';
+import { PostCard } from './components/PostCard';
+import { Sidebar } from './components/Sidebar';
+import { Sandbox } from './components/Sandbox';
+import { BlogPost } from './types';
+import { posts } from './posts'; // Import directly, no fetch needed!
+
+function App() {
+  const [currentView, setCurrentView] = useState('home');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  const handleNavigate = (view: string, category?: string) => {
+    setCurrentView(view);
+    if (view === 'sandbox') {
+      setSelectedCategory(null);
+    } else {
+      setSelectedCategory(category || null);
+    }
+  };
+
+  // Logic to identify dynamic content
+  const featuredPost = posts.find(p => p.isFeatured);
+  
+  // Find all series (grouping by series name)
+  const seriesGroups = posts.reduce((acc, post) => {
+    if (post.series) {
+      if (!acc[post.series]) acc[post.series] = [];
+      acc[post.series].push(post);
+    }
+    return acc;
+  }, {} as Record<string, BlogPost[]>);
+
+  // For the homepage, just grab the first available series to showcase
+  const spotlightSeriesName = Object.keys(seriesGroups)[0];
+  const spotlightPosts = spotlightSeriesName ? seriesGroups[spotlightSeriesName] : [];
+
+  // Filter posts based on selection
+  const filteredPosts = selectedCategory 
+    ? posts.filter(post => post.category.toLowerCase() === selectedCategory.toLowerCase()) 
+    : posts.filter(post => !post.isFeatured && !post.series); // On home, exclude featured/series to avoid dups
+
+  return (
+    <Layout currentView={currentView} onNavigate={handleNavigate} selectedCategory={selectedCategory}>
+      {currentView === 'home' ? (
+        <>
+          {/* Only show Hero on Home Page when no specific category is selected */}
+          {!selectedCategory && <Hero post={featuredPost} />}
+          
+          {/* Main Content Area with Sidebar */}
+          <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+              
+              {/* Left Column: Content Stream */}
+              <div className="lg:col-span-9 space-y-16">
+                
+                {/* Category Header (if selected) */}
+                {selectedCategory && (
+                  <div className="border-b border-brand-border pb-6 mb-8">
+                     <h1 className="text-4xl font-serif font-bold text-white mb-2">{selectedCategory}</h1>
+                     <p className="text-brand-muted">Latest intelligence and analysis in {selectedCategory.toLowerCase()}.</p>
+                  </div>
+                )}
+
+                {/* Section: Dynamic Series Spotlight (4 Columns Wide) */}
+                {!selectedCategory && spotlightPosts.length > 0 && (
+                  <section id="series-spotlight" className="relative mb-16">
+                    <div className="absolute -inset-6 bg-gradient-to-br from-orange-900/10 to-brand-black/50 border border-orange-500/10 rounded-xl -z-10"></div>
+                    
+                    <div className="mb-8 flex justify-between items-end">
+                      <div>
+                        <h2 className="text-2xl font-serif font-bold text-white mb-2">{spotlightSeriesName} Series</h2>
+                        <p className="text-brand-muted text-sm">Curated collection. Validated by data.</p>
+                      </div>
+                      <span className="text-orange-500 text-xs font-bold uppercase tracking-widest border border-orange-500/30 px-3 py-1 rounded">
+                        Spotlight
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                      {spotlightPosts.map((post) => (
+                        <div key={post.id} className="group cursor-pointer">
+                          <div className="relative aspect-[4/5] mb-4 overflow-hidden rounded border border-brand-border group-hover:border-orange-500/50 transition-colors">
+                            <img src={post.imageUrl} alt={post.title} className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100" />
+                            <div className="absolute top-2 left-2 bg-brand-black/80 backdrop-blur text-[10px] font-bold text-orange-400 px-2 py-1 uppercase tracking-wider rounded-sm">
+                              {post.category}
+                            </div>
+                          </div>
+                          <h3 className="text-sm font-bold text-gray-200 leading-snug mb-2 group-hover:text-orange-400 transition-colors line-clamp-2">
+                            {post.title}
+                          </h3>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                )}
+
+                {/* Section: Feed (3 Columns Wide) */}
+                <section id="latest">
+                  <div className="mb-8 border-b border-brand-border pb-4 flex justify-between items-end">
+                    <h2 className="text-xs font-bold text-brand-blue uppercase tracking-[0.2em] flex items-center gap-3">
+                      <span className="w-8 h-[2px] bg-brand-blue"></span>
+                      {selectedCategory ? `${selectedCategory} Articles` : 'Latest Intelligence'}
+                    </h2>
+                  </div>
+                  
+                  {filteredPosts.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+                      {filteredPosts.map(post => (
+                         <PostCard key={post.id} post={post} />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-12 text-brand-muted">
+                      <p>No articles found in this category yet.</p>
+                    </div>
+                  )}
+                </section>
+              
+              </div>
+
+              {/* Right Column: Sidebar */}
+              <div className="lg:col-span-3">
+                <Sidebar />
+              </div>
+
+            </div>
+          </div>
+
+          {/* Style Guide / Footer Note */}
+          <section className="bg-brand-dark/30 py-12 border-t border-brand-border backdrop-blur-sm">
+             <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="text-center md:text-left">
+                   <h4 className="text-brand-cyan font-bold text-xs uppercase tracking-widest mb-2">Nexairi Mentis</h4>
+                   <p className="text-gray-500 text-sm max-w-md">
+                     Where human creativity meets algorithmic precision. Browse our Sandbox to see the engine in action.
+                   </p>
+                </div>
+                <button 
+                  onClick={() => handleNavigate('sandbox')}
+                  className="px-6 py-3 border border-brand-border text-brand-text text-xs font-bold uppercase tracking-widest hover:bg-brand-cyan hover:text-brand-black hover:border-transparent transition-all"
+                >
+                  Open Sandbox
+                </button>
+             </div>
+          </section>
+        </>
+      ) : (
+        <Sandbox />
+      )}
+    </Layout>
+  );
+}
+
+export default App;

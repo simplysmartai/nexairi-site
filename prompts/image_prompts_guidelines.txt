@@ -1,0 +1,9 @@
+Image Prompt Guidelines (for free/stock or generative tools)
+- Subject first, then setting, then lighting, then style.
+- Avoid brand logos and identifiable people.
+- Prefer natural light, documentary/editorial styles; minimal props.
+- Thumbnails: uncluttered subject, strong silhouette, warm tone for lifestyle; neutral for tech.
+Examples
+- "Cozy living room at dusk, candles and linen table, soft throws, natural window light, editorial 35mm"
+- "Carry-on and personal bag on bench, headphones and passport, soft window light, documentary"
+

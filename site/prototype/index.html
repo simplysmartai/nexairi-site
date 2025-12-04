@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nexairi Mentis - AI Intelligence</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -13,11 +12,11 @@
           extend: {
             colors: {
               brand: {
-                black: '#0B0F19', 
-                dark: '#151B2B',
-                border: '#2A3447',
+                black: '#0B0F19', // Deep cyber background
+                dark: '#151B2B',  // Card background
+                border: '#2A3447', // Card borders
                 blue: '#3B82F6',
-                cyan: '#06b6d4',
+                cyan: '#06b6d4',  // AI Glow
                 text: '#E2E8F0',
                 muted: '#94A3B8'
               }
@@ -27,27 +26,41 @@
               serif: ['Merriweather', 'serif'],
               mono: ['Fira Code', 'monospace'],
             },
-            animation: { 'spin-slow': 'spin 12s linear infinite' }
+            backgroundImage: {
+              'grid-pattern': "linear-gradient(to right, #1e293b 1px, transparent 1px), linear-gradient(to bottom, #1e293b 1px, transparent 1px)",
+              'cyber-gradient': "radial-gradient(circle at 50% 0%, #1e293b 0%, #020617 100%)",
+            },
+            animation: {
+              'spin-slow': 'spin 12s linear infinite',
+              'pulse-glow': 'pulse-glow 4s ease-in-out infinite',
+            },
+            keyframes: {
+              'pulse-glow': {
+                '0%, 100%': { opacity: 0.6 },
+                '50%': { opacity: 1 },
+              }
+            }
           }
         }
       }
     </script>
-<script type="importmap">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/prototype/index.css">
+  <script type="importmap">
 {
   "imports": {
-    "react": "https://aistudiocdn.com/react@^19.2.0",
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
     "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "vite": "https://aistudiocdn.com/vite@^7.2.4",
-    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@latest"
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+  <script type="module" crossorigin src="/prototype/assets/index-BSU3_UID.js"></script>
+  <script defer src="/prototype/homepage-override.js"></script>
 </head>
   <body class="bg-brand-black text-brand-text antialiased selection:bg-brand-cyan selection:text-brand-black">
     <div id="root"></div>
-    <script type="module" src="./index.tsx"></script>
-  <script type="module" src="/index.tsx"></script>
 </body>
 </html>

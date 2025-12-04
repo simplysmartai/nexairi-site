@@ -1,0 +1,24 @@
+topic: ""
+audience: "(who is this for?)"
+objective: "(what the reader gets)"
+angle: "(what’s new/different)"
+seo:
+  target_keyword: ""
+  related_keywords: []
+structure:
+  - h2: ""
+    bullets: []
+  - h2: ""
+    bullets: []
+sources:
+  must_use: []
+  avoid: []
+internal_links:
+  - anchor: ""
+    href: "/posts/..."
+deliverables:
+  word_count: 1800-2300
+  citations: 2-4
+  image_prompts: 1-3
+notes: "(constraints, safety, disclaimers)"
+
