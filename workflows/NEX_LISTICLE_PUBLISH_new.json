@@ -1,0 +1,357 @@
+{
+  "name": "NEX_LISTICLE_PUBLISH_new",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "6e20e707-2bda-44be-91b2-57e2c8662025",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are Nexairi’s food blog writer. Return ONLY valid JSON in this shape:\n  {\n  \"items\": [\n  { \"slug\": \"...\", \"title\": \"...\", \"blurb\": \"...\", \"url\": \"...\", \"image_prompt\": \"...\", \"caption\": \"...\" }\n  ]\n  }\n\n  Topic: {{ $json.topic }}\n  Allowed_urls: {{ ($json.urls || []).join(\", \") }}\n\n  Pick the best 10 links for “Turkey planning + alternative mains” using only Allowed_urls.\n\n  Mix and requirements:\n\n  - Include at least 4 turkey-focused picks (e.g., dry-brined roast turkey, spatchcock turkey, herb-butter roast, make-ahead\n    turkey gravy).\n  - Include at least 4 non-turkey mains: at least 1 fish (side of salmon), 1 vegetarian (mushroom wellington), and 1 vegan\n    roasted vegetable centerpiece (e.g., whole cauliflower or veg crown).\n  - Include 2–3 clearly labeled vegan/DF/GF options (note in caption).\n  - Prefer individual recipe/method pages; avoid listicles, category pages, homepages.\n  - For turkey items, a detailed method/guide page is acceptable if it includes explicit temps/timing; otherwise prefer a\n    recipe page.\n\n  Rules:\n\n  - Each blurb: 3–4 sentences, warm and persuasive.\n      - For turkey: mention size guidance, oven temp, target internal temps (e.g., 160–165°F breast, 170–175°F thigh), and rest\n        window (e.g., 30–45 min).\n      - For non-turkey mains: call out cook temp/time, pan/setup (sheet-pan, puff pastry, etc.), and a make-ahead/reheat note.\n      - Always include a travel/storage tip (how to chill, transport, and re-crisp/reheat).\n  - caption: 1 crisp line with method + timing window, e.g., “Spatchcock 12–14 lb, 450°F, 80–100 min; rest 30–45 min. (DF/GF)”\n  - image_prompt: short art direction for a plated hero shot (no URLs).\n  - slug: URL-safe, kebab-case from the title.\n  - Links must resolve to the actual recipe or detailed method page.\n  - Use only Allowed_urls; skip any URL that errors or clearly lacks the recipe/method detail.\n  - Prefer pages exposing Schema.org Recipe (JSON-LD) with ingredients/instructions; require aggregateRating >= 4.4 with 100+\n    ratings when available; otherwise choose the most authoritative source in Allowed_urls.\n  - No prose outside the JSON object.",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You are Nexairi’s food blog writer. Return ONLY valid JSON in this shape:\n  {\n  \"items\": [\n  { \"slug\": \"...\", \"title\": \"...\", \"blurb\": \"...\", \"url\": \"...\", \"image_prompt\": \"...\", \"caption\": \"...\" }\n  ]\n  }\n\n  Topic: {{ $json.topic }}\n  Allowed_urls: {{ ($json.urls || []).join(\", \") }}\n\n  Pick the best 10 links for “Turkey planning + alternative mains” using only Allowed_urls.\n\n  Mix and requirements:\n\n  - Include at least 4 turkey-focused picks (e.g., dry-brined roast turkey, spatchcock turkey, herb-butter roast, make-ahead\n    turkey gravy).\n  - Include at least 4 non-turkey mains: at least 1 fish (side of salmon), 1 vegetarian (mushroom wellington), and 1 vegan\n    roasted vegetable centerpiece (e.g., whole cauliflower or veg crown).\n  - Include 2–3 clearly labeled vegan/DF/GF options (note in caption).\n  - Prefer individual recipe/method pages; avoid listicles, category pages, homepages.\n  - For turkey items, a detailed method/guide page is acceptable if it includes explicit temps/timing; otherwise prefer a\n    recipe page.\n\n  Rules:\n\n  - Each blurb: 3–4 sentences, warm and persuasive.\n      - For turkey: mention size guidance, oven temp, target internal temps (e.g., 160–165°F breast, 170–175°F thigh), and rest\n        window (e.g., 30–45 min).\n      - For non-turkey mains: call out cook temp/time, pan/setup (sheet-pan, puff pastry, etc.), and a make-ahead/reheat note.\n      - Always include a travel/storage tip (how to chill, transport, and re-crisp/reheat).\n  - caption: 1 crisp line with method + timing window, e.g., “Spatchcock 12–14 lb, 450°F, 80–100 min; rest 30–45 min. (DF/GF)”\n  - image_prompt: short art direction for a plated hero shot (no URLs).\n  - slug: URL-safe, kebab-case from the title.\n  - Links must resolve to the actual recipe or detailed method page.\n  - Use only Allowed_urls; skip any URL that errors or clearly lacks the recipe/method detail.\n  - Prefer pages exposing Schema.org Recipe (JSON-LD) with ingredients/instructions; require aggregateRating >= 4.4 with 100+\n    ratings when available; otherwise choose the most authoritative source in Allowed_urls.\n  - No prose outside the JSON object."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        1072,
+        0
+      ],
+      "id": "7d8754d1-bf9e-4304-8f67-49fc2b72d431",
+      "name": "Home LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        960,
+        176
+      ],
+      "id": "fb43b4b4-eccc-4863-80f8-78a3749054bd",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "uQyMxt2p8Tp4INB8",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $items().map(i => i.json);\n        const topic = (items.find(i => i.topic)?.topic) || 'Daily Feature';\n        const tags = ['thanksgiving','recipes','lifestyle'].join(' · ');\n        const slugBase = (items[0]?.slug || topic)\n          .toString().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');\n\n        function block(it){\n          const title = it.title || it.slug || 'Recipe';\n          const blurb = it.blurb || '';\n          const url = it.url || '#';\n          const cap = it.caption || '';\n          return `\n            <figure style=\"margin:12px 0;max-width:640px;\">\n              <img src=\"/Images/banner_background.png\" alt=\"${title}\" style=\"width:100%;height:auto;border-\n  radius:12px;display:block;\">\n              ${cap ? `<figcaption class=\"nx-tagline\" style=\"margin-top:6px;\">${cap}</figcaption>` : ''}\n            </figure>\n            <h3>${title}</h3>\n            <p>${blurb}</p>\n            <p><a href=\"${url}\" target=\"_blank\" rel=\"noopener\">Recipe link</a></p>`;\n        }\n        const body = items.map(block).join('\\n\\n');\n\n        const html = `<!doctype html>\n        <html lang=\"en\"><head>\n          <meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n          <title>${topic} | Nexairi Mentis</title>\n          <link rel=\"stylesheet\" href=\"/css/styles.css\">\n          <link rel=\"icon\" type=\"image/png\" href=\"/Images/nexairi-mentis-favicon.png\">\n        </head><body>\n          <header class=\"nx-header\">...</header>\n          <main class=\"nx-shell\">\n            <article class=\"nx-article\">\n              <header><h1>${topic}</h1></header>\n              <section class=\"nx-article__meta\"><span class=\"nx-eyebrow\">By Sarah R. · 7 min read</span></section>\n              <section class=\"nx-article__body\">${body}</section>\n              <p class=\"nx-eyebrow\" style=\"margin:12px 0 8px 0;\">TAGS: ${tags}</p>\n              <div style=\"border-top:1px solid rgba(15,23,40,0.1);margin:24px 0;\"></div>\n              <div class=\"nx-ad\" style=\"margin:0 0 16px 0;\"><strong>Ad slot</strong><span>970x250 / responsive</span></div>\n            </article>\n          </main>\n          <footer class=\"nx-footer\">...</footer>\n        </body></html>`;\n\n        return [{ json: { html, topic, slug: slugBase } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        560
+      ],
+      "id": "277eae47-38f8-49e8-b14a-0d923fef87d7",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $items().map(i => i.json);\n  const topic = ($json.topic || 'Daily Feature').toString();\n\n  function block(item) {\n    const cap = item.caption || '';\n    const url = item.url || '#';\n    const title = item.title || item.slug || 'Recipe';\n    return `<figure style=\"margin:12px 0;max-width:480px;\"><img src=\"/Images/banner_background.png\" alt=\"${title}\"\n  style=\"width:100%;height:auto;border-radius:12px;display:block;\">${cap ? `<figcaption class=\"nx-tagline\" style=\"margin-top:6px;\">${cap}</figcaption>` : ''}</figure><h3>${title}</h3><p>${item.blurb || ''}</p><p><a href=\"${url}\" target=\"_blank\"\n  rel=\"noopener\">Recipe link</a></p>`;\n  }\n\n  const body = items.map(block).join('\\n\\n');\n  const html = `<!doctype html>\n  <html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\">\n    <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">\n    <title>${topic} | Nexairi Mentis</title>\n    <link rel=\"stylesheet\" href=\"/css/styles.css\">\n  </head>\n  <body>\n    <main class=\"nx-shell\">\n      <article class=\"nx-article\">\n        <header><h1>${topic}</h1></header>\n        <section class=\"nx-article__body\">\n          ${body}\n        </section>\n      </article>\n    </main>\n  </body>\n  </html>`;\n\n  const slug = (topic)\n          .toString().toLowerCase()\n          .replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');\n  const isLast = (typeof $itemIndex === 'number') ? ($itemIndex === $items().length - 1) : true;\n  return isLast ? [{ json: { html, targetPath: `site/posts/${slug}.html`, topic } }] : [];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        464,
+        816
+      ],
+      "id": "89503b4e-595c-4436-b6de-738f33458192",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "jsCode": "const targetPath = $json.targetPath || \"site/posts/thanksgiving-turkey-main-dishes.html\";\nconst html = $json.html || \"\";\nconst topic = $json.topic || \"Daily Feature\";\n\nreturn [{ json: { targetPath, html, topic } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        192,
+        560
+      ],
+      "id": "7c54ba17-ecc0-4e60-9ba1-61c3b951751b",
+      "name": "Code in JavaScript4"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "simplysmartai",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "nexairi-site",
+          "mode": "name"
+        },
+        "filePath": "={{$json.targetPath || \"site/posts/delicious-thanksgiving-desserts.html\"}}",
+        "fileContent": "={{$json.html}}",
+        "commitMessage": "=Publish {{ $json.targetPath || \"site/posts/delicious-thanksgiving-desserts.html\" }}",
+        "additionalParameters": {
+          "branch": {
+            "branch": "main"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        672,
+        800
+      ],
+      "id": "dcd87d0d-84c1-474e-9c8e-1f95c23f530d",
+      "name": "Edit a file",
+      "webhookId": "f4489e21-3b1a-4a66-86c9-ac8b83e64253",
+      "credentials": {
+        "githubApi": {
+          "id": "EOtsvSkHtHWqitqs",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse LLM JSON -> emit one item per recipe for Code JS2\n        let raw = ($json.text || $json.output || $json.data || '').toString().trim();\n        if (!raw) throw new Error('Code JS1: No LLM text on text/output/data');\n        if (raw.startsWith('```')) raw = raw.replace(/^```[a-zA-Z]*\\n?/, '').replace(/```$/, '');\n        let parsed; try { parsed = JSON.parse(raw); } catch (e) {\n          throw new Error('Code JS1: JSON parse failed: ' + e.message + ' RAW: ' + raw.slice(0, 400));\n        }\n        if (!Array.isArray(parsed.items) || !parsed.items.length) throw new Error('Code JS1: No items[] in parsed JSON');\n        const topic = ($json.topic || '').toString();\n        return parsed.items\n          .filter(i => i && (i.title || i.slug) && /^https?:\\/\\//i.test(i.url || ''))\n          .map(i => ({ json: { ...i, topic } }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        224
+      ],
+      "id": "e5b89fac-03e7-4255-9193-bdcfa8a402e7",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "simplysmartai",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "nexairi-site",
+          "mode": "name"
+        },
+        "filePath": "={{ $json.targetPath }}",
+        "fileContent": "={{ $json.html }}",
+        "commitMessage": "=={{ 'Publish: ' + ($json.topic || $json.targetPath) }}"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        432,
+        560
+      ],
+      "id": "ced27cd9-e41f-4d85-87af-64ca4f7e22b7",
+      "name": "Off to Github",
+      "webhookId": "7402ad79-0fd1-4dea-8a15-9dba615a3656",
+      "credentials": {
+        "githubApi": {
+          "id": "EOtsvSkHtHWqitqs",
+          "name": "GitHub account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n  \"topic\": \"Turkey planning + alternative mains.\",\n  \"search_type\": \"recipes\"\n}\n\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        0
+      ],
+      "id": "001f69fe-095c-46ee-b5d4-c63edcdcfe16",
+      "name": "Inputs"
+    },
+    {
+      "parameters": {
+        "url": "https://www.googleapis.com/customsearch/v1",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "AIzaSyDyeH0MI6J957HOGKu63F8anZ3khSl3Gqw"
+            },
+            {
+              "name": "cx",
+              "value": "f264442c391154683"
+            },
+            {
+              "name": "q",
+              "value": "={{ $json.topic }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        448,
+        0
+      ],
+      "id": "6dba6c8b-1e5a-47d6-8c1d-1e29c3dceaf6",
+      "name": "Google CSE"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Collect links from CSE results, dedupe, filter\n  const itemsArr = $json.items || [];\n  const blacklist = [\n    /nytimes\\.com/,\n    /foodnetwork\\.com/,\n    /allrecipes\\.com/,\n    /bonappetit\\.com/,\n    /epicurious\\.com/,\n    /simplyrecipes\\.com/,\n    /delish\\.com/,\n    /facebook\\.com/,\n    /reddit\\.com/,\n    /thekitchn\\.com/\n  ]; // adjust as you like\n\n  const links = [];\n  for (const it of itemsArr) {\n    const url = it.link || it.url;\n    if (!url) continue;\n    if (blacklist.some(rx => rx.test(url))) continue;\n    links.push(url);\n  }\n\n  // dedupe and cap\n  const unique = [...new Set(links)].slice(0, 25);\n\n  return [{ json: { urls: unique, topic: $json.topic } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        0
+      ],
+      "id": "83858edc-2c61-44cd-b675-5568e764327a",
+      "name": "Link Collector"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Inputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Home LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Home LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        []
+      ]
+    },
+    "Code in JavaScript4": {
+      "main": [
+        [
+          {
+            "node": "Off to Github",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Inputs": {
+      "main": [
+        [
+          {
+            "node": "Google CSE",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google CSE": {
+      "main": [
+        [
+          {
+            "node": "Link Collector",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Link Collector": {
+      "main": [
+        [
+          {
+            "node": "Home LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d4a91585-a6d8-4226-93ad-33822b014af0",
+  "meta": {
+    "instanceId": "18650a3a25f34d23a1f16a85aac4f74537e19beebe36365643682167a5f77b99"
+  },
+  "id": "UwwLak9m7gZEMmnj",
+  "tags": []
+}

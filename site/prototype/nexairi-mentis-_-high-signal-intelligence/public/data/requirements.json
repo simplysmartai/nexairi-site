@@ -1,0 +1,30 @@
+{
+  "engineering": {
+    "hs_required": ["Algebra I & II", "Geometry", "Precalculus", "Chemistry", "Physics"],
+    "hs_recommended": ["Calculus AB/BC", "Computer Science Principles", "Engineering Design"],
+    "rigor_pref": ["AP Calculus BC", "AP Physics C", "AP Chemistry"],
+    "extracurriculars": ["Robotics Club", "Math Team", "Science Olympiad", "Maker Portfolio"],
+    "notes": "Calculus readiness is the #1 factor for engineering admissions."
+  },
+  "cs": {
+    "hs_required": ["Algebra I & II", "Geometry", "Precalculus", "Physics"],
+    "hs_recommended": ["AP Computer Science A", "Calculus", "Statistics"],
+    "rigor_pref": ["AP Calculus BC", "AP Physics 1/2", "Linear Algebra (Post-AP)"],
+    "extracurriculars": ["Hackathons", "Coding Projects", "Open Source Contrib", "USACO"],
+    "notes": "Math grades often matter more than CS grades."
+  },
+  "biology": {
+    "hs_required": ["Biology", "Chemistry", "Algebra II", "Precalculus"],
+    "hs_recommended": ["AP Biology", "AP Chemistry", "Statistics"],
+    "rigor_pref": ["AP Biology", "AP Chemistry", "Anatomy & Physiology"],
+    "extracurriculars": ["HOSA", "Research Internships", "Hospital Volunteering"],
+    "notes": "Lab experience is a strong differentiator."
+  },
+  "business": {
+    "hs_required": ["Algebra I & II", "Geometry", "Statistics", "English/Writing"],
+    "hs_recommended": ["AP Micro/Macro Economics", "Calculus", "Psychology"],
+    "rigor_pref": ["AP Statistics", "AP Calculus AB", "AP English Lang"],
+    "extracurriculars": ["DECA", "FBLA", "Student Government", "Entrepreneurship"],
+    "notes": "Demonstrated leadership is key alongside quantitative skills."
+  }
+}

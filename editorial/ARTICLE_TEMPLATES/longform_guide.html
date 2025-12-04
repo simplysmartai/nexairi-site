@@ -1,0 +1,29 @@
+<!-- Longform Guide Template (body-only HTML) -->
+<article>
+  <header>
+    <h1>{{title}}</h1>
+    <p>{{dek}}</p>
+  </header>
+  <section>
+    <figure>
+      <img src="/Images/banner_background.png" alt="{{alt}}">
+      <figcaption>Image prompt: {{image_prompt}}</figcaption>
+    </figure>
+    <p>{{lede}}</p>
+  </section>
+  {{#each sections}}
+  <section>
+    <h2>{{h2}}</h2>
+    {{{html}}}
+  </section>
+  {{/each}}
+  <section>
+    <h2>Sources & Verify</h2>
+    <ul>
+      {{#each citations}}
+      <li><a href="{{url}}" target="_blank" rel="noopener">{{label}}</a></li>
+      {{/each}}
+    </ul>
+  </section>
+</article>
+

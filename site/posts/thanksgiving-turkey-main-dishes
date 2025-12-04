@@ -9,8 +9,8 @@
       <div class="nx-header__inner">
         <div class="nx-brand">
           <a class="nx-logo-link" href="/">
-            <img class="nx-logo nx-logo--full" src="/images/nexairi_header_logo.png" alt="Nexairi logo">
-            <img class="nx-logo nx-logo--compact" src="/images/nexairi_header_logo.png" alt="Nexairi compact logo">
+            <img class="nx-logo nx-logo--full" src="/images/nexairi-mentis-logo-horizontal.png" alt="Nexairi logo">
+            <img class="nx-logo nx-logo--compact" src="/images/nexairi-mentis-logo-horizontal.png" alt="Nexairi compact logo">
           </a>
           <div>
             <p class="nx-eyebrow">Lifestyle</p>
@@ -66,7 +66,7 @@
 
 
             <figure style="margin:12px 0;max-width:640px;">
-              <img src="https://github.com/simplysmartai/nexairi-site/blob/main/site/Images/thanksgiving/homemade-turkey-gravy.png" alt="Rich Make-Ahead Turkey Gravy" style="width:100%;height:auto;border-
+              <img src="/Images/thanksgiving/homemade-turkey-gravy.png" alt="Rich Make-Ahead Turkey Gravy" style="width:100%;height:auto;border-
   radius:12px;display:block;">
               <figcaption class="nx-tagline" style="margin-top:6px;">Make-Ahead Gravy: Simmer 60 min, chill 2-3 days; reheat gently. (GF option)</figcaption>
             </figure>
@@ -76,7 +76,7 @@
 
 
             <figure style="margin:12px 0;max-width:640px;">
-              <img src="https://github.com/simplysmartai/nexairi-site/blob/main/site/Images/thanksgiving/salmon-lemon-dill.png" alt="Elegant Roasted Salmon with Lemon & Dill" style="width:100%;height:auto;border-
+              <img src="/Images/thanksgiving/salmon-lemon-dill.png" alt="Elegant Roasted Salmon with Lemon & Dill" style="width:100%;height:auto;border-
   radius:12px;display:block;">
               <figcaption class="nx-tagline" style="margin-top:6px;">Roasted Salmon Fillet, 400°F, 12-15 min. (DF/GF)</figcaption>
             </figure>

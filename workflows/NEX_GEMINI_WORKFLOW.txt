@@ -1,0 +1,201 @@
+{
+  "name": "Nexairi Auto-Publisher",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "On Chat Input",
+      "type": "n8n-nodes-base.chatTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "trigger-chat"
+    },
+    {
+      "parameters": {
+        "model": "gpt-4",
+        "messages": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are the Editor-in-Chief of Nexairi Mentis. Write a blog post object in strict JSON format based on the user's topic. \n\nOutput format:\n{\n  \"title\": \"String\",\n  \"slug\": \"kebab-case-string\",\n  \"excerpt\": \"Two sentence summary.\",\n  \"category\": \"Technology\" | \"Lifestyle\" | \"Travel\" | \"Sports\",\n  \"content\": \"<article>...HTML content...</article>\"\n}\n\nRules:\n1. Content must use <h3> for headers (no h1/h2).\n2. Use <p> tags for paragraphs.\n3. Keep tone sophisticated, tech-forward, and concise."
+            },
+            {
+              "role": "user",
+              "content": "={{ $json.chatInput }}"
+            }
+          ]
+        },
+        "jsonOutput": true
+      },
+      "name": "Write Article",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        200,
+        0
+      ],
+      "id": "ai-write"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "prompt": "=Editorial photography style, high end, minimalist, futuristic, for an article titled: {{ $json.title }}",
+        "n": 1,
+        "size": "1024x1024",
+        "responseFormat": "b64_json"
+      },
+      "name": "Generate Image",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [
+        400,
+        0
+      ],
+      "id": "ai-image"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "githubApi": "rest",
+        "resource": "file",
+        "operation": "create",
+        "owner": "YOUR_GITHUB_USERNAME",
+        "repository": "YOUR_REPO_NAME",
+        "filePath": "=public/Images/generated/{{ $json.slug }}.png",
+        "binaryData": true,
+        "commitMessage": "=Add image for {{ $json.slug }}"
+      },
+      "name": "Upload Image to GitHub",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        600,
+        0
+      ],
+      "id": "github-upload-image"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "githubApi": "rest",
+        "resource": "file",
+        "operation": "get",
+        "owner": "YOUR_GITHUB_USERNAME",
+        "repository": "YOUR_REPO_NAME",
+        "filePath": "posts.ts"
+      },
+      "name": "Get posts.ts",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        800,
+        0
+      ],
+      "id": "github-get-posts"
+    },
+    {
+      "parameters": {
+        "jsCode": "const oldFileContent = $input.all()[0].json.content;\n// Clean up the base64/binary content from file read to get pure string\nconst contentString = Buffer.from(oldFileContent, 'base64').toString('utf-8');\n\n// Extract the array part (rough parsing since it is TS file, not pure JSON)\nconst startMatch = contentString.indexOf('[');\nconst endMatch = contentString.lastIndexOf(']');\nconst currentArrayString = contentString.substring(startMatch, endMatch + 1);\n\n// We can't JSON.parse the TS file directly if it has comments or imports, \n// but for this automation we assume strict format. \n// Ideally, you'd use a regex to insert at the top.\n\nconst newPost = {\n  id: $node[\"Write Article\"].json.slug,\n  title: $node[\"Write Article\"].json.title,\n  slug: $node[\"Write Article\"].json.slug,\n  excerpt: $node[\"Write Article\"].json.excerpt,\n  category: $node[\"Write Article\"].json.category,\n  author: \"Nexairi AI\",\n  date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),\n  imageUrl: `/Images/generated/${$node[\"Write Article\"].json.slug}.png`,\n  content: $node[\"Write Article\"].json.content\n};\n\n// Construct the new file content by injecting the object at the start of the array\nconst newObjectString = JSON.stringify(newPost, null, 2);\nconst insertionPoint = contentString.indexOf('[');\nconst newFileContent = contentString.slice(0, insertionPoint + 1) + \n  `\\n  ${newObjectString},` + \n  contentString.slice(insertionPoint + 1);\n\nreturn { json: { newContent: newFileContent } };"
+      },
+      "name": "Append Post",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1000,
+        0
+      ],
+      "id": "code-append"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "githubApi": "rest",
+        "resource": "file",
+        "operation": "edit",
+        "owner": "YOUR_GITHUB_USERNAME",
+        "repository": "YOUR_REPO_NAME",
+        "filePath": "posts.ts",
+        "fileContent": "={{ $json.newContent }}",
+        "commitMessage": "=Publish article: {{ $node[\"Write Article\"].json.title }}"
+      },
+      "name": "Update posts.ts",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        0
+      ],
+      "id": "github-update-posts"
+    }
+  ],
+  "connections": {
+    "On Chat Input": {
+      "main": [
+        [
+          {
+            "node": "Write Article",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Article": {
+      "main": [
+        [
+          {
+            "node": "Generate Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Image": {
+      "main": [
+        [
+          {
+            "node": "Upload Image to GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Image to GitHub": {
+      "main": [
+        [
+          {
+            "node": "Get posts.ts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get posts.ts": {
+      "main": [
+        [
+          {
+            "node": "Append Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append Post": {
+      "main": [
+        [
+          {
+            "node": "Update posts.ts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

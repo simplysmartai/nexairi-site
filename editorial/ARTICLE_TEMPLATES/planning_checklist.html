@@ -1,0 +1,26 @@
+<!-- Planning Checklist Template (body-only HTML) -->
+<article>
+  <header>
+    <h1>{{title}}</h1>
+    <p>{{dek}}</p>
+  </header>
+  <section>
+    <h2>Timeline</h2>
+    <ul>
+      {{#each timeline}}<li><strong>{{when}}:</strong> {{what}}</li>{{/each}}
+    </ul>
+  </section>
+  <section>
+    <h2>Checklist</h2>
+    <ul>
+      {{#each checklist}}<li>{{this}}</li>{{/each}}
+    </ul>
+  </section>
+  <section>
+    <h2>What to do if…</h2>
+    <ul>
+      {{#each contingencies}}<li><strong>{{case}}:</strong> {{action}}</li>{{/each}}
+    </ul>
+  </section>
+</article>
+

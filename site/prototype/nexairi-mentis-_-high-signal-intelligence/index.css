@@ -1,0 +1,199 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0F19;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2A3447;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #06b6d4;
+}
+
+/* Base Styles */
+body {
+  background-color: #0B0F19;
+  color: #E2E8F0;
+}
+
+/* --- MAGAZINE CONTENT ENGINE --- */
+/* Styles for dynamically fetched HTML content */
+
+.magazine-content {
+  color: #cbd5e1;
+  font-size: 1.125rem;
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+.magazine-content h2 {
+  font-family: 'Merriweather', serif;
+  color: white;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.magazine-content h3 {
+  font-family: 'Merriweather', serif;
+  color: #e2e8f0;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.magazine-content p {
+  margin-bottom: 1.5rem;
+}
+
+.magazine-content strong, .magazine-content b {
+  color: white;
+  font-weight: 700;
+}
+
+.magazine-content ul {
+  list-style-type: none;
+  margin-bottom: 2rem;
+  padding-left: 0;
+}
+
+.magazine-content li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.magazine-content li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #06b6d4; /* brand-cyan */
+}
+
+.magazine-content a {
+  color: #06b6d4;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.magazine-content a:hover {
+  border-bottom-color: #06b6d4;
+}
+
+.magazine-content img {
+  width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(42, 52, 71, 0.5);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.magazine-content figcaption {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #94a3b8;
+  font-family: 'Fira Code', monospace;
+  margin-top: 0.75rem;
+}
+
+/* Series Navigation Button */
+.nx-series-nav {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid #2A3447;
+  text-align: center;
+}
+
+.nx-series-nav p {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.nx-btn {
+  display: inline-block;
+  background-color: transparent;
+  border: 1px solid #06b6d4;
+  color: #06b6d4;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+}
+
+.nx-btn:hover {
+  background-color: #06b6d4;
+  color: #0B0F19;
+  border-bottom-color: transparent; /* Override generic link style */
+}
+
+/* --- LEGACY COMPATIBILITY LAYER --- */
+/* Ensures old HTML files dropped into the system look native */
+
+.nx-article__body {
+  /* Maps legacy body to prose styles */
+  @apply text-lg text-gray-300 leading-relaxed font-light;
+}
+
+.nx-two-col {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .nx-two-col {
+    flex-direction: column;
+  }
+  .nx-two-col > div {
+    width: 100% !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important; /* Fix flex overflow */
+  }
+}
+
+.nx-tagline {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.875rem;
+  color: #94a3b8;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.nx-eyebrow {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #06b6d4;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+/* Clean up spacing in legacy files */
+.magazine-content .nx-article header,
+.magazine-content .nx-article__meta {
+  display: none; /* Hide duplicate headers inside content since we render them in React */
+}

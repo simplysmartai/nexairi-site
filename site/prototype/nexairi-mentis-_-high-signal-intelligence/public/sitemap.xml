@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Core Pages -->
+  <url>
+    <loc>https://www.nexairi.com/</loc>
+    <lastmod>2025-11-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.nexairi.com/mission</loc>
+    <lastmod>2025-11-24</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.nexairi.com/contact</loc>
+    <priority>0.5</priority>
+  </url>
+  
+  <!-- Posts -->
+  <url><loc>https://www.nexairi.com/#thanksgiving-signature-sides</loc></url>
+  <url><loc>https://www.nexairi.com/#thanksgiving-cozy-soups_new</loc></url>
+  <url><loc>https://www.nexairi.com/#thanksgiving-delicious-desserts</loc></url>
+  <url><loc>https://www.nexairi.com/#thanksgiving-turkey-main-dishes</loc></url>
+  <url><loc>https://www.nexairi.com/#thanksgiving-make-ahead-dishes</loc></url>
+  <url><loc>https://www.nexairi.com/#thanksgiving-game-plan</loc></url>
+  <url><loc>https://www.nexairi.com/#thanksgiving-day-guide</loc></url>
+  <url><loc>https://www.nexairi.com/#thanksgiving-leftovers-alchemy</loc></url>
+  <url><loc>https://www.nexairi.com/#ai-holiday-shopping-stack</loc></url>
+</urlset>
