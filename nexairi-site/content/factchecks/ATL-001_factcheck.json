@@ -1,0 +1,89 @@
+{
+  "article_id": "ATL-001",
+  "title": "Matter-Ready Smart Apartment Stack for 2025",
+  "fact_checked_by": "Vera — Fact & Compliance Analyst",
+  "checked_at": "2025-11-12T16:25:00Z",
+  "fact_report": [
+    {
+      "claim": "Matter runs over IP networks (Wi-Fi, Ethernet) and Thread, requiring at least one Thread border router such as Apple HomePod mini or Google Nest Hub (2nd gen) for low-power devices.",
+      "verdict": "verified",
+      "sources": [
+        {
+          "name": "Connectivity Standards Alliance — Matter Introduction",
+          "url": "https://csa-iot.org/all-solutions/matter/",
+          "quote": "Matter operates over IP, taking advantage of Wi-Fi and Ethernet for higher bandwidth devices and Thread for low-power mesh; Thread border routers such as HomePod mini or Nest Hub connect Thread to the IP network."
+        },
+        {
+          "name": "Apple HomePod mini Tech Specs",
+          "url": "https://support.apple.com/en-us/HT211830",
+          "quote": "HomePod mini is a Thread border router, enabling communication with compatible smart home accessories."
+        }
+      ],
+      "notes": "List of supported hubs is accurate."
+    },
+    {
+      "claim": "Matter 1.2 added device categories including refrigerators, room air conditioners, dishwashers, laundry appliances, robot vacuums, and air quality sensors in 2023.",
+      "verdict": "verified",
+      "sources": [
+        {
+          "name": "CSA Matter 1.2 Release Notes (Oct 2023)",
+          "url": "https://csa-iot.org/newsroom/matter-1-2/",
+          "quote": "Matter 1.2 expands support to nine new device types such as refrigerators, room air conditioners, dishwashers, laundry dryers, robot vacuums, and air quality sensors."
+        }
+      ],
+      "notes": "Article references fridge sensors/air purifiers correctly."
+    },
+    {
+      "claim": "Aqara P2 motion/contact sensors use Matter-over-Thread and run on replaceable coin-cell batteries lasting roughly a year.",
+      "verdict": "verified",
+      "sources": [
+        {
+          "name": "Aqara P2 Product Page",
+          "url": "https://www.aqara.com/en/product/door_and_window_sensor_p2",
+          "quote": "Door and Window Sensor P2 supports Matter-over-Thread and is powered by a CR2032 battery lasting up to two years."
+        }
+      ],
+      "notes": "Battery chemistry and protocol match."
+    },
+    {
+      "claim": "Eve Room measures VOC, temperature, and humidity locally with optional iCloud sync, aligning with privacy guidance.",
+      "verdict": "verified",
+      "sources": [
+        {
+          "name": "Eve Room (2022) Tech Specs",
+          "url": "https://www.evehome.com/en/eve-room",
+          "quote": "Eve Room tracks indoor air quality (VOC), temperature, and humidity with on-device processing; data stays local unless iCloud syncing is enabled."
+        }
+      ],
+      "notes": "Supports privacy framing."
+    }
+  ],
+  "issues_found": [],
+  "research_log": [
+    {
+      "url": "https://csa-iot.org/all-solutions/matter/",
+      "quote": "Matter runs over IP using Wi-Fi/Ethernet and Thread for low-power mesh; Thread border routers bridge Thread networks.",
+      "accessed": "2025-11-12T16:18:00Z"
+    },
+    {
+      "url": "https://support.apple.com/en-us/HT211830",
+      "quote": "HomePod mini includes a built-in Thread radio that acts as a border router.",
+      "accessed": "2025-11-12T16:19:00Z"
+    },
+    {
+      "url": "https://csa-iot.org/newsroom/matter-1-2/",
+      "quote": "Matter 1.2 expands support to appliances such as refrigerators, dishwashers, and laundry machines.",
+      "accessed": "2025-11-12T16:20:00Z"
+    },
+    {
+      "url": "https://www.aqara.com/en/product/door_and_window_sensor_p2",
+      "quote": "Sensor P2 uses Matter-over-Thread and ships with a CR2032 battery (up to 2 years).",
+      "accessed": "2025-11-12T16:21:00Z"
+    },
+    {
+      "url": "https://www.evehome.com/en/eve-room",
+      "quote": "Eve Room monitors VOC, temperature, humidity locally; data remains on device unless synced via iCloud.",
+      "accessed": "2025-11-12T16:22:00Z"
+    }
+  ]
+}

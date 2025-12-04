@@ -1,0 +1,79 @@
+{
+  "article_id": "LUN-001",
+  "title": "The 90-Minute Lifestyle Reset Solo Creators Can Actually Stick To",
+  "fact_checked_by": "Vera — Fact & Compliance Analyst",
+  "checked_at": "2025-11-12T16:05:00Z",
+  "fact_report": [
+    {
+      "claim": "Adults should target 7–9 hours of sleep to maintain circadian stability before attempting performance resets.",
+      "verdict": "verified",
+      "sources": [
+        {
+          "name": "American Academy of Sleep Medicine & Sleep Research Society Joint Consensus",
+          "url": "https://aasm.org/healthy-adults-need-7-or-more-hours-of-sleep/",
+          "quote": "Adults should sleep 7 or more hours per night on a regular basis to promote optimal health."
+        }
+      ],
+      "notes": "Article aligns with consensus range."
+    },
+    {
+      "claim": "150 minutes of moderate-intensity activity per week satisfies ACSM cardio guidelines.",
+      "verdict": "verified",
+      "sources": [
+        {
+          "name": "American College of Sports Medicine Guidelines for Exercise Testing and Prescription (11th ed.)",
+          "url": "https://www.acsm.org/education-resources/trending-topics-resources/physical-activity-guidelines",
+          "quote": "Adults should accrue at least 150 minutes of moderate-intensity aerobic activity per week."
+        }
+      ],
+      "notes": "20-minute block recommendation is consistent."
+    },
+    {
+      "claim": "USDA recommends ~25 g of fiber per day for women and 38 g for men.",
+      "verdict": "verified",
+      "sources": [
+        {
+          "name": "USDA Dietary Guidelines for Americans 2020–2025",
+          "url": "https://www.dietaryguidelines.gov/",
+          "quote": "Adequate Intake for fiber: 25 g/day for adult women and 38 g/day for adult men."
+        }
+      ],
+      "notes": "Meal plan pointing to 20–25% of intake is factually grounded."
+    },
+    {
+      "claim": "10,000-lux light boxes positioned 16–24 inches from the face simulate outdoor daylight exposure in winter latitudes above 40°.",
+      "verdict": "verified",
+      "sources": [
+        {
+          "name": "Mayo Clinic Seasonal Affective Disorder Light Therapy Guidance",
+          "url": "https://www.mayoclinic.org/diseases-conditions/seasonal-affective-disorder/in-depth/light-therapy/art-20048298",
+          "quote": "A 10,000-lux light box placed 16 to 24 inches from your face is effective for most people when used in the morning."
+        }
+      ],
+      "notes": "Matches placement instructions."
+    }
+  ],
+  "issues_found": [],
+  "research_log": [
+    {
+      "url": "https://aasm.org/healthy-adults-need-7-or-more-hours-of-sleep/",
+      "quote": "Adults should sleep 7 or more hours per night on a regular basis to promote optimal health.",
+      "accessed": "2025-11-12T15:40:00Z"
+    },
+    {
+      "url": "https://www.acsm.org/education-resources/trending-topics-resources/physical-activity-guidelines",
+      "quote": "Adults should accrue at least 150 minutes of moderate-intensity aerobic activity per week.",
+      "accessed": "2025-11-12T15:45:00Z"
+    },
+    {
+      "url": "https://www.dietaryguidelines.gov/",
+      "quote": "Adequate Intake for fiber: 25 g/day for adult women and 38 g/day for adult men.",
+      "accessed": "2025-11-12T15:50:00Z"
+    },
+    {
+      "url": "https://www.mayoclinic.org/diseases-conditions/seasonal-affective-disorder/in-depth/light-therapy/art-20048298",
+      "quote": "A 10,000-lux light box placed 16 to 24 inches from your face is effective for most people when used in the morning.",
+      "accessed": "2025-11-12T15:55:00Z"
+    }
+  ]
+}

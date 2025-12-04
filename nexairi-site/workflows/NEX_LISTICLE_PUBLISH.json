@@ -1,0 +1,392 @@
+{
+    "name":  "NEX_LISTICLE_PUBLISH",
+    "nodes":  [
+                  {
+                      "parameters":  {
+
+                                     },
+                      "id":  "cb991533-3250-4900-b932-2030272dda33",
+                      "name":  "Manual Trigger",
+                      "type":  "n8n-nodes-base.manualTrigger",
+                      "typeVersion":  1,
+                      "position":  [
+                                       -544,
+                                       64
+                                   ]
+                  },
+                  {
+                      "parameters":  {
+                                         "mode":  "raw",
+                                         "jsonOutput":  "{\n  \"topic\": \"Delicious Thanksgiving desserts that travel and can be made ahead of time\",\n  \"search_type\": \"recipes\"\n}\n\n",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.set",
+                      "typeVersion":  3.4,
+                      "position":  [
+                                       -320,
+                                       64
+                                   ],
+                      "id":  "8b559f43-a9ee-4525-be8b-419809ba9b88",
+                      "name":  "Edit Fields"
+                  },
+                  {
+                      "parameters":  {
+                                         "url":  "https://www.googleapis.com/customsearch/v1",
+                                         "sendQuery":  true,
+                                         "queryParameters":  {
+                                                                 "parameters":  [
+                                                                                    {
+                                                                                        "name":  "key",
+                                                                                        "value":  "AIzaSyDyeH0MI6J957HOGKu63F8anZ3khSl3Gqw"
+                                                                                    },
+                                                                                    {
+                                                                                        "name":  "cx",
+                                                                                        "value":  "f264442c391154683"
+                                                                                    },
+                                                                                    {
+                                                                                        "name":  "q",
+                                                                                        "value":  "={{ $json.topic }}"
+                                                                                    }
+                                                                                ]
+                                                             },
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "n8n-nodes-base.httpRequest",
+                      "typeVersion":  4.3,
+                      "position":  [
+                                       -96,
+                                       64
+                                   ],
+                      "id":  "dc96d10a-053d-4cfc-adb7-9f15cb9ea8ea",
+                      "name":  "HTTP Request"
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "// Collect links from CSE results, dedupe, filter\n  const itemsArr = $json.items || [];\n  const blacklist = [\n    /nytimes\\.com/,\n    /foodnetwork\\.com/,\n    /allrecipes\\.com/,\n    /bonappetit\\.com/,\n    /epicurious\\.com/,\n    /simplyrecipes\\.com/,\n    /delish\\.com/,\n    /thekitchn\\.com/\n  ]; // adjust as you like\n\n  const links = [];\n  for (const it of itemsArr) {\n    const url = it.link || it.url;\n    if (!url) continue;\n    if (blacklist.some(rx =\u003e rx.test(url))) continue;\n    links.push(url);\n  }\n\n  // dedupe and cap\n  const unique = [...new Set(links)].slice(0, 25);\n\n  return [{ json: { urls: unique, topic: $json.topic } }];"
+                                     },
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       128,
+                                       64
+                                   ],
+                      "id":  "9b6f7cd1-5e74-4f1c-b4a9-df289c5be5e4",
+                      "name":  "Code in JavaScript"
+                  },
+                  {
+                      "parameters":  {
+                                         "promptType":  "define",
+                                         "text":  "=You are Nexairi’s food blog writer. Return ONLY valid JSON in this shape:\n  {\n    \"items\": [\n      { \"slug\": \"...\", \"title\": \"...\", \"blurb\": \"...\", \"url\": \"...\", \"image_prompt\": \"...\", \"caption\": \"...\" }\n    ]\n  }\n\n  Topic: {{ $json.topic }}\n  Allowed_urls: {{ ($json.urls || []).join(\", \") }}\n  Pick the best 10 Thanksgiving desserts that can be made ahead (prefer overnight set-and-serve pies/tarts/cheesecakes; include 2-3 vegan/DF/GF options) using only Allowed_urls.\n\n  Rules:\n  - Each blurb: 3–4 sentences, warm/persuasive; include make-ahead note (overnight set/chill) and a travel/storage tip.\n  - Slugs URL-safe.\n  - No prose outside the JSON object.\n  - Links must be the actual recipe page (not listicles, category pages, or homepages); skip any URL that does not load or returns an error.\n  - Prefer pages exposing Schema.org Recipe (JSON-LD) with ingredients/instructions; require aggregateRating \u003e= 4.4 with 100+  ratings when available, otherwise choose the most authoritative recipe source.",
+                                         "messages":  {
+                                                          "messageValues":  [
+                                                                                {
+                                                                                    "message":  "=You are Nexairi’s food blog writer. Return ONLY valid JSON in this shape:\n  {\n    \"items\": [\n      { \"slug\": \"...\", \"title\": \"...\", \"blurb\": \"...\", \"url\": \"...\", \"image_prompt\": \"...\", \"caption\": \"...\" }\n    ]\n  }\n\n  Topic: {{ $json.topic }}\n  Allowed_urls: {{ ($json.urls || []).join(\", \") }}\n  Pick the best 10 Thanksgiving desserts that can be made ahead (prefer overnight set-and-serve pies/tarts/cheesecakes; include 2-3 vegan/DF/GF options) using only Allowed_urls.\n\n  Rules:\n  - Each blurb: 3–4 sentences, warm/persuasive; include make-ahead note (overnight set/chill) and a travel/storage tip.\n  - Slugs URL-safe.\n  - No prose outside the JSON object.\n  - Links must be the actual recipe page (not listicles, category pages, or homepages); skip any URL that does not load or returns an error.\n  - Prefer pages exposing Schema.org Recipe (JSON-LD) with ingredients/instructions; require aggregateRating \u003e= 4.4 with 100+  ratings when available, otherwise choose the most authoritative recipe source."
+                                                                                }
+                                                                            ]
+                                                      },
+                                         "batching":  {
+
+                                                      }
+                                     },
+                      "type":  "@n8n/n8n-nodes-langchain.chainLlm",
+                      "typeVersion":  1.7,
+                      "position":  [
+                                       432,
+                                       80
+                                   ],
+                      "id":  "821dfd75-af8c-4acc-b0ef-16456a8fc56c",
+                      "name":  "Home LLM Chain"
+                  },
+                  {
+                      "parameters":  {
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "type":  "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+                      "typeVersion":  1,
+                      "position":  [
+                                       432,
+                                       336
+                                   ],
+                      "id":  "7f326fe8-fbe0-4c39-b65a-213a309ce900",
+                      "name":  "Google Gemini Chat Model",
+                      "credentials":  {
+                                          "googlePalmApi":  {
+                                                                "id":  "uQyMxt2p8Tp4INB8",
+                                                                "name":  "Google Gemini(PaLM) Api account"
+                                                            }
+                                      }
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "const items = $items().map(i =\u003e i.json);\n        const topic = (items.find(i =\u003e i.topic)?.topic) || \u0027Daily Feature\u0027;\n        const tags = [\u0027thanksgiving\u0027,\u0027recipes\u0027,\u0027lifestyle\u0027].join(\u0027 · \u0027);\n        const slugBase = (items[0]?.slug || topic)\n          .toString().toLowerCase().replace(/[^a-z0-9]+/g,\u0027-\u0027).replace(/(^-|-$)/g,\u0027\u0027);\n\n        function block(it){\n          const title = it.title || it.slug || \u0027Recipe\u0027;\n          const blurb = it.blurb || \u0027\u0027;\n          const url = it.url || \u0027#\u0027;\n          const cap = it.caption || \u0027\u0027;\n          return `\n            \u003cfigure style=\"margin:12px 0;max-width:640px;\"\u003e\n              \u003cimg src=\"/Images/banner_background.png\" alt=\"${title}\" style=\"width:100%;height:auto;border-\n  radius:12px;display:block;\"\u003e\n              ${cap ? `\u003cfigcaption class=\"nx-tagline\" style=\"margin-top:6px;\"\u003e${cap}\u003c/figcaption\u003e` : \u0027\u0027}\n            \u003c/figure\u003e\n            \u003ch3\u003e${title}\u003c/h3\u003e\n            \u003cp\u003e${blurb}\u003c/p\u003e\n            \u003cp\u003e\u003ca href=\"${url}\" target=\"_blank\" rel=\"noopener\"\u003eRecipe link\u003c/a\u003e\u003c/p\u003e`;\n        }\n        const body = items.map(block).join(\u0027\\n\\n\u0027);\n\n        const html = `\u003c!doctype html\u003e\n        \u003chtml lang=\"en\"\u003e\u003chead\u003e\n          \u003cmeta charset=\"utf-8\"\u003e\u003cmeta name=\"viewport\" content=\"width=device-width,initial-scale=1\"\u003e\n          \u003ctitle\u003e${topic} | Nexairi Mentis\u003c/title\u003e\n          \u003clink rel=\"stylesheet\" href=\"/css/styles.css\"\u003e\n          \u003clink rel=\"icon\" type=\"image/png\" href=\"/Images/nexairi-mentis-favicon.png\"\u003e\n        \u003c/head\u003e\u003cbody\u003e\n          \u003cheader class=\"nx-header\"\u003e...\u003c/header\u003e\n          \u003cmain class=\"nx-shell\"\u003e\n            \u003carticle class=\"nx-article\"\u003e\n              \u003cheader\u003e\u003ch1\u003e${topic}\u003c/h1\u003e\u003c/header\u003e\n              \u003csection class=\"nx-article__meta\"\u003e\u003cspan class=\"nx-eyebrow\"\u003eBy Sarah R. · 7 min read\u003c/span\u003e\u003c/section\u003e\n              \u003csection class=\"nx-article__body\"\u003e${body}\u003c/section\u003e\n              \u003cp class=\"nx-eyebrow\" style=\"margin:12px 0 8px 0;\"\u003eTAGS: ${tags}\u003c/p\u003e\n              \u003cdiv style=\"border-top:1px solid rgba(15,23,40,0.1);margin:24px 0;\"\u003e\u003c/div\u003e\n              \u003cdiv class=\"nx-ad\" style=\"margin:0 0 16px 0;\"\u003e\u003cstrong\u003eAd slot\u003c/strong\u003e\u003cspan\u003e970x250 / responsive\u003c/span\u003e\u003c/div\u003e\n            \u003c/article\u003e\n          \u003c/main\u003e\n          \u003cfooter class=\"nx-footer\"\u003e...\u003c/footer\u003e\n        \u003c/body\u003e\u003c/html\u003e`;\n\n        return [{ json: { html, topic, slug: slugBase } }];"
+                                     },
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       -608,
+                                       624
+                                   ],
+                      "id":  "a1076d2e-2e76-46a4-8ffd-3cb9f7957089",
+                      "name":  "Code in JavaScript2"
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "const items = $items().map(i =\u003e i.json);\n  const topic = ($json.topic || \u0027Daily Feature\u0027).toString();\n\n  function block(item) {\n    const cap = item.caption || \u0027\u0027;\n    const url = item.url || \u0027#\u0027;\n    const title = item.title || item.slug || \u0027Recipe\u0027;\n    return `\u003cfigure style=\"margin:12px 0;max-width:480px;\"\u003e\u003cimg src=\"/Images/banner_background.png\" alt=\"${title}\"\n  style=\"width:100%;height:auto;border-radius:12px;display:block;\"\u003e${cap ? `\u003cfigcaption class=\"nx-tagline\" style=\"margin-top:6px;\"\u003e${cap}\u003c/figcaption\u003e` : \u0027\u0027}\u003c/figure\u003e\u003ch3\u003e${title}\u003c/h3\u003e\u003cp\u003e${item.blurb || \u0027\u0027}\u003c/p\u003e\u003cp\u003e\u003ca href=\"${url}\" target=\"_blank\"\n  rel=\"noopener\"\u003eRecipe link\u003c/a\u003e\u003c/p\u003e`;\n  }\n\n  const body = items.map(block).join(\u0027\\n\\n\u0027);\n  const html = `\u003c!doctype html\u003e\n  \u003chtml lang=\"en\"\u003e\n  \u003chead\u003e\n    \u003cmeta charset=\"utf-8\"\u003e\n    \u003cmeta name=\"viewport\" content=\"width=device-width,initial-scale=1\"\u003e\n    \u003ctitle\u003e${topic} | Nexairi Mentis\u003c/title\u003e\n    \u003clink rel=\"stylesheet\" href=\"/css/styles.css\"\u003e\n  \u003c/head\u003e\n  \u003cbody\u003e\n    \u003cmain class=\"nx-shell\"\u003e\n      \u003carticle class=\"nx-article\"\u003e\n        \u003cheader\u003e\u003ch1\u003e${topic}\u003c/h1\u003e\u003c/header\u003e\n        \u003csection class=\"nx-article__body\"\u003e\n          ${body}\n        \u003c/section\u003e\n      \u003c/article\u003e\n    \u003c/main\u003e\n  \u003c/body\u003e\n  \u003c/html\u003e`;\n\n  const slug = (topic)\n          .toString().toLowerCase()\n          .replace(/[^a-z0-9]+/g,\u0027-\u0027).replace(/(^-|-$)/g,\u0027\u0027);\n  const isLast = (typeof $itemIndex === \u0027number\u0027) ? ($itemIndex === $items().length - 1) : true;\n  return isLast ? [{ json: { html, targetPath: `site/posts/${slug}.html`, topic } }] : [];"
+                                     },
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       -384,
+                                       624
+                                   ],
+                      "id":  "ff2f4ff1-950e-4ed0-bc81-b8684983ca6a",
+                      "name":  "Code in JavaScript3"
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "const targetPath = $json.targetPath || \"site/posts/delicious-thanksgiving-desserts.html\";\n  const html = $json.html || \"\"; // make sure the previous node outputs `html`\n\n  return [{ json: { targetPath, html } }];"
+                                     },
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       -160,
+                                       624
+                                   ],
+                      "id":  "64200afd-e463-442a-bf51-34ce0c8451aa",
+                      "name":  "Code in JavaScript4"
+                  },
+                  {
+                      "parameters":  {
+                                         "resource":  "file",
+                                         "operation":  "create",
+                                         "owner":  {
+                                                       "__rl":  true,
+                                                       "value":  "simplysmartai",
+                                                       "mode":  "name"
+                                                   },
+                                         "repository":  {
+                                                            "__rl":  true,
+                                                            "value":  "nexairi-site",
+                                                            "mode":  "name"
+                                                        },
+                                         "filePath":  "={{$json.targetPath || \"site/posts/delicious-thanksgiving-desserts.html\"}}",
+                                         "fileContent":  "={{$json.html}}",
+                                         "commitMessage":  "=Publish {{ $json.targetPath || \"site/posts/delicious-thanksgiving-desserts.html\" }}",
+                                         "additionalParameters":  {
+                                                                      "branch":  {
+                                                                                     "branch":  "main"
+                                                                                 }
+                                                                  }
+                                     },
+                      "type":  "n8n-nodes-base.github",
+                      "typeVersion":  1.1,
+                      "position":  [
+                                       128,
+                                       864
+                                   ],
+                      "id":  "f70f4028-1ca4-47e0-9c28-ab217725bf9c",
+                      "name":  "Edit a file",
+                      "webhookId":  "f4489e21-3b1a-4a66-86c9-ac8b83e64253",
+                      "credentials":  {
+                                          "githubApi":  {
+                                                            "id":  "EOtsvSkHtHWqitqs",
+                                                            "name":  "GitHub account"
+                                                        }
+                                      }
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "// Parse LLM JSON -\u003e emit one item per recipe for Code JS2\n        let raw = ($json.text || $json.output || $json.data || \u0027\u0027).toString().trim();\n        if (!raw) throw new Error(\u0027Code JS1: No LLM text on text/output/data\u0027);\n        if (raw.startsWith(\u0027```\u0027)) raw = raw.replace(/^```[a-zA-Z]*\\n?/, \u0027\u0027).replace(/```$/, \u0027\u0027);\n        let parsed; try { parsed = JSON.parse(raw); } catch (e) {\n          throw new Error(\u0027Code JS1: JSON parse failed: \u0027 + e.message + \u0027 RAW: \u0027 + raw.slice(0, 400));\n        }\n        if (!Array.isArray(parsed.items) || !parsed.items.length) throw new Error(\u0027Code JS1: No items[] in parsed JSON\u0027);\n        const topic = ($json.topic || \u0027\u0027).toString();\n        return parsed.items\n          .filter(i =\u003e i \u0026\u0026 (i.title || i.slug) \u0026\u0026 /^https?:\\/\\//i.test(i.url || \u0027\u0027))\n          .map(i =\u003e ({ json: { ...i, topic } }));"
+                                     },
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       640,
+                                       320
+                                   ],
+                      "id":  "5e74f62c-6d27-41dd-a9f2-a5e08c2e5f27",
+                      "name":  "Code in JavaScript1"
+                  },
+                  {
+                      "parameters":  {
+                                         "resource":  "file",
+                                         "operation":  "create",
+                                         "owner":  {
+                                                       "__rl":  true,
+                                                       "value":  "simplysmartai",
+                                                       "mode":  "name"
+                                                   },
+                                         "repository":  {
+                                                            "__rl":  true,
+                                                            "value":  "nexairi-site",
+                                                            "mode":  "name"
+                                                        },
+                                         "filePath":  "={{ \u0027site/posts/\u0027 + $now.format(\u0027YYYYMMDD\u0027) + \u0027-\u0027 + ($json.slug || $json.topic || \u0027nexairi-article\u0027).toString().toLowerCase().replace(/[^a-z0-9]+/g,\u0027-\u0027).replace(/(^-|-$)/g,\u0027\u0027) + \u0027.html\u0027 }}",
+                                         "fileContent":  "={{ $json.html }}",
+                                         "commitMessage":  "={{ \u0027Publish: \u0027 + ($json.topic || $json.targetPath) }}",
+                                         "additionalParameters":  {
+                                                                      "branch":  {
+                                                                                     "branch":  "main"
+                                                                                 }
+                                                                  }
+                                     },
+                      "type":  "n8n-nodes-base.github",
+                      "typeVersion":  1.1,
+                      "position":  [
+                                       112,
+                                       624
+                                   ],
+                      "id":  "6dd29171-c3f3-4966-a911-df08115a3ba6",
+                      "name":  "Off to Github",
+                      "webhookId":  "7402ad79-0fd1-4dea-8a15-9dba615a3656",
+                      "credentials":  {
+                                          "githubApi":  {
+                                                            "id":  "EOtsvSkHtHWqitqs",
+                                                            "name":  "GitHub account"
+                                                        }
+                                      },
+                      "onError":  "continueRegularOutput"
+                  }
+              ],
+    "pinData":  {
+
+                },
+    "connections":  {
+                        "Manual Trigger":  {
+                                               "main":  [
+                                                            [
+                                                                {
+                                                                    "node":  "Edit Fields",
+                                                                    "type":  "main",
+                                                                    "index":  0
+                                                                }
+                                                            ]
+                                                        ]
+                                           },
+                        "Edit Fields":  {
+                                            "main":  [
+                                                         [
+                                                             {
+                                                                 "node":  "HTTP Request",
+                                                                 "type":  "main",
+                                                                 "index":  0
+                                                             }
+                                                         ]
+                                                     ]
+                                        },
+                        "HTTP Request":  {
+                                             "main":  [
+                                                          [
+                                                              {
+                                                                  "node":  "Code in JavaScript",
+                                                                  "type":  "main",
+                                                                  "index":  0
+                                                              }
+                                                          ]
+                                                      ]
+                                         },
+                        "Code in JavaScript":  {
+                                                   "main":  [
+                                                                [
+                                                                    {
+                                                                        "node":  "Home LLM Chain",
+                                                                        "type":  "main",
+                                                                        "index":  0
+                                                                    }
+                                                                ]
+                                                            ]
+                                               },
+                        "Google Gemini Chat Model":  {
+                                                         "ai_languageModel":  [
+                                                                                  [
+                                                                                      {
+                                                                                          "node":  "Home LLM Chain",
+                                                                                          "type":  "ai_languageModel",
+                                                                                          "index":  0
+                                                                                      }
+                                                                                  ]
+                                                                              ]
+                                                     },
+                        "Home LLM Chain":  {
+                                               "main":  [
+                                                            [
+                                                                {
+                                                                    "node":  "Code in JavaScript1",
+                                                                    "type":  "main",
+                                                                    "index":  0
+                                                                }
+                                                            ]
+                                                        ]
+                                           },
+                        "Code in JavaScript2":  {
+                                                    "main":  [
+                                                                 [
+                                                                     {
+                                                                         "node":  "Off to Github",
+                                                                         "type":  "main",
+                                                                         "index":  0
+                                                                     }
+                                                                 ]
+                                                             ]
+                                                },
+                        "Code in JavaScript3":  {
+                                                    "main":  [
+                                                                 [
+                                                                     {
+                                                                         "node":  "Code in JavaScript4",
+                                                                         "type":  "main",
+                                                                         "index":  0
+                                                                     }
+                                                                 ]
+                                                             ]
+                                                },
+                        "Code in JavaScript4":  {
+                                                    "main":  [
+                                                                 [
+                                                                     {
+                                                                         "node":  "Off to Github",
+                                                                         "type":  "main",
+                                                                         "index":  0
+                                                                     }
+                                                                 ]
+                                                             ]
+                                                },
+                        "Code in JavaScript1":  {
+                                                    "main":  [
+                                                                 [
+                                                                     {
+                                                                         "node":  "Code in JavaScript2",
+                                                                         "type":  "main",
+                                                                         "index":  0
+                                                                     }
+                                                                 ]
+                                                             ]
+                                                },
+                        "Off to Github":  {
+                                              "main":  [
+                                                           [
+
+                                                           ]
+                                                       ]
+                                          }
+                    },
+    "active":  false,
+    "settings":  {
+                     "executionOrder":  "v1"
+                 },
+    "versionId":  "b5d773ed-d83e-4f02-917f-ce01027b9653",
+    "meta":  {
+                 "templateCredsSetupCompleted":  true,
+                 "instanceId":  "18650a3a25f34d23a1f16a85aac4f74537e19beebe36365643682167a5f77b99"
+             },
+    "id":  "vIXKOmGL2EXrUTVp",
+    "tags":  [
+
+             ]
+}

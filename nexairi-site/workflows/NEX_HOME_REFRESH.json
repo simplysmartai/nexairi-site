@@ -1,0 +1,127 @@
+{
+  "name": "NEX_HOME_REFRESH",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": 1,
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent",
+        "jsonParameters": true,
+        "options": {
+          "bodyContentType": "json",
+          "responseFormat": "json"
+        },
+        "queryParametersUi": {
+          "parameter": [
+            {
+              "name": "key",
+              "value": "={{$env.GEMINI_API_KEY}}"
+            }
+          ]
+        },
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "bodyParametersJson": "{\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        {\n          \"text\": \"Use the Nexairi Mentis homepage spec to generate the full homepage_content.json. Return ONLY the JSON object.\"\n        }\n      ]\n    }\n  ]\n}"
+      },
+      "id": 2,
+      "name": "Codex Homepage Content",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        -380,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "const payload = items[0].json;\nconst parts = payload?.candidates?.[0]?.content?.parts;\nconst content = Array.isArray(parts)\n  ? parts.map(part => part.text || '').join('').trim()\n  : '';\nif (!content) {\n  throw new Error('Gemini response missing text content.');\n}\nlet parsed;\ntry {\n  parsed = JSON.parse(content);\n} catch (error) {\n  throw new Error('Failed to parse Gemini JSON: ' + error.message);\n}\nreturn [{ json: parsed }];"
+      },
+      "id": 3,
+      "name": "Extract JSON",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "createOrUpdate",
+        "owner": "simplysmartai",
+        "repository": "nexairi-site",
+        "filePath": "data/homepage_content.json",
+        "branch": "main",
+        "fileContent": "={{JSON.stringify($json, null, 2)}}",
+        "commitTitle": "Update homepage content via NEX_HOME_REFRESH",
+        "additionalFields": {}
+      },
+      "id": 4,
+      "name": "Update homepage_content.json",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        140,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Codex Homepage Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Codex Homepage Content": {
+      "main": [
+        [
+          {
+            "node": "Extract JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract JSON": {
+      "main": [
+        [
+          {
+            "node": "Update homepage_content.json",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "staticData": {},
+  "pinData": {},
+  "id": "NEX_HOME_REFRESH",
+  "versionId": "v1"
+}
