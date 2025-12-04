@@ -6,6 +6,8 @@ import { pathToFileURL } from 'node:url';
 import OpenAI from 'openai';
 import { perplexity } from '@ai-sdk/perplexity';
 import { GoogleGenerativeAI } from '@google/genai';
+import { FALLBACK_POST_IMAGE } from '../constants/media.ts';
+import { enforceAffiliateCompliance } from '../utils/affiliate.ts';
 
 const REQUIRED_ENV = ['OPENAI_API_KEY'] as const;
 REQUIRED_ENV.forEach((key) => {
@@ -29,21 +31,29 @@ const GENRE_PROFILES = {
     author: 'Nexairi Lifestyle',
     tone: 'calm, design-forward, practical empathy',
     tags: ['lifestyle', 'rituals', 'calm'],
+    category: 'Lifestyle',
+    fallbackImage: FALLBACK_POST_IMAGE,
   },
   technology: {
     author: 'Nexairi Technology',
     tone: 'analytical, systems-minded, quietly ambitious',
     tags: ['technology', 'ai', 'systems'],
+    category: 'Technology',
+    fallbackImage: FALLBACK_POST_IMAGE,
   },
   travel: {
     author: 'Nexairi Travel',
     tone: 'sensory detail, logistics clarity, modern nomad',
     tags: ['travel', 'mobility', 'cities'],
+    category: 'Travel',
+    fallbackImage: FALLBACK_POST_IMAGE,
   },
   sports: {
     author: 'Nexairi Sports Lab',
     tone: 'performance-first, human + algorithmic edge',
     tags: ['sports', 'performance', 'analysis'],
+    category: 'Sports',
+    fallbackImage: FALLBACK_POST_IMAGE,
   },
 } as const;
 
@@ -63,6 +73,15 @@ interface DraftPayload {
     slug?: string;
     summary: string;
     tags: string[];
+    category?: string;
+    excerpt?: string;
+    imageUrl?: string;
+    isFeatured?: boolean;
+    metaDescription?: string;
+    heroAlt?: string;
+    heroCredit?: string;
+    imagePrompt?: string;
+    affiliateDisclosure?: boolean;
   };
   html: string;
 }
@@ -72,6 +91,20 @@ interface MetaPayload {
   heroAlt: string;
   imagePrompt: string;
 }
+
+interface CopyReviewPayload {
+  html: string;
+  notes?: string[];
+  warnings?: string[];
+}
+
+interface ImageSuggestion {
+  imageUrl: string;
+  alt: string;
+  credit?: string;
+  prompt?: string;
+}
+
 
 function parseArgs(): { topic?: string; genre: GenreKey } {
   const args = process.argv.slice(2);
@@ -182,8 +215,64 @@ frontmatter must include title, slug, summary (<=160 chars), tags array (3-6, lo
   parsed.frontmatter.slug = slug;
   parsed.frontmatter.summary = parsed.frontmatter.summary?.slice(0, 160) ?? '';
   parsed.frontmatter.tags = parsed.frontmatter.tags?.map((tag) => tag.toLowerCase()) ?? [...profile.tags];
+  parsed.frontmatter.category = parsed.frontmatter.category || profile.category;
+  parsed.frontmatter.excerpt =
+    parsed.frontmatter.summary ||
+    stripHtml(extractPreviewHtml(parsed.html)).slice(0, 200) ||
+    'High-signal intelligence dispatch.';
+  parsed.frontmatter.imageUrl = parsed.frontmatter.imageUrl || profile.fallbackImage;
 
   return parsed;
+}
+
+async function runCopyReviewAgent(
+  topic: string,
+  genre: GenreKey,
+  html: string,
+): Promise<CopyReviewPayload | null> {
+  console.log('🕵️  Running copy-review agent…');
+  try {
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      temperature: 0.25,
+      response_format: { type: 'json_object' },
+      messages: [
+        {
+          role: 'system',
+          content:
+            "You are Nexairi's executive editor. Polish the article HTML without removing structure, tighten language, enforce tone guidelines, and call out missing disclosures.",
+        },
+        {
+          role: 'user',
+          content: JSON.stringify({ topic, genre, html }),
+        },
+      ],
+    });
+
+    const payload = completion.choices[0].message?.content;
+    if (!payload) return null;
+    const parsed = JSON.parse(payload) as CopyReviewPayload;
+    if (!parsed.html) return null;
+    if (parsed.notes?.length) {
+      console.log(`   → Copy review notes: ${parsed.notes.join(' | ')}`);
+    }
+    if (parsed.warnings?.length) {
+      parsed.warnings.forEach((warning) => console.warn(`   ⚠️  Copy review warning: ${warning}`));
+    }
+    return parsed;
+  } catch (error) {
+    console.warn('Copy-review agent failed, using draft HTML.', error);
+    return null;
+  }
+}
+
+function extractPreviewHtml(html: string): string {
+  const articleMatch = html.match(/<article[^>]*>([\s\S]*?)<\/article>/i);
+  return articleMatch ? articleMatch[1] : html;
+}
+
+function stripHtml(value: string): string {
+  return value.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
 async function buildMetaAssets(topic: string, html: string): Promise<MetaPayload | null> {
@@ -211,13 +300,78 @@ Preview HTML: ${html.slice(0, 2000)}`;
   }
 }
 
-function serializeFrontmatter(frontmatter: Record<string, string | string[]>) {
+function buildImageProxyUrl(keywords: string[], genre: GenreKey): string {
+  const query = keywords.length ? keywords.join(',') : genre;
+  return `https://source.unsplash.com/1600x900/?${encodeURIComponent(query)}`;
+}
+
+async function suggestHeroImage(topic: string, genre: GenreKey, html: string): Promise<ImageSuggestion | null> {
+  console.log('🖼️  Requesting image-sourcing agent guidance…');
+  try {
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      temperature: 0.35,
+      response_format: { type: 'json_object' },
+      messages: [
+        {
+          role: 'system',
+          content:
+            'You are Nexairi\'s visual editor. Recommend a single hero image concept with alt text and style keywords. Prefer modern editorial photography.',
+        },
+        {
+          role: 'user',
+          content: JSON.stringify({
+            topic,
+            genre,
+            excerpt: stripHtml(extractPreviewHtml(html)).slice(0, 400),
+          }),
+        },
+      ],
+    });
+
+    const payload = completion.choices[0].message?.content;
+    if (!payload) return null;
+    const parsed = JSON.parse(payload) as {
+      alt?: string;
+      credit?: string;
+      prompt?: string;
+      styleKeywords?: string[];
+      imageUrl?: string;
+    };
+
+    const keywords = Array.isArray(parsed.styleKeywords) ? parsed.styleKeywords.filter(Boolean) : [];
+    const imageUrl = parsed.imageUrl || buildImageProxyUrl(keywords, genre);
+    const alt = parsed.alt?.trim() || `${topic} — ${genre} visual.`;
+    return {
+      imageUrl,
+      alt,
+      credit: parsed.credit?.trim(),
+      prompt: parsed.prompt?.trim() || keywords.join(', '),
+    };
+  } catch (error) {
+    console.warn('Image-sourcing agent failed, falling back to default artwork.', error);
+    return null;
+  }
+}
+
+function logAffiliateCompliance(affiliateLinks: number, disclosureInserted: boolean): void {
+  if (disclosureInserted) {
+    console.log('ℹ️  Affiliate disclosure appended to article.');
+  }
+  if (affiliateLinks > 0) {
+    console.log(`ℹ️  Normalized ${affiliateLinks} Amazon link(s) with tracking tag.`);
+  }
+}
+
+function serializeFrontmatter(frontmatter: Record<string, string | string[] | boolean>) {
   const lines: string[] = ['---'];
   Object.entries(frontmatter).forEach(([key, value]) => {
     if (Array.isArray(value)) {
       if (value.length === 0) return;
       lines.push(`${key}:`);
       value.forEach((item) => lines.push(`  - "${item}"`));
+    } else if (typeof value === 'boolean') {
+      lines.push(`${key}: ${value}`);
     } else {
       lines.push(`${key}: "${value.replace(/"/g, '\\"')}"`);
     }
@@ -231,16 +385,27 @@ async function persistArticle(frontmatter: DraftPayload['frontmatter'], html: st
     const profileTags = [...profile.tags];
     return profileTags.some((tag) => frontmatter.tags.includes(tag));
   });
+  const heroAlt = frontmatter.heroAlt || meta?.heroAlt;
+  const heroCredit = frontmatter.heroCredit;
+  const imagePrompt = frontmatter.imagePrompt || meta?.imagePrompt;
+  const metaDescription = frontmatter.metaDescription || meta?.metaDescription;
+
   const fm = {
     title: frontmatter.title,
     slug: frontmatter.slug!,
     date: new Date().toISOString(),
     author: genreProfile?.author || 'Nexairi Editorial',
     summary: frontmatter.summary || 'High-signal intelligence.',
+    excerpt: frontmatter.excerpt || frontmatter.summary || 'High-signal intelligence dispatch.',
+    category: frontmatter.category || genreProfile?.category || 'Lifestyle',
     tags: frontmatter.tags,
-    ...(meta?.metaDescription ? { metaDescription: meta.metaDescription } : {}),
-    ...(meta?.heroAlt ? { heroAlt: meta.heroAlt } : {}),
-    ...(meta?.imagePrompt ? { imagePrompt: meta.imagePrompt } : {}),
+    imageUrl: frontmatter.imageUrl || FALLBACK_POST_IMAGE,
+    isFeatured: frontmatter.isFeatured ?? false,
+    ...(metaDescription ? { metaDescription } : {}),
+    ...(heroAlt ? { heroAlt } : {}),
+    ...(heroCredit ? { heroCredit } : {}),
+    ...(imagePrompt ? { imagePrompt } : {}),
+    ...(frontmatter.affiliateDisclosure ? { affiliateDisclosure: true } : {}),
   };
 
   const output = `${serializeFrontmatter(fm)}\n\n${html.trim()}\n`;
@@ -269,8 +434,28 @@ export async function runGeneratePost(options: GenerateOptions = {}) {
   const topic = options.topic ?? (await pickTopic(genre));
   const research = await researchTopic(topic, genre);
   const draft = await draftArticle(topic, genre, research);
-  const meta = await buildMetaAssets(topic, draft.html);
-  await persistArticle(draft.frontmatter, draft.html, meta);
+  const review = await runCopyReviewAgent(topic, genre, draft.html);
+  const reviewedHtml = review?.html?.trim() || draft.html;
+  const compliance = enforceAffiliateCompliance(reviewedHtml);
+  logAffiliateCompliance(compliance.affiliateLinks, compliance.disclosureInserted);
+  if (compliance.affiliateLinks > 0) {
+    draft.frontmatter.affiliateDisclosure = true;
+  }
+  const imageSuggestion = await suggestHeroImage(topic, genre, compliance.html);
+  if (imageSuggestion?.imageUrl) {
+    draft.frontmatter.imageUrl = imageSuggestion.imageUrl;
+  }
+  const meta = await buildMetaAssets(topic, compliance.html);
+  if (imageSuggestion?.alt) {
+    draft.frontmatter.heroAlt = imageSuggestion.alt;
+  }
+  if (imageSuggestion?.prompt) {
+    draft.frontmatter.imagePrompt = imageSuggestion.prompt;
+  }
+  if (imageSuggestion?.credit) {
+    draft.frontmatter.heroCredit = imageSuggestion.credit;
+  }
+  await persistArticle(draft.frontmatter, compliance.html, meta);
   await runUpdateIndex();
   if (!options.quiet) {
     console.log('🎯 Next steps: npm run validate-posts && git status');

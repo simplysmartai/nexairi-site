@@ -30,9 +30,17 @@ View your app in AI Studio: https://ai.studio/apps/drive/13IRLC3FXXSPFM_kIrvua8J
 | Script | Purpose | Notes |
 | --- | --- | --- |
 | `npm run update-posts-index` | Scans `public/content/` and rebuilds `public/posts.json`. | Run after adding/editing any article file. CI enforces that the generated JSON is committed. |
-| `npm run validate-posts` | Verifies every entry in `public/posts.json` and its backing content file for duplicate slugs/IDs, ISO dates, missing summaries, etc. | Fails fast with actionable errors; wired into CI. |
-| `npm run generate-post -- --genre technology --topic "Your Topic"` | Full agent orchestration (OpenAI topic/draft + Perplexity research + Gemini meta). Saves an HTML article and refreshes the index automatically. | Requires environment variables: `OPENAI_API_KEY`. Optional enhancements: `PERPLEXITY_API_KEY`, `GEMINI_API_KEY`. |
+| `npm run validate-posts` | Verifies every entry in `public/posts.json` **and** scans the HTML for ISO dates, missing summaries, Amazon affiliate tagging, and disclosure blocks. | Fails fast with actionable errors; wired into CI. |
+| `npm run generate-post -- --genre technology --topic "Your Topic"` | Full agent orchestration (topic picker -> research -> draft -> copy-review agent -> hero-image agent -> affiliate/disclosure enforcement -> Gemini meta). Saves an HTML article and refreshes the index automatically. | Requires `OPENAI_API_KEY`; optional boosts: `PERPLEXITY_API_KEY`, `GEMINI_API_KEY`. |
 | `npm run generate-batch -- --genres technology,lifestyle --per-genre 2 --topics "topic a|topic b"` | Sequentially runs the generator for multiple genres, optionally seeding topics via a `|`-delimited list. | Honors the same env vars as `generate-post`; add `--quiet` to suppress per-run reminders. |
+| `npm run sync-frontmatter` | Rewrites every file under `public/content/` so the YAML frontmatter matches `posts.json` (category, summary, image, deterministic author). | Run after regenerating `posts.json` if you need the HTML files themselves to carry the metadata (e.g., manual edits). |
+| `npm run enforce-affiliates` | Bulk-normalizes every Amazon link under `public/content/` and injects the disclosure block + frontmatter flag. | Run once after migrating legacy content, or anytime you detect manual edits that bypassed the guardrails. |
+
+### Editorial agents & compliance
+
+- **Copy-review agent** tightens tone, trims fluff, and ensures brand-safe structure after the first draft.
+- **Image-sourcing agent** returns modern art direction (alt text, keywords, prompt) and injects a deterministic hero image URL.
+- **Affiliate guardrail** rewrites every Amazon link with `?tag=nexairimentis-20` and appends the disclosure block (`<section data-component="affiliate-disclosure" ...>`). Validation fails if future manual edits remove the tag or disclosure.
 
 Environment variables live in your local `.env` and are ignored by Git. Example:
 

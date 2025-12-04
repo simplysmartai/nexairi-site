@@ -8,11 +8,13 @@ export interface BlogPost {
   author: string;
   date: string;
   imageUrl: string;
-  content?: string; // HTML content
-  // Optional fields for layout control
-  isFeatured?: boolean; 
-  series?: string;     // e.g. "Thanksgiving Series"
-  seriesLabel?: string; // e.g. "Day 1", "Day 2"
+  tags?: string[];
+  summary?: string;
+  contentFile?: string;
+  content?: string; // HTML content for legacy inline posts
+  isFeatured?: boolean;
+  series?: string;
+  seriesLabel?: string;
 }
 
 export interface NavItem {

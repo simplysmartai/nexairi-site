@@ -1,10 +1,17 @@
 ---
-title: "Multi-AI Content Pipelines in 2025"
-slug: "multi-ai-content-pipelines-in-2025"
-date: "2025-12-04"
-author: "Nexairi Team"
+title: Multi-AI Content Pipelines in 2025
+slug: multi-ai-content-pipelines-in-2025
+date: 2025-12-04
+category: Technology
+author: Sami W.
 summary: "```yaml ``` ..."
-tags: ["ai", "automation", "multiaicontentpipelinesin"]
+excerpt: "```yaml ``` ..."
+tags:
+  - ai
+  - automation
+  - multiaicontentpipelinesin
+imageUrl: https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=80&w=1600
+isFeatured: false
 ---
 
 ```yaml

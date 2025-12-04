@@ -15,6 +15,36 @@ import { SEOHead } from './components/SEOHead';
 import { ScrollToTop } from './components/ScrollToTop';
 import { BlogPost } from './types';
 import { FALLBACK_POST_IMAGE } from './constants/media';
+import { normalizeCategoryLabel } from './utils/category';
+
+const EXCERPT_FALLBACK = 'High-signal intelligence dispatch coming online.';
+
+function normalizePost(record: Partial<BlogPost> & { id?: string; slug?: string; title?: string; date?: string }): BlogPost {
+  const category = normalizeCategoryLabel(record.category, record.slug, record.tags);
+  const summary = record.summary || record.excerpt || '';
+  const excerpt = record.excerpt?.trim() || summary || EXCERPT_FALLBACK;
+  const imageUrl = record.imageUrl || FALLBACK_POST_IMAGE;
+  const tags = Array.isArray(record.tags)
+    ? (record.tags.filter((tag) => typeof tag === 'string') as string[])
+    : [];
+
+  return {
+    id: record.id || record.slug || crypto.randomUUID?.() || Math.random().toString(36).slice(2),
+    title: record.title || 'Untitled Dispatch',
+    slug: record.slug || `untitled-${Date.now()}`,
+    date: record.date || new Date().toISOString(),
+    author: record.author || 'Nexairi Editorial',
+    excerpt,
+    summary,
+    category,
+    imageUrl,
+    contentFile: record.contentFile,
+    tags,
+    isFeatured: record.isFeatured,
+    series: record.series,
+    seriesLabel: record.seriesLabel,
+  };
+}
 
 // --- STATIC CONTENT DEFINITIONS ---
 const MISSION_CONTENT = (
@@ -116,9 +146,10 @@ function App() {
         const response = await fetch('/posts.json');
         if (!response.ok) throw new Error('Failed to fetch posts');
         const data = await response.json();
-        
+
         if (Array.isArray(data)) {
-          setPosts(data);
+          const normalized = data.map((item) => normalizePost(item as Partial<BlogPost>));
+          setPosts(normalized);
         } else {
           console.error("Invalid data format: Expected array", data);
           setLoadingError(true);
