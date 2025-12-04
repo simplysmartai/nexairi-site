@@ -1,0 +1,45 @@
+name: Verify Nexairi Site
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  quality-checks:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site/prototype/nexairi-mentis-_-high-signal-intelligence
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: site/prototype/nexairi-mentis-_-high-signal-intelligence/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Update posts index
+        run: npm run update-posts-index
+
+      - name: Ensure posts index is committed
+        run: git diff --exit-code public/posts.json
+
+      - name: Validate posts metadata
+        run: npm run validate-posts
+
+      - name: Build site
+        run: npm run build

@@ -14,6 +14,7 @@ import { PixelStudio } from './components/PixelStudio';
 import { SEOHead } from './components/SEOHead';
 import { ScrollToTop } from './components/ScrollToTop';
 import { BlogPost } from './types';
+import { FALLBACK_POST_IMAGE } from './constants/media';
 
 // --- STATIC CONTENT DEFINITIONS ---
 const MISSION_CONTENT = (
@@ -346,20 +347,31 @@ function App() {
                         <span className="text-brand-cyan text-xs font-bold uppercase tracking-widest border border-brand-cyan/30 px-3 py-1 rounded bg-brand-cyan/5">Signature Collection</span>
                       </div>
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {spotlightPosts.map((post) => (
-                          <a key={post.id} href={`#${post.slug}`} className="group block relative">
-                            <div className="relative aspect-[4/3] mb-3 overflow-hidden rounded-lg border border-brand-border group-hover:border-brand-cyan/50 transition-colors">
-                              <img src={post.imageUrl} alt={post.title} className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100" />
+                        {spotlightPosts.map((post) => {
+                          const spotlightImage = post.imageUrl || FALLBACK_POST_IMAGE;
+                          return (
+                            <a key={post.id} href={`#${post.slug}`} className="group block relative">
+                              <div className="relative aspect-[4/3] mb-3 overflow-hidden rounded-lg border border-brand-border group-hover:border-brand-cyan/50 transition-colors">
+                                <img
+                                  src={spotlightImage}
+                                  alt={post.title}
+                                  onError={(event) => {
+                                    event.currentTarget.onerror = null;
+                                    event.currentTarget.src = FALLBACK_POST_IMAGE;
+                                  }}
+                                  className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+                                />
                               <div className="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-transparent to-transparent"></div>
                               <div className="absolute top-2 left-2">
                                  <span className="bg-brand-black/90 backdrop-blur border border-brand-border/50 text-[10px] font-bold text-brand-cyan px-2 py-1 uppercase tracking-wider rounded shadow-sm group-hover:bg-brand-cyan group-hover:text-black transition-colors">
                                    {post.seriesLabel || 'Guide'}
                                  </span>
                               </div>
-                            </div>
-                            <h3 className="text-sm font-bold text-gray-200 leading-tight group-hover:text-brand-cyan transition-colors">{post.title}</h3>
-                          </a>
-                        ))}
+                              </div>
+                              <h3 className="text-sm font-bold text-gray-200 leading-tight group-hover:text-brand-cyan transition-colors">{post.title}</h3>
+                            </a>
+                          );
+                        })}
                       </div>
                     </section>
                   )}

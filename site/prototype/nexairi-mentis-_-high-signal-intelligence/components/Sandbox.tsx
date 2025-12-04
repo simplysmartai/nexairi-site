@@ -1,5 +1,6 @@
 
 import React, { useState, useCallback, useEffect } from 'react';
+import { FALLBACK_POST_IMAGE } from '../constants/media';
 
 interface AppCardProps {
   title: string;
@@ -54,12 +55,16 @@ const parseHtmlFile = (content: string, filename: string) => {
   if (articleMatch) cleanContent = `<article>${articleMatch[1]}</article>`;
   
   const imgMatch = content.match(/<img[^>]+src="([^">]+)"/);
-  let imageUrl = imgMatch ? imgMatch[1] : '/abstract-bg.png';
+  let imageUrl = imgMatch ? imgMatch[1] : FALLBACK_POST_IMAGE;
   
   // Normalize local paths to /Images/
   if (imageUrl && !imageUrl.startsWith('http') && !imageUrl.startsWith('data:')) {
-    const filename = imageUrl.split('/').pop();
-    imageUrl = `/Images/${filename}`;
+    const imageFile = imageUrl.split('/').pop();
+    imageUrl = `/Images/${imageFile}`;
+  }
+
+  if (!imageUrl) {
+    imageUrl = FALLBACK_POST_IMAGE;
   }
 
   const pMatch = content.match(/<p>(.*?)<\/p>/);

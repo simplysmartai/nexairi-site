@@ -1,0 +1,90 @@
+name: Generate Content Drafts
+
+on:
+  workflow_dispatch:
+    inputs:
+      genres:
+        description: 'Comma-separated genre keys (technology,lifestyle,travel,sports)'
+        required: false
+        default: 'technology,lifestyle,travel'
+      per_genre:
+        description: 'Number of posts to generate per genre'
+        required: false
+        default: '1'
+      topics:
+        description: 'Optional | separated topic seeds (topic a|topic b)'
+        required: false
+      quiet:
+        description: 'Suppress per-run console reminders'
+        required: false
+        default: 'true'
+  schedule:
+    - cron: '0 13 * * *'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  generate-content:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site/prototype/nexairi-mentis-_-high-signal-intelligence
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: site/prototype/nexairi-mentis-_-high-signal-intelligence/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run batch generator
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          BATCH_GENRES: ${{ github.event.inputs.genres || 'technology,lifestyle,travel' }}
+          BATCH_PER_GENRE: ${{ github.event.inputs.per_genre || '1' }}
+          BATCH_TOPICS: ${{ github.event.inputs.topics || '' }}
+          BATCH_QUIET: ${{ github.event.inputs.quiet || 'true' }}
+        run: |
+          set -euo pipefail
+          EXTRA_ARGS=(--genres "$BATCH_GENRES" --per-genre "$BATCH_PER_GENRE")
+          if [ -n "$BATCH_TOPICS" ]; then
+            EXTRA_ARGS+=(--topics "$BATCH_TOPICS")
+          fi
+          if [ "$BATCH_QUIET" = "true" ]; then
+            EXTRA_ARGS+=(--quiet)
+          fi
+          npm run generate-batch -- "${EXTRA_ARGS[@]}"
+
+      - name: Validate posts metadata
+        run: npm run validate-posts
+
+      - name: Create or update content PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          branch: content-bot/auto
+          commit-message: 'chore: automated content refresh'
+          title: 'Automated content refresh'
+          body: |
+            ## Summary
+            - Generated posts via `npm run generate-batch`
+            - Ran `npm run validate-posts`
+            - Review the diff + Cloudflare preview before merging.
+          labels: automated,content
+          add-paths: |
+            site/prototype/nexairi-mentis-_-high-signal-intelligence/public/content
+            site/prototype/nexairi-mentis-_-high-signal-intelligence/public/posts.json
