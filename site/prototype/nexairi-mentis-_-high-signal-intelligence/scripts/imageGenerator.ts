@@ -91,30 +91,60 @@ Focus on: ${title}
 Summary: ${summary}
 HTML Preview: ${body.slice(0, 2000)}`;
   try {
-    const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
-    console.log(`🎨 Requesting Gemini image brief (model: ${GEMINI_MODEL})...`);
-    const response = await geminiClient.models.generateContent({
-      model: GEMINI_MODEL,
-      contents: prompt,
-    });
-    const text = (response as any).text?.() ?? (response as any).text;
-    if (text) {
-      const parsed = JSON.parse(text) as ImageBrief;
-      const hero = {
-        alt: parsed.hero?.alt?.trim() || `${title} hero artwork`,
-        prompt: parsed.hero?.prompt?.trim() || `${title} hero concept`,
-        url: placeholderFromPrompt(parsed.hero?.prompt ?? title),
-      };
-      const diagrams = Array.isArray(parsed.diagrams)
-        ? parsed.diagrams.slice(0, 2).map((diagram, index) => ({
-            id: diagram.id?.trim() || `${slug}-diagram-${index + 1}`,
-            prompt: diagram.prompt?.trim() || `${title} diagram ${index + 1}`,
-            caption: diagram.caption?.trim() || 'Diagram caption TBD.',
-          }))
-        : [];
-      return { hero, diagrams };
+    // Try with configured Gemini model first, then fall back if quota or model errors occur.
+    const preferredModel = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+    const fallbackModel = 'gemini-2.5-flash';
+
+    async function tryModel(modelName: string) {
+      try {
+        console.log(`🎨 Requesting Gemini image brief (model: ${modelName})...`);
+        const response = await geminiClient.models.generateContent({ model: modelName, contents: prompt });
+        const text = (response as any).text?.() ?? (response as any).text;
+        if (!text) return null;
+        try {
+          const parsed = JSON.parse(text) as ImageBrief;
+          const hero = {
+            alt: parsed.hero?.alt?.trim() || `${title} hero artwork`,
+            prompt: parsed.hero?.prompt?.trim() || `${title} hero concept`,
+            url: placeholderFromPrompt(parsed.hero?.prompt ?? title),
+          };
+          const diagrams = Array.isArray(parsed.diagrams)
+            ? parsed.diagrams.slice(0, 2).map((diagram, index) => ({
+                id: diagram.id?.trim() || `${slug}-diagram-${index + 1}`,
+                prompt: diagram.prompt?.trim() || `${title} diagram ${index + 1}`,
+                caption: diagram.caption?.trim() || 'Diagram caption TBD.',
+              }))
+            : [];
+          return { hero, diagrams } as ImageBrief;
+        } catch (parseErr) {
+          console.warn('Gemini meta payload parse failed:', parseErr);
+          return null;
+        }
+      } catch (err: any) {
+        // Surface quota/model errors so caller can decide to retry with fallback
+        const code = err?.status || err?.error?.code || err?.code;
+        const msg = err?.message || JSON.stringify(err?.error) || String(err);
+        console.warn(`Gemini model ${modelName} request failed (code: ${code}):`, msg);
+        return null;
+      }
+    }
+
+    // First attempt: preferred model
+    const preferredResult = await tryModel(preferredModel);
+    if (preferredResult) return preferredResult;
+
+    // If preferred model failed and wasn't already the fallback, attempt fallback model
+    if (preferredModel !== fallbackModel) {
+      try {
+        console.log(`⚠️ Preferred model ${preferredModel} failed — retrying with fallback model ${fallbackModel}...`);
+        const fallbackResult = await tryModel(fallbackModel);
+        if (fallbackResult) return fallbackResult;
+      } catch (err) {
+        console.warn('⚠️  Gemini fallback model request failed:', err);
+      }
     }
   } catch (error) {
+    // If we get here, Gemini failed for other reasons (network, SDK errors, etc.)
     console.warn('⚠️  Gemini image brief failed, using fallback prompts.', error);
   }
   // If Gemini fails or returns nothing, attempt to auto-generate a richer set of briefs
