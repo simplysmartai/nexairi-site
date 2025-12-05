@@ -1,6 +1,15 @@
-
 import React, { useState } from 'react';
 import { GoogleGenAI } from "@google/genai";
+
+// Declare the window interface for the AI Studio key selection helper
+declare global {
+  interface Window {
+    aistudio?: {
+      hasSelectedApiKey: () => Promise<boolean>;
+      openSelectKey: () => Promise<void>;
+    };
+  }
+}
 
 interface PixelStudioProps {
   onBack: () => void;
@@ -11,12 +20,30 @@ export const PixelStudio: React.FC<PixelStudioProps> = ({ onBack }) => {
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const hasApiKey = !!process.env.API_KEY;
+  
+  // Track if we have a key (either from env or selected in session)
+  const [hasAccess, setHasAccess] = useState(!!process.env.API_KEY);
+
+  const handleConnect = async () => {
+    if (window.aistudio) {
+      try {
+        await window.aistudio.openSelectKey();
+        // Optimistically assume success per system instructions
+        setHasAccess(true);
+        // Clear any previous errors
+        setError(null);
+      } catch (e) {
+        console.error("Key selection failed", e);
+      }
+    }
+  };
 
   const handleGenerate = async () => {
     if (!prompt) return;
-    if (!hasApiKey) {
-      setError("API Key is missing. Cannot generate image.");
+    
+    // Double check access before running
+    if (!hasAccess && !process.env.API_KEY) {
+      setError("Please connect an API Key to generate images.");
       return;
     }
     
@@ -25,17 +52,23 @@ export const PixelStudio: React.FC<PixelStudioProps> = ({ onBack }) => {
     setGeneratedImage(null);
 
     try {
-      if (!process.env.API_KEY) throw new Error("Missing API Key");
-      
+      // Initialize AI client right before call to ensure it grabs the latest key
+      // If process.env.API_KEY is empty, the client might throw, but if window.aistudio injected it, it should work.
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       
       const finalPrompt = `Professional editorial photography, high resolution, minimalist and cinematic lighting. Subject: ${prompt}`;
 
-      // Using Nano Banana (gemini-2.5-flash-image)
+      // Upgraded to Gemini 3 Pro Image for higher quality and tool support
       const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash-image',
+        model: 'gemini-3-pro-image-preview',
         contents: {
           parts: [{ text: finalPrompt }]
+        },
+        config: {
+          imageConfig: {
+            aspectRatio: "3:2", // Editorial Landscape
+            imageSize: "1K"
+          }
         }
       });
 
@@ -59,7 +92,13 @@ export const PixelStudio: React.FC<PixelStudioProps> = ({ onBack }) => {
 
     } catch (err: any) {
       console.error("Generation failed", err);
-      setError(err.message || "Failed to generate image.");
+      // If the error suggests auth failure, prompt to reconnect
+      if (err.message?.includes("API key") || err.toString().includes("403")) {
+         setError("API Key invalid or expired. Please reconnect.");
+         setHasAccess(false);
+      } else {
+         setError(err.message || "Failed to generate image.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -85,7 +124,7 @@ export const PixelStudio: React.FC<PixelStudioProps> = ({ onBack }) => {
           <button onClick={onBack} className="text-brand-cyan hover:text-white text-sm mb-2 flex items-center gap-2">← Back to Sandbox</button>
           <h1 className="text-4xl font-bold text-white flex items-center gap-3">
             Pixel Studio
-            <span className="text-sm bg-yellow-500/20 text-yellow-400 border border-yellow-500/50 px-2 py-1 rounded font-mono uppercase tracking-wide">Nano Banana</span>
+            <span className="text-sm bg-gradient-to-r from-purple-500 to-pink-500 text-white border border-white/20 px-2 py-1 rounded font-mono uppercase tracking-wide">Pro Vision</span>
           </h1>
           <p className="text-brand-muted">Generate editorial illustrations directly in the browser.</p>
         </div>
@@ -98,9 +137,9 @@ export const PixelStudio: React.FC<PixelStudioProps> = ({ onBack }) => {
           <textarea 
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            disabled={!hasApiKey}
+            disabled={!hasAccess}
             className="w-full bg-brand-black border border-brand-border rounded-xl p-4 text-white focus:border-brand-cyan outline-none min-h-[160px] text-lg leading-relaxed mb-6 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
-            placeholder={hasApiKey ? "Describe the image... e.g. 'A futuristic city with vertical gardens, cinematic lighting, photorealistic'" : "API Key Required to Prompt"}
+            placeholder={hasAccess ? "Describe the image... e.g. 'A futuristic city with vertical gardens, cinematic lighting, photorealistic'" : "Please connect AI to start prompting..."}
           />
           
           {error && (
@@ -109,38 +148,46 @@ export const PixelStudio: React.FC<PixelStudioProps> = ({ onBack }) => {
             </div>
           )}
 
-          {!hasApiKey && (
-             <div className="mb-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg text-yellow-400 text-sm">
-               <strong>System Offline:</strong> Please configure a valid API Key in the environment settings to use generative features.
+          {!hasAccess ? (
+             <div className="mb-6">
+               <div className="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg text-yellow-200 text-sm mb-4">
+                 <strong>Setup Required:</strong> Connect your Google AI API key to enable the generator.
+               </div>
+               <button 
+                 onClick={handleConnect}
+                 className="w-full py-4 rounded-xl font-bold uppercase tracking-widest bg-yellow-500 text-black hover:bg-yellow-400 transition-all shadow-[0_0_20px_rgba(234,179,8,0.2)]"
+               >
+                 Connect Google AI
+               </button>
              </div>
+          ) : (
+            <button 
+              onClick={handleGenerate}
+              disabled={isLoading || !prompt}
+              className={`w-full py-4 rounded-xl font-bold uppercase tracking-widest transition-all ${
+                isLoading || !prompt
+                  ? 'bg-brand-border text-gray-500 cursor-not-allowed'
+                  : 'bg-brand-cyan text-brand-black hover:bg-white hover:shadow-[0_0_20px_rgba(6,182,212,0.4)]'
+              }`}
+            >
+              {isLoading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  Rendering High-Res...
+                </span>
+              ) : (
+                "Generate Image"
+              )}
+            </button>
           )}
-
-          <button 
-            onClick={handleGenerate}
-            disabled={isLoading || !prompt || !hasApiKey}
-            className={`w-full py-4 rounded-xl font-bold uppercase tracking-widest transition-all ${
-              isLoading || !prompt || !hasApiKey
-                ? 'bg-brand-border text-gray-500 cursor-not-allowed'
-                : 'bg-brand-cyan text-brand-black hover:bg-white hover:shadow-[0_0_20px_rgba(6,182,212,0.4)]'
-            }`}
-          >
-            {isLoading ? (
-              <span className="flex items-center justify-center gap-2">
-                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                </svg>
-                Rendering...
-              </span>
-            ) : (
-              "Generate Image"
-            )}
-          </button>
         </div>
 
         {/* Preview Section */}
         <div className="flex flex-col">
-          <div className={`aspect-square rounded-2xl border-2 border-dashed flex items-center justify-center relative overflow-hidden transition-all ${
+          <div className={`aspect-[3/2] rounded-2xl border-2 border-dashed flex items-center justify-center relative overflow-hidden transition-all ${
             generatedImage ? 'border-brand-cyan bg-brand-black' : 'border-brand-border bg-brand-dark/20'
           }`}>
             {generatedImage ? (
@@ -169,7 +216,7 @@ export const PixelStudio: React.FC<PixelStudioProps> = ({ onBack }) => {
                 Download PNG
               </button>
               <p className="text-center text-xs text-gray-500 mt-3">
-                If you are using custom images, please ensure they are in your <code>public/Images/</code> folder or <code>public/content/</code> folder.
+                If you are using custom images, please ensure they are in your <code>public/Images/</code> folder.
               </p>
             </div>
           )}
