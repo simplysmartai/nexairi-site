@@ -1,33 +1,33 @@
 [
-  [
-    {
-      "id": "2025-12-05-nba-weekly-recap",
-      "title": "Weekly NBA Recap: Thunder’s Historic Start and Pistons’ Eastern Surge",
-      "slug": "nba-weekly-recap-nov-28-to-dec-4-2025",
-      "date": "2025-12-05T00:00:00.000Z",
-      "author": "Nexairi Sports Lab",
-      "summary": "Oklahoma City continued a historic start in the West while Detroit tightened its grip on the East after a week of statement wins, injury scares, and rising young stars.",
-      "excerpt": "Oklahoma City’s historic West start and Detroit’s surge in the East — one smart weekly catch-up.",
-      "category": "Sports",
-      "subCategory": "NBA",
-      "contentType": "weekly-recap",
-      "league": "NBA",
-      "tags": [
-        "sports",
-        "NBA",
-        "2025-26 season",
-        "weekly recap"
-      ],
-      "tldr": "Oklahoma City continued a historic start in the West while Detroit tightened its grip on the East, with both conferences reshuffling behind them after a week of statement wins, injury scares, and rising young stars.",
-      "persona": "Busy NBA fan who wants one sharp weekly catch‑up with real scores, standings context, and what to watch next.",
-      "angle": "This week crystallized a new power map: the Thunder and Pistons are playing like true pace‑setters, while traditional powers are being pushed by upstarts and a brutal injury report.",
-      "readingTime": 9,
-      "imageUrl": "/images/sports/nba-week-nov-28-dec-4-2025.jpg",
-      "contentFile": "content/sports/nba-weekly-recap-nov-28-to-dec-4-2025.html",
-      "contentPath": "/content/sports/nba-weekly-recap-nov-28-to-dec-4-2025.html",
-      "isFeatured": false
-    },
-    {
+  {
+    "id": "template",
+    "title": "Template",
+    "slug": "template",
+    "date": "2025-12-05T16:43:00.940Z",
+    "author": "Nexairi Editorial",
+    "summary": "```html --- title: Your Article Title Here slug: your-article-title-here date: 2025-12-01T12:00:00.000Z category: Lifestyle author: Kelly M. summary: One-sentence summary used for cards and meta tags. excerpt: Your Article Title Here Optional sub-headline or witty remark. By Author Name · 5 min read Introductory paragr",
+    "excerpt": "```html --- title: Your Article Title Here slug: your-article-title-here date: 2025-12-01T12:00:00.000Z category: Lifestyle author: Kelly M. summary: One-sentence summary used for cards and meta tags.",
+    "category": "Lifestyle",
+    "tags": [],
+    "contentFile": "content/archive/_template.html",
+    "imageUrl": "https://loremflickr.com/1400/900/your-article-title-here/all?lock=57"
+  },
+  {
+    "id": "test-post",
+    "title": "Test Post",
+    "slug": "test-post",
+    "date": "2025-12-05T16:43:00.845Z",
+    "author": "Nexairi Editorial",
+    "summary": "```markdown --- title: AI Content Pipeline Test slug: ai-content-pipeline-test date: 2025-12-04 category: Technology author: Tepper B. summary: Testing the automated content pipeline foundation excerpt: Testing the automated content pipeline foundation tags: - ai - automation - test imageUrl: https://images.unsplash.co",
+    "excerpt": "```markdown --- title: AI Content Pipeline Test slug: ai-content-pipeline-test date: 2025-12-04 category: Technology author: Tepper B. summary: Testing the automated content pipeline foundation excerp",
+    "category": "Lifestyle",
+    "tags": [],
+    "contentFile": "content/archive/test-post.md",
+    "imageUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "pros-and-cons-of-milling-your-own-grains",
+    "title": "Pros And Cons Of Milling Your Own Grains",
     "slug": "pros-and-cons-of-milling-your-own-grains",
     "date": "2025-12-05T13:47:27.257Z",
     "author": "Nexairi Editorial",
@@ -124,6 +124,42 @@
     "contentFile": "content/openai-vs-perplexity-vs-gemini-b2b-benchmarks.html",
     "imageUrl": "https://example.com/hero-image.jpg",
     "isFeatured": false
+  },
+  {
+    "id": "nba-weekly-recap-nov-28-to-dec-4-2025",
+    "title": "Weekly NBA Recap: Thunder’s Historic Start and Pistons’ Eastern Surge",
+    "slug": "nba-weekly-recap-nov-28-to-dec-4-2025",
+    "date": "2025-12-05T00:00:00.000Z",
+    "author": "Nexairi Sports Lab",
+    "summary": "Weekly NBA Recap: Thunder’s Historic Start and Pistons’ Eastern Surge Between November 28 and December 4, the 2025–26 NBA season took on a clearer shape at the top of both conferences. The Oklahoma City Thunder kept up a historic pace in the West while the Detroit Pistons solidified their status as a genuine Eastern Co",
+    "excerpt": "Weekly NBA Recap: Thunder’s Historic Start and Pistons’ Eastern Surge Between November 28 and December 4, the 2025–26 NBA season took on a clearer shape at the top of both conferences. The Oklahoma Ci",
+    "category": "Sports",
+    "tags": [
+      "sports",
+      "NBA",
+      "2025-26 season",
+      "weekly recap"
+    ],
+    "contentFile": "content/sports/nba-weekly-recap-nov-28-to-dec-4-2025.html",
+    "imageUrl": "/images/sports/nba-week-nov-28-dec-4-2025.jpg"
+  },
+  {
+    "id": "nhl-weekly-recap-nov-28-to-dec-4-2025",
+    "title": "Weekly NHL Recap: Avalanche’s Push, Panthers’ Reality Check, and a Crowded Wild‑Card Race",
+    "slug": "nhl-weekly-recap-nov-28-to-dec-4-2025",
+    "date": "2025-12-05T00:00:00.000Z",
+    "author": "Nexairi Sports Lab",
+    "summary": "Weekly NHL Recap: Avalanche’s Push, Panthers’ Reality Check, and a Crowded Wild‑Card Race From November 28 through December 4, the 2025–26 NHL season shifted into its next gear. Colorado pushed toward the top of the league table, several Eastern powers traded momentum, and the defending champion Florida Panthers were r",
+    "excerpt": "Weekly NHL Recap: Avalanche’s Push, Panthers’ Reality Check, and a Crowded Wild‑Card Race From November 28 through December 4, the 2025–26 NHL season shifted into its next gear. Colorado pushed toward",
+    "category": "Sports",
+    "tags": [
+      "sports",
+      "NHL",
+      "2025-26 season",
+      "weekly recap"
+    ],
+    "contentFile": "content/sports/nhl-weekly-recap-nov-28-to-dec-4-2025.html",
+    "imageUrl": "https://loremflickr.com/1600/900/weekly-nhl-recap-avalanche-s-push-panthers-reality-check-and-a-crowded-wild-card-race-hero-editorial-sports-photography-dynamic-composition-high-contrast-shallow-depth-of-field/all?lock=452"
   },
   {
     "id": "calm-amid-the-holiday-rush",
@@ -633,25 +669,6 @@
     "imageUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=80&w=1600"
   },
   {
-    "id": "ai-content-pipeline-test",
-    "title": "AI Content Pipeline Test",
-    "slug": "ai-content-pipeline-test",
-    "date": "2025-12-04T00:00:00.000Z",
-    "author": "Tepper B.",
-    "summary": "Testing the automated content pipeline foundation",
-    "excerpt": "Testing the automated content pipeline foundation",
-    "category": "Technology",
-    "tags": [
-      "ai",
-      "automation",
-      "test"
-    ],
-    "contentFile": "content/archive/test-post.md",
-    "archived": true,
-    "imageUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=80&w=1600",
-    "isFeatured": false
-  },
-  {
     "id": "the-future-of-ai-driven-content-creation",
     "title": "The Future of AI-Driven Content Creation",
     "slug": "the-future-of-ai-driven-content-creation",
@@ -667,23 +684,6 @@
     ],
     "contentFile": "content/the-future-of-ai-driven-content-creation.md",
     "imageUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=80&w=1600",
-    "isFeatured": false
-  },
-  {
-    "id": "your-article-title-here",
-    "title": "Your Article Title Here",
-    "slug": "your-article-title-here",
-    "date": "2025-12-01T12:00:00.000Z",
-    "author": "Kelly M.",
-    "summary": "One-sentence summary used for cards and meta tags.",
-    "excerpt": "Your Article Title Here Optional sub-headline or witty remark. By Author Name · 5 min read Introductory paragraph goes here. Hook the reader immediately. Section Header Body content. Use bold for emphasis. List item one List item two Another Section More content here. Image Caption Conclusion paragraph.",
-    "category": "Lifestyle",
-    "tags": [
-      "lifestyle"
-    ],
-    "contentFile": "content/archive/_template.html",
-    "archived": true,
-    "imageUrl": "https://images.unsplash.com/photo-ID?auto=format&fit=crop&q=80&w=1600",
     "isFeatured": false
   }
 ]
