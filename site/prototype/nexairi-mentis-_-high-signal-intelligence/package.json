@@ -17,6 +17,7 @@
     "generate-batch": "tsx scripts/generateBatch.ts",
     "sync-frontmatter": "tsx scripts/syncFrontmatter.ts",
     "enforce-affiliates": "tsx scripts/enforceAffiliateCompliance.ts",
+    "backfill-images": "tsx scripts/backfillImages.ts",
     "test-env": "tsx scripts/test-env.ts"
   },
   "dependencies": {
