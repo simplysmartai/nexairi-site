@@ -1,4 +1,8 @@
 import 'dotenv/config';
+import dotenv from 'dotenv';
+
+// Load .env.local if present (local overrides for development)
+dotenv.config({ path: '.env.local', override: false });
 
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
@@ -87,8 +91,10 @@ Focus on: ${title}
 Summary: ${summary}
 HTML Preview: ${body.slice(0, 2000)}`;
   try {
+    const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+    console.log(`🎨 Requesting Gemini image brief (model: ${GEMINI_MODEL})...`);
     const response = await geminiClient.models.generateContent({
-      model: 'gemini-1.5-flash',
+      model: GEMINI_MODEL,
       contents: prompt,
     });
     const text = (response as any).text?.() ?? (response as any).text;
