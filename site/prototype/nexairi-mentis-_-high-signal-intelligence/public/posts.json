@@ -20,19 +20,6 @@
     "contentFile": "content/sports/nfl-week-14-final-month-of-the-season-begins.html"
   },
   {
-    "id": "template",
-    "title": "Template",
-    "slug": "template",
-    "date": "2025-12-05T16:43:00.940Z",
-    "author": "Nexairi Editorial",
-    "summary": "```html --- title: Your Article Title Here slug: your-article-title-here date: 2025-12-01T12:00:00.000Z category: Lifestyle author: Kelly M. summary: One-sentence summary used for cards and meta tags. excerpt: Your Article Title Here Optional sub-headline or witty remark. By Author Name · 5 min read Introductory paragr",
-    "excerpt": "```html --- title: Your Article Title Here slug: your-article-title-here date: 2025-12-01T12:00:00.000Z category: Lifestyle author: Kelly M. summary: One-sentence summary used for cards and meta tags.",
-    "category": "Lifestyle",
-    "tags": [],
-    "contentFile": "content/archive/_template.html",
-    "imageUrl": "https://loremflickr.com/1400/900/your-article-title-here/all?lock=57"
-  },
-  {
     "id": "pros-and-cons-of-milling-your-own-grains",
     "title": "Pros And Cons Of Milling Your Own Grains",
     "slug": "pros-and-cons-of-milling-your-own-grains",
