@@ -56,12 +56,12 @@ async function main() {
     const metadata = { ...draft };
     delete metadata.contentHtml;
 
-    // Normalize contentPath in metadata to the path used on the site (leading slash)
-    metadata.contentPath = '/' + contentPath.split(path.sep).join('/');
+    // Normalize contentFile in metadata to the path used on the site (leading slash)
+    metadata.contentFile = '/' + contentPath.split(path.sep).join('/');
     // Ensure category is normalized
     metadata.category = normalizedCategory;
-    // Remove old contentFile if present
-    if (metadata.contentFile) delete metadata.contentFile;
+    // Remove old contentPath if present
+    if (metadata.contentPath) delete metadata.contentPath;
 
     // Load posts.json
     const postsJsonPath = path.resolve(repoRoot, 'public', 'posts.json');

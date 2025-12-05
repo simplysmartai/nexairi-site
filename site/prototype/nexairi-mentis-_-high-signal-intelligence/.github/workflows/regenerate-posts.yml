@@ -1,0 +1,75 @@
+name: Regenerate Posts Index
+
+on:
+  push:
+    paths:
+      - 'public/content/**'
+      - 'scripts/**'
+      - '.github/workflows/**'
+  schedule:
+    - cron: '0 6 * * *' # daily at 06:00 UTC
+  workflow_dispatch: {}
+
+jobs:
+  regen:
+    name: Regenerate & Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Regenerate posts.json
+        run: npm run update-posts-index
+
+      - name: Validate posts.json
+        run: |
+          node -e "const fs=require('fs'); JSON.parse(fs.readFileSync('public/posts.json','utf8')); console.log('posts.json OK')"
+
+      - name: Build site
+        run: npm run build
+
+      - name: CI: Validate generated content (sample)
+        run: node scripts/ci-validateContent.cjs
+
+      - name: Create pull request with regenerated posts.json (if changed)
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(ci): regenerate public/posts.json [skip ci]"
+          branch: "ci/regenerate-posts-${{ github.run_id }}"
+          title: "chore(ci): regenerate public/posts.json"
+          body: |
+            This PR was opened automatically by CI to update the regenerated `public/posts.json`.
+          labels: automation,ci,regenerate
+          files: |
+            public/posts.json
+
+  notify:
+    name: Notify On Failure
+    needs: regen
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Create GitHub issue when regeneration fails
+        if: needs.regen.result != 'success'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const title = `CI: Regenerate posts.json failed (${process.env.GITHUB_REF})`;
+            const body = `Automatic regeneration of public/posts.json failed.\n\nRun: ${process.env.GITHUB_SERVER_URL}/${context.repo.owner}/${context.repo.repo}/actions/runs/${process.env.GITHUB_RUN_ID}\n\nPlease investigate.`;
+            await github.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              body,
+            });

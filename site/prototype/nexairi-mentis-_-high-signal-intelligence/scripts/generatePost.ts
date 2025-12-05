@@ -70,6 +70,8 @@ export interface GenerateOptions {
   genre?: GenreKey;
   quiet?: boolean;
   research?: string | null;
+  dryRun?: boolean;
+  skipImages?: boolean;
 }
 
 interface DraftPayload {
@@ -111,11 +113,13 @@ interface ImageSuggestion {
 }
 
 
-function parseArgs(): { topic?: string; genre: GenreKey; researchFile?: string } {
+function parseArgs(): { topic?: string; genre: GenreKey; researchFile?: string; dryRun: boolean; skipImages: boolean } {
   const args = process.argv.slice(2);
   let topic: string | undefined;
   let genre: GenreKey = DEFAULT_GENRE;
   let researchFile: string | undefined;
+  let dryRun = false;
+  let skipImages = false;
 
   for (let i = 0; i < args.length; i += 1) {
     const arg = args[i];
@@ -139,9 +143,15 @@ function parseArgs(): { topic?: string; genre: GenreKey; researchFile?: string }
       researchFile = args[i + 1];
       i += 1;
     }
+    if (arg === '--dry-run') {
+      dryRun = true;
+    }
+    if (arg === '--skip-images') {
+      skipImages = true;
+    }
   }
 
-  return { topic, genre, researchFile };
+  return { topic, genre, researchFile, dryRun, skipImages };
 }
 
 async function pickTopic(genre: GenreKey): Promise<string> {
@@ -536,10 +546,41 @@ async function persistArticle(frontmatter: DraftPayload['frontmatter'], html: st
   };
 
   const output = `${serializeFrontmatter(fm)}\n\n${html.trim()}\n`;
+  const folder = String(fm.category || 'uncategorized').toLowerCase().replace(/\s+/g, '-');
   const filename = `${fm.slug}.html`;
-  const outPath = path.resolve('public', 'content', filename);
+  const outDir = path.resolve('public', 'content', folder);
+  await fs.mkdir(outDir, { recursive: true });
+  const outPath = path.resolve(outDir, filename);
   await fs.writeFile(outPath, output, 'utf8');
-  console.log(`✅ Saved article → public/content/${filename}`);
+  console.log(`✅ Saved article → public/content/${folder}/${filename}`);
+}
+
+function validateDraftForPersistence(front: DraftPayload['frontmatter'], html: string): { valid: boolean; errors: string[] } {
+  const errors: string[] = [];
+  if (!front.title || !front.title.trim()) errors.push('missing title');
+  if (!front.slug || !front.slug.trim()) errors.push('missing slug');
+  if (!front.summary || front.summary.trim().length < 20) errors.push('summary is too short (<20 chars)');
+  if (!front.tags || !Array.isArray(front.tags) || front.tags.length === 0) errors.push('tags missing');
+  const plain = stripHtml(html || '');
+  if (!plain || plain.length < 500) errors.push('content body too short (<500 characters)');
+  // If this looks like a weekly recap, require a longer minimum
+  const isWeekly = (front.slug && /week|weekly|recap/i.test(front.slug)) || (front.tags && front.tags.some((t) => /week|weekly|recap/i.test(String(t))));
+  if (isWeekly && plain.length < 1800) errors.push('weekly recap appears too short (<1800 characters)');
+  return { valid: errors.length === 0, errors };
+}
+
+async function writeDiagnostic(slug: string, obj: Record<string, any>): Promise<string> {
+  try {
+    const reportsDir = path.resolve('reports', 'generate');
+    await fs.mkdir(reportsDir, { recursive: true });
+    const filename = `${slug.replace(/[^a-z0-9-]/gi, '-').toLowerCase()}-diagnostic.json`;
+    const out = path.resolve(reportsDir, filename);
+    await fs.writeFile(out, JSON.stringify(obj, null, 2) + '\n', 'utf8');
+    return out;
+  } catch (err) {
+    console.warn('Could not write diagnostic file:', err);
+    return 'reports/generate (write-failed)';
+  }
 }
 
 async function runUpdateIndex(): Promise<void> {
@@ -552,7 +593,7 @@ async function runUpdateIndex(): Promise<void> {
 }
 
 async function main() {
-  const { topic: topicInput, genre, researchFile } = parseArgs();
+  const { topic: topicInput, genre, researchFile, dryRun, skipImages } = parseArgs();
   let researchText: string | undefined;
   if (researchFile) {
     try {
@@ -562,7 +603,7 @@ async function main() {
       console.warn(`Could not read research file ${researchFile}:`, err);
     }
   }
-  await runGeneratePost({ topic: topicInput, genre, research: researchText ?? null });
+  await runGeneratePost({ topic: topicInput, genre, research: researchText ?? null, dryRun, skipImages });
 }
 
 export async function runGeneratePost(options: GenerateOptions = {}) {
@@ -577,10 +618,16 @@ export async function runGeneratePost(options: GenerateOptions = {}) {
   if (compliance.affiliateLinks > 0) {
     draft.frontmatter.affiliateDisclosure = true;
   }
-  const imageSuggestion = await suggestHeroImage(topic, genre, compliance.html);
-  if (imageSuggestion?.imageUrl) {
-    draft.frontmatter.imageUrl = imageSuggestion.imageUrl;
+  let imageSuggestion: ImageSuggestion | null = null;
+  if (!options.skipImages) {
+    imageSuggestion = await suggestHeroImage(topic, genre, compliance.html);
+    if (imageSuggestion?.imageUrl) {
+      draft.frontmatter.imageUrl = imageSuggestion.imageUrl;
+    }
+  } else {
+    console.log('⚠️  Skipping image-sourcing due to --skip-images flag.');
   }
+
   let meta: MetaPayload | null = null;
   try {
     meta = await buildMetaAssets(topic, compliance.html);
@@ -597,8 +644,29 @@ export async function runGeneratePost(options: GenerateOptions = {}) {
   if (imageSuggestion?.credit) {
     draft.frontmatter.heroCredit = imageSuggestion.credit;
   }
-  await persistArticle(draft.frontmatter, compliance.html, meta);
-  await runUpdateIndex();
+  // Validate draft before persisting to avoid broken posts and wasted pushes
+  const validation = validateDraftForPersistence(draft.frontmatter, compliance.html);
+  if (!validation.valid) {
+    const diagPath = await writeDiagnostic(draft.frontmatter.slug || 'untitled', {
+      errors: validation.errors,
+      frontmatter: draft.frontmatter,
+      preview: stripHtml(extractPreviewHtml(compliance.html)).slice(0, 1000),
+      timestamp: new Date().toISOString(),
+    });
+    console.error('✖️  Draft failed validation. Diagnostic written to', diagPath);
+    if (options.dryRun) {
+      console.log('ℹ️  Dry-run mode - not writing article. Exiting with non-zero code.');
+      throw new Error('Validation failed (dry-run)');
+    }
+    throw new Error('Draft validation failed: ' + validation.errors.join('; '));
+  }
+
+  if (options.dryRun) {
+    console.log(`ℹ️  Dry-run: draft validated and would be written to public/content/<category>/${draft.frontmatter.slug}.html`);
+  } else {
+    await persistArticle(draft.frontmatter, compliance.html, meta);
+    await runUpdateIndex();
+  }
   if (!options.quiet) {
     console.log('🎯 Next steps: npm run validate-posts && git status');
   }
