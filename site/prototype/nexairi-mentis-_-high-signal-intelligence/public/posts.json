@@ -1,5 +1,25 @@
 [
   {
+    "id": "nfl-week-14-final-month-of-the-season-begins",
+    "title": "NFL Week 14 - Final Month of the Season Begins",
+    "slug": "nfl-week-14-final-month-of-the-season-begins",
+    "date": "2025-12-05T00:00:00.000Z",
+    "category": "Sports",
+    "tags": [
+      "sports",
+      "NFL",
+      "Week 14",
+      "2025"
+    ],
+    "summary": "A game-by-game viewing guide for NFL Week 14, with kickoff times (ET) and national TV listings; every window matters as playoff and seeding implications loom.",
+    "excerpt": "Game-by-game viewing guide with times (ET) and TV listings for Week 14.",
+    "tldr": "Late-season urgency arrives: key games, times (ET), and national TV listings for Week 14. Double-check local listings.",
+    "imageUrl": "https://loremflickr.com/1600/900/nfl-week-14-2025/football/all?lock=9123",
+    "author": "Nexairi Sports Lab",
+    "readingTime": 8,
+    "contentFile": "content/sports/nfl-week-14-final-month-of-the-season-begins.html"
+  },
+  {
     "id": "template",
     "title": "Template",
     "slug": "template",
@@ -13,24 +33,14 @@
     "imageUrl": "https://loremflickr.com/1400/900/your-article-title-here/all?lock=57"
   },
   {
-    "id": "test-post",
-    "title": "Test Post",
-    "slug": "test-post",
-    "date": "2025-12-05T16:43:00.845Z",
-    "author": "Nexairi Editorial",
-    "summary": "```markdown --- title: AI Content Pipeline Test slug: ai-content-pipeline-test date: 2025-12-04 category: Technology author: Tepper B. summary: Testing the automated content pipeline foundation excerpt: Testing the automated content pipeline foundation tags: - ai - automation - test imageUrl: https://images.unsplash.co",
-    "excerpt": "```markdown --- title: AI Content Pipeline Test slug: ai-content-pipeline-test date: 2025-12-04 category: Technology author: Tepper B. summary: Testing the automated content pipeline foundation excerp",
-    "category": "Lifestyle",
-    "tags": [],
-    "contentFile": "content/archive/test-post.md",
-    "imageUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=80&w=1600"
-  },
+  /* test-post removed */
   {
     "id": "pros-and-cons-of-milling-your-own-grains",
     "title": "Pros And Cons Of Milling Your Own Grains",
     "slug": "pros-and-cons-of-milling-your-own-grains",
     "date": "2025-12-05T13:47:27.257Z",
     "author": "Nexairi Editorial",
+    "isFeatured": true,
     "summary": "Should You Mill Your Own Flour at Home? The Real Pros and Cons Is fresh flour worth the counter space? A friendly breakdown of flavor, nutrition, and logistics. By Kelly M. · 8 min read Fresh flour isn't just about nutrition; it's about connecting with the raw ingredients. If you bake even a little, you’ve probably had",
     "excerpt": "Should You Mill Your Own Flour at Home? The Real Pros and Cons Is fresh flour worth the counter space? A friendly breakdown of flavor, nutrition, and logistics. By Kelly M. · 8 min read Fresh flour is",
     "category": "Lifestyle",
