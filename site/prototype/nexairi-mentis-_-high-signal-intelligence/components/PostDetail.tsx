@@ -32,15 +32,17 @@ export const PostDetail: React.FC<PostDetailProps> = ({ post, allPosts }) => {
         return;
       }
 
-      // 2. Try to fetch from static folder
+      // 2. Try to fetch from static folder using `contentFile` when available
       try {
-        const response = await fetch(`/content/${post.slug}.html`);
+        const contentPath = post.contentFile ? `/${post.contentFile.replace(/^\//, '')}` : `/content/${post.slug}.html`;
+        const response = await fetch(contentPath);
         if (response.ok) {
           const text = await response.text();
           const cleaned = processContent(text);
           setContent(cleaned);
           setRawText(stripTags(cleaned));
         } else {
+          console.error('Article fetch failed', contentPath, response.status);
           setHasError(true);
         }
       } catch (error) {
