@@ -1,0 +1,9 @@
+{
+  "slug": "nba-week-nov-28-dec-4-2025",
+  "filename": "public/images/sports/nba-week-nov-28-dec-4-2025.jpg",
+  "brief": "Hero image for Weekly NBA Recap (Nov 28 - Dec 4, 2025): dynamic arena wide shot capturing Oklahoma City Thunder and Detroit Pistons energy — a split-focus composition that suggests both a dominant West and an ascending East. Include players in action (driving to rim, contested 3), packed crowd, and cool blue + red lighting to hint at Thunder/Pistons colors. High-contrast, editorial sports photo style, 16:9 landscape, 3000x1688px, photorealistic.",
+  "prompt": "Photorealistic wide arena shot, dynamic in-game action: Thunder and Pistons players in motion (driving to rim and perimeter defense), crowd cheering, motion blur on limbs, sharp focus on ball handler, dramatic arena lighting with cool-blue and warm-red accents, cinematic contrast, editorial sports photography — 16:9, 3000x1688, high detail. Avoid logos and team insignia that violate copyrights.",
+  "negatives": "no logos, no text overlays, no blurred faces beyond motion blur, avoid copyright-protected jerseys/logos",
+  "suggestedModel": "gemini-3.5-mini",
+  "notes": "Use Gemini image generation with a safe model and supply the prompt. If Gemini can't be used, source a licensed Getty/MLSSoccer/Unsplash editorial image and save as the filename above."
+}

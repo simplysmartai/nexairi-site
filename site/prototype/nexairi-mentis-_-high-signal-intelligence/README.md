@@ -4,6 +4,8 @@
 
 # Run and deploy your AI Studio app
 
+[![Regenerate posts.json](https://github.com/simplysmartai/nexairi-site/actions/workflows/regenerate-posts.yml/badge.svg)](https://github.com/simplysmartai/nexairi-site/actions/workflows/regenerate-posts.yml)
+
 This contains everything you need to run your app locally.
 
 View your app in AI Studio: https://ai.studio/apps/drive/13IRLC3FXXSPFM_kIrvua8JbwlrVd1vnx
