@@ -43,8 +43,11 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ secrets.GEMINI_MODEL }}
         run: |
           set -euo pipefail
+          GEMINI_MODEL="${GEMINI_MODEL:-gemini-2.5-flash}"
+          export GEMINI_MODEL
           RUN_DATE=$(date -u +"%Y-%m-%d")
           npm run generate-post -- --genre sports --topic "Weekly NBA recap — week ending ${RUN_DATE}"
 
@@ -54,8 +57,11 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ secrets.GEMINI_MODEL }}
         run: |
           set -euo pipefail
+          GEMINI_MODEL="${GEMINI_MODEL:-gemini-2.5-flash}"
+          export GEMINI_MODEL
           RUN_DATE=$(date -u +"%Y-%m-%d")
           npm run generate-post -- --genre sports --topic "Weekly NHL recap — week ending ${RUN_DATE}"
 
