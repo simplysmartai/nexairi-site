@@ -37,6 +37,8 @@
     "orchestra:full": "npm run orchestra:week && powershell -Command \"Start-Sleep -Seconds 259200\" && npm run orchestra:publish"
     ,
     "ingest:article": "tsx scripts/ingest-article.ts"
+    ,
+    "check-json": "node scripts/check-json.js"
   },
   "dependencies": {
     "@ai-sdk/openai": "^2.0.77",
