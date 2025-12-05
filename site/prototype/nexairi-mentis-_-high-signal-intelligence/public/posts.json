@@ -1,5 +1,45 @@
 [
   {
+    "id": "nhl-recap-december-5-2025",
+    "title": "Weekly NHL Recap: Highlights from December 5, 2025",
+    "slug": "nhl-recap-december-5-2025",
+    "date": "2025-12-05T14:33:44.581Z",
+    "author": "Nexairi Sports Lab",
+    "summary": "Catch up on the key moments and standout performances from the NHL week ending December 5, 2025.",
+    "excerpt": "Catch up on the key moments and standout performances from the NHL week ending December 5, 2025.",
+    "category": "Sports",
+    "tags": [
+      "nhl",
+      "hockey",
+      "sports",
+      "recap",
+      "highlights"
+    ],
+    "contentFile": "content/nhl-recap-december-5-2025.html",
+    "imageUrl": "https://example.com/hockey-celebration.jpg",
+    "isFeatured": false
+  },
+  {
+    "id": "weekly-nba-recap-dec-5-2025",
+    "title": "Weekly NBA Recap: Highlights from Week Ending December 5, 2025",
+    "slug": "weekly-nba-recap-dec-5-2025",
+    "date": "2025-12-05T14:33:20.259Z",
+    "author": "Nexairi Sports Lab",
+    "summary": "Catch up on the key moments and standout performances from the NBA in the week ending December 5, 2025.",
+    "excerpt": "Catch up on the key moments and standout performances from the NBA in the week ending December 5, 2025.",
+    "category": "Sports",
+    "tags": [
+      "nba",
+      "basketball",
+      "sports",
+      "recap",
+      "highlights"
+    ],
+    "contentFile": "content/weekly-nba-recap-dec-5-2025.html",
+    "imageUrl": "https://example.com/nba-slam-dunk.jpg",
+    "isFeatured": false
+  },
+  {
     "id": "pros-and-cons-of-milling-your-own-grains",
     "title": "Pros And Cons Of Milling Your Own Grains",
     "slug": "pros-and-cons-of-milling-your-own-grains",
