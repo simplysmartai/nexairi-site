@@ -111,7 +111,9 @@
     ],
     "contentFile": "content/openai-vs-perplexity-vs-gemini-b2b-content-benchmarks.html",
     "imageUrl": "https://example.com/hero-image-ai-discussion.jpg",
-    "isFeatured": false
+    "isFeatured": false,
+    "archived": true,
+    "contentFile": "content/archive/_template.html"
   },
   {
     "id": "openai-vs-perplexity-vs-gemini-b2b-benchmarks",
@@ -131,6 +133,20 @@
     ],
     "contentFile": "content/openai-vs-perplexity-vs-gemini-b2b-benchmarks.html",
     "imageUrl": "https://example.com/hero-image.jpg",
+    "isFeatured": false
+  },
+  {
+    "id": "multi-ai-content-pipelines-in-2025",
+    "title": "Multi-AI Content Pipelines in 2025",
+    "slug": "multi-ai-content-pipelines-in-2025",
+    "date": "2025-12-05T02:10:00.000Z",
+    "author": "Nexairi Labs",
+    "summary": "Overview of multi-agent AI content pipelines and orchestration patterns in 2025.",
+    "excerpt": "An overview of practical multi-AI pipelines and orchestration patterns used for content production.",
+    "category": "Technology",
+    "tags": ["ai","pipelines","orchestration"],
+    "contentFile": "content/archive/_template.html",
+    "archived": true,
     "isFeatured": false
   },
   {
@@ -659,23 +675,7 @@
     "imageUrl": "https://loremflickr.com/1600/900/holiday-reset-lifestyle/all?lock=380",
     "isFeatured": false
   },
-  {
-    "id": "multi-ai-content-pipelines-in-2025",
-    "title": "Multi-AI Content Pipelines in 2025",
-    "slug": "multi-ai-content-pipelines-in-2025",
-    "date": "2025-12-04T00:00:00.000Z",
-    "author": "Barry L.",
-    "summary": "```yaml ``` ...",
-    "excerpt": "```yaml ``` ...",
-    "category": "Technology",
-    "tags": [
-      "ai",
-      "automation",
-      "multiaicontentpipelinesin"
-    ],
-    "contentFile": "content/multi-ai-content-pipelines-in-2025.md",
-    "imageUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=80&w=1600"
-  },
+  
   {
     "id": "the-future-of-ai-driven-content-creation",
     "title": "The Future of AI-Driven Content Creation",
