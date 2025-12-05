@@ -117,14 +117,74 @@ HTML Preview: ${body.slice(0, 2000)}`;
   } catch (error) {
     console.warn('⚠️  Gemini image brief failed, using fallback prompts.', error);
   }
-  return {
-    hero: {
-      alt: `${title} hero artwork`,
-      prompt: `${title} hero, editorial rendering`,
-      url: placeholderFromPrompt(title),
-    },
-    diagrams: [],
+  // If Gemini fails or returns nothing, attempt to auto-generate a richer set of briefs
+  // by parsing the article for recap-specific sections (top-10-games, hot-players, upcoming-top-5)
+  function extractListItems(sectionId: string): string[] {
+    try {
+      const sectionRegex = new RegExp(`<section[^>]*id=\\"${sectionId}\\"[^>]*>[\\s\\S]*?<ol[^>]*>([\\s\\S]*?)<\\/ol>`, 'i');
+      const match = body.match(sectionRegex);
+      if (!match) return [];
+      const olHtml = match[1];
+      const liRegex = /<li[^>]*>([\s\S]*?)<\/li>/gi;
+      const items: string[] = [];
+      let m: RegExpExecArray | null;
+      while ((m = liRegex.exec(olHtml)) !== null) {
+        const text = m[1].replace(/<[^>]*>/g, '').trim();
+        if (text) items.push(text);
+      }
+      return items;
+    } catch (err) {
+      return [];
+    }
+  }
+
+  const topGames = extractListItems('top-10-games');
+  const hotPlayers = extractListItems('hot-players');
+  const upcoming = extractListItems('upcoming-top-5');
+
+  const heroPrompt = `${title} hero, editorial sports photography, dynamic composition, high contrast, shallow depth of field`;
+  const hero = {
+    alt: `${title} hero artwork`,
+    prompt: heroPrompt,
+    url: placeholderFromPrompt(heroPrompt),
   };
+
+  const diagrams: ImageBrief['diagrams'] = [];
+  // Create diagrams for top 5 players (or fewer based on content)
+  (hotPlayers.slice(0, 5)).forEach((p, i) => {
+    diagrams.push({
+      id: `${slug}-player-${i + 1}`,
+      prompt: `${p} portrait, editorial sports photography, close-up, dramatic lighting, team colors`,
+      caption: `Hot streak: ${p}`,
+    });
+  });
+
+  // Create diagrams for top 5 upcoming games
+  (upcoming.slice(0, 5)).forEach((g, i) => {
+    diagrams.push({
+      id: `${slug}-upcoming-${i + 1}`,
+      prompt: `${g} preview composite, two-team matchup, editorial action collage, dramatic lighting`,
+      caption: `Look ahead: ${g}`,
+    });
+  });
+
+  // If there are no parsed items, add two generic diagrams
+  if (diagrams.length === 0) {
+    diagrams.push(
+      {
+        id: `${slug}-diagram-1`,
+        prompt: `${title} action shot, editorial sports composition`,
+        caption: 'Top plays montage',
+      },
+      {
+        id: `${slug}-diagram-2`,
+        prompt: `${title} analytics dashboard mock, clean UI, focus on momentum`,
+        caption: 'Key trends and metrics',
+      },
+    );
+  }
+
+  return { hero, diagrams };
 }
 
 async function persistBrief(slug: string, brief: ImageBrief): Promise<string> {
