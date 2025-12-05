@@ -36,9 +36,9 @@
     "orchestra:publish": "npm run seo-all && npm run publish-all",
     "orchestra:full": "npm run orchestra:week && powershell -Command \"Start-Sleep -Seconds 259200\" && npm run orchestra:publish"
     ,
-    "ingest:article": "tsx scripts/ingest-article.ts"
-    ,
-    "check-json": "node scripts/check-json.js"
+    "ingest:article": "tsx scripts/ingest-article.ts",
+    "check-json": "node scripts/check-json.js",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@ai-sdk/openai": "^2.0.77",
@@ -52,6 +52,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "husky": "^8.0.0",
     "@types/node": "^20.0.0",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",

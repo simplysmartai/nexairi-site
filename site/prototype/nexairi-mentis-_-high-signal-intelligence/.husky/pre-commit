@@ -1,0 +1,6 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Run strict JSON check and posts schema validation before allowing commits
+npm run check-json || exit 1
+npm run validate-posts || exit 1
