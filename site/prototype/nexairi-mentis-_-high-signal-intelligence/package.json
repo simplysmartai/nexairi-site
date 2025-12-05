@@ -35,6 +35,8 @@
     "orchestra:week": "npm run research-all && npm run draft-queue && npm run review-queue",
     "orchestra:publish": "npm run seo-all && npm run publish-all",
     "orchestra:full": "npm run orchestra:week && powershell -Command \"Start-Sleep -Seconds 259200\" && npm run orchestra:publish"
+    ,
+    "ingest:article": "tsx scripts/ingest-article.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "^2.0.77",
