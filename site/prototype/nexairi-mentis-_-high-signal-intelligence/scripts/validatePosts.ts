@@ -19,6 +19,7 @@ interface PostRecord {
   imageUrl: string;
   tags: unknown;
   contentFile: string;
+  archived?: boolean;
   isFeatured?: unknown;
   series?: unknown;
   seriesLabel?: unknown;
@@ -97,6 +98,11 @@ async function validatePosts(): Promise<void> {
 
   for (const [index, post] of posts.entries()) {
     const prefix = `post[${index}] (${post.slug ?? post.id ?? 'unknown'})`;
+
+    // Skip archived posts from regular validation (they remain in posts.json but are not part of public feeds)
+    if (post.archived === true) {
+      continue;
+    }
 
     if (!post.id || typeof post.id !== 'string') {
       trackIssue(issues, 'error', `${prefix}: missing id.`);

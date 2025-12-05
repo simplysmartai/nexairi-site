@@ -1,4 +1,4 @@
-export type Category = 'Lifestyle' | 'Technology' | 'Travel' | 'Sports' | 'Sports & Seasons';
+export type Category = 'Lifestyle' | 'Technology' | 'Travel' | 'Sports';
 
 export interface Post {
   id: string;
@@ -11,7 +11,7 @@ export interface Post {
   category: Category;
   subCategory?: string;
   league?: string;
-  contentPath: string; // site-relative path like /content/sports/slug.html
+  contentFile: string; // site-relative path like content/sports/slug.html (no leading slash)
   imageUrl?: string;
   isFeatured?: boolean;
   tags?: string[];

@@ -19,6 +19,7 @@ interface Frontmatter {
   isFeatured?: boolean;
   series?: string;
   seriesLabel?: string;
+  archived?: boolean | string;
 }
 
 export interface Post {
@@ -32,6 +33,7 @@ export interface Post {
   category: string;
   tags: string[];
   contentFile: string;
+  archived?: boolean;
   imageUrl: string;
   isFeatured?: boolean;
   series?: string;
@@ -197,6 +199,7 @@ async function buildPostFromFile(filePath: string): Promise<Post> {
     category,
     tags,
     contentFile: path.relative(path.resolve(ROOT_DIR, 'public'), filePath).replace(/\\/g, '/'),
+    archived: data.archived === true || data.archived === 'true',
     imageUrl,
     isFeatured: data.isFeatured,
     series: data.series,

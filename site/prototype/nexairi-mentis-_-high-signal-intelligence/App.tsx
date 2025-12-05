@@ -149,7 +149,9 @@ function App() {
 
         if (Array.isArray(data)) {
           const normalized = data.map((item) => normalizePost(item as Partial<BlogPost>));
-          setPosts(normalized);
+          // Hide archived posts from normal feeds (they remain in posts.json)
+          const visible = normalized.filter((p) => !p.archived);
+          setPosts(visible);
         } else {
           console.error("Invalid data format: Expected array", data);
           setLoadingError(true);

@@ -38,11 +38,12 @@ async function main() {
     }
     const genreFolder = String(normalizedCategory).toLowerCase().replace(/\s+/g, '-');
 
-    // Decide slug
-    const slug = draft.slug || draft.id || 'untitled';
-    const safeSlug = String(slug).toLowerCase().trim().replace(/[^a-z0-9\-_.]/g, '-');
+    // Decide slug and id (normalized)
+    const rawSlug = draft.slug || draft.id || 'untitled';
+    const safeSlug = String(rawSlug).toLowerCase().trim().replace(/[^a-z0-9\-_.]/g, '-');
+    const postId = draft.id || safeSlug;
 
-    // Build contentPath as site-relative: /content/<genre>/<slug>.html
+    // Build contentPath as site-relative: content/<genre>/<slug>.html (posix separators)
     const contentPath = path.posix.join('content', genreFolder, `${safeSlug}.html`);
 
     // Resolve final output path under public/
@@ -56,10 +57,21 @@ async function main() {
     const metadata = { ...draft };
     delete metadata.contentHtml;
 
-    // Normalize contentFile in metadata to the path used on the site (leading slash)
-    metadata.contentFile = '/' + contentPath.split(path.sep).join('/');
+    // Normalize date and author for posts.json to match index expectations
+    try {
+      const d = new Date(draft.date || draft.dateString || Date.now());
+      metadata.date = Number.isNaN(d.getTime()) ? new Date().toISOString() : d.toISOString();
+    } catch (err) {
+      metadata.date = new Date().toISOString();
+    }
+    metadata.author = metadata.author || 'Nexairi Editorial';
+    // Normalize contentFile in metadata to the path used on the site (no leading slash)
+    metadata.contentFile = contentPath; // already posix
     // Ensure category is normalized
     metadata.category = normalizedCategory;
+    // Ensure slug and id normalized
+    metadata.slug = String(safeSlug);
+    metadata.id = String(postId);
     // Remove old contentPath if present
     if (metadata.contentPath) delete metadata.contentPath;
 
@@ -78,6 +90,24 @@ async function main() {
       } else {
         throw err;
       }
+    }
+
+    // Check for duplicate id/slug in current posts.json
+    const conflict = posts.find((p) => (p.id && p.id === metadata.id) || (p.slug && p.slug === metadata.slug));
+    if (conflict) {
+      // Create diagnostic report for maintainers
+      const reportsDir = path.resolve(repoRoot, 'reports', 'generate');
+      await fs.mkdir(reportsDir, { recursive: true });
+      const reportPath = path.resolve(reportsDir, `duplicate-${metadata.slug}.json`);
+      const report = {
+        error: 'duplicate-id-or-slug',
+        message: `Post id or slug already exists in posts.json: id=${metadata.id} slug=${metadata.slug}`,
+        existing: conflict,
+        incoming: metadata,
+        timestamp: new Date().toISOString(),
+      };
+      await fs.writeFile(reportPath, JSON.stringify(report, null, 2) + '\n', 'utf8');
+      throw new Error(`Duplicate post id/slug detected. Wrote diagnostic: ${path.relative(repoRoot, reportPath)}`);
     }
 
     // Insert metadata at the top

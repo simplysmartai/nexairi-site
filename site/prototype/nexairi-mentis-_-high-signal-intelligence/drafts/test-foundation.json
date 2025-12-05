@@ -1,0 +1,13 @@
+{
+  "id": "test-foundation",
+  "title": "Test Foundation Draft",
+  "slug": "test-foundation",
+  "date": "2025-12-05",
+  "category": "Technology",
+  "tags": ["test","foundation"],
+  "summary": "A tiny test draft to verify ingestion pipeline.",
+  "excerpt": "A tiny test draft to verify ingestion pipeline.",
+  "tldr": "One-line summary: ingestion pipeline validation.",
+  "contentHtml": "<article><h1>Test Foundation Draft</h1><p>This is a small test article created to exercise the ingestion pipeline.</p><p>It has an explicit title, summary, and minimal content.</p></article>",
+  "imageUrl": "https://loremflickr.com/1600/900/test"
+}
