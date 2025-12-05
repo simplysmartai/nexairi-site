@@ -1,4 +1,8 @@
 import 'dotenv/config';
+import dotenv from 'dotenv';
+
+// Load .env.local if present (local overrides for development)
+dotenv.config({ path: '.env.local', override: false });
 
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
@@ -187,21 +191,37 @@ async function draftArticle(topic: string, genre: GenreKey, research: string | n
   console.log('✍️  Drafting article with OpenAI…');
   const profile = GENRE_PROFILES[genre];
 
+  const messages: any[] = [
+    {
+      role: 'system',
+      content: `You are Nexairi's editorial AI. Tone: ${profile.tone}. Output JSON with keys frontmatter + html. frontmatter must include title, slug, summary (<=160 chars), tags array (3-6, lowercase). HTML must be semantic (<article>, <section>, etc.).`,
+    },
+  ];
+
+  // base payload
+  messages.push({ role: 'user', content: JSON.stringify({ topic, genre, research }) });
+
+  const lower = topic.toLowerCase();
+  if (lower.includes('weekly nba recap') || lower.includes('nba recap')) {
+    messages.push({
+      role: 'user',
+      content:
+        'This is a WEEKLY RECAP for the NBA. Return the article HTML following this exact H2 structure: <h2>The week in one glance</h2>, <h2>Statement wins and bad losses</h2>, <h2>Players and trends that moved the needle</h2>, <h2>Injuries and stories to monitor</h2>, <h2>What smart fans should watch next week</h2>. Keep paragraphs short (2–4 sentences) and include concise bullet lists where appropriate. Do not invent exact scores—refer to real results if available in research. Output must remain JSON with keys frontmatter + html.',
+    });
+  }
+  if (lower.includes('weekly nhl recap') || lower.includes('nhl recap')) {
+    messages.push({
+      role: 'user',
+      content:
+        'This is a WEEKLY RECAP for the NHL. Return the article HTML following this exact H2 structure: <h2>The week in one glance</h2>, <h2>Statement wins and bad losses</h2>, <h2>Players and trends that moved the needle</h2>, <h2>Injuries and stories to monitor</h2>, <h2>What smart fans should watch next week</h2>. Keep paragraphs short (2–4 sentences) and include concise bullet lists where appropriate. Use available research for specific names/stats. Output must remain JSON with keys frontmatter + html.',
+    });
+  }
+
   const completion = await openai.chat.completions.create({
     model: 'gpt-4o-mini',
     response_format: { type: 'json_object' },
     temperature: 0.55,
-    messages: [
-      {
-        role: 'system',
-        content: `You are Nexairi's editorial AI. Tone: ${profile.tone}. Output JSON with keys frontmatter + html.
-frontmatter must include title, slug, summary (<=160 chars), tags array (3-6, lowercase). HTML must be semantic (<article>, <section>, etc.).`,
-      },
-      {
-        role: 'user',
-        content: JSON.stringify({ topic, genre, research }),
-      },
-    ],
+    messages,
   });
 
   const raw = completion.choices[0].message?.content;
@@ -293,24 +313,32 @@ async function buildMetaAssets(topic: string, html: string): Promise<MetaPayload
     return null;
   }
 
-  console.log('🎨 Requesting Gemini meta + imagery guidance…');
-  const prompt = `Create metadata for Nexairi article.
-Return JSON with keys: metaDescription (<=155 chars), heroAlt, imagePrompt (stable diffusion style).
-Topic: ${topic}
-Preview HTML: ${html.slice(0, 2000)}`;
+  const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+  console.log(`🎨 Requesting Gemini meta + imagery guidance (model: ${GEMINI_MODEL})…`);
+  const prompt = `Create metadata for Nexairi article. Return JSON with keys: metaDescription (<=155 chars), heroAlt, imagePrompt (stable diffusion style). Topic: ${topic} Preview HTML: ${html.slice(0, 2000)}`;
 
-  const response = await geminiClient.models.generateContent({
-    model: 'gemini-1.5-flash',
-    contents: prompt,
-  });
-  const text = (response as any).text?.() ?? (response as any).text;
-  if (!text) return null;
   try {
-    const meta = JSON.parse(text) as MetaPayload;
-    return meta;
-  } catch (error) {
-    console.warn('Gemini meta payload parse failed:', error);
-    return null;
+    const response = await (geminiClient as any).models.generateContent({
+      model: GEMINI_MODEL,
+      contents: prompt,
+    });
+    const text = (response as any).text?.() ?? (response as any).text;
+    if (!text) return null;
+    try {
+      const meta = JSON.parse(text) as MetaPayload;
+      return meta;
+    } catch (error) {
+      console.warn('Gemini meta payload parse failed:', error);
+      return null;
+    }
+  } catch (err: any) {
+    // Bubble up the error to caller which already handles failures, but log actionable guidance
+    if (err?.status === 404 || (err?.error && err.error.status === 404)) {
+      console.warn('⚠️  Gemini model not found (404). Try setting `GEMINI_MODEL` to an available model or remove the GEMINI_API_KEY.');
+    } else {
+      console.warn('⚠️  Gemini meta request failed:', err?.message || err);
+    }
+    throw err;
   }
 }
 
@@ -459,7 +487,13 @@ export async function runGeneratePost(options: GenerateOptions = {}) {
   if (imageSuggestion?.imageUrl) {
     draft.frontmatter.imageUrl = imageSuggestion.imageUrl;
   }
-  const meta = await buildMetaAssets(topic, compliance.html);
+  let meta: MetaPayload | null = null;
+  try {
+    meta = await buildMetaAssets(topic, compliance.html);
+  } catch (err) {
+    console.warn('⚠️  Gemini/meta assets failed — continuing without meta:', err);
+    meta = null;
+  }
   if (imageSuggestion?.alt) {
     draft.frontmatter.heroAlt = imageSuggestion.alt;
   }

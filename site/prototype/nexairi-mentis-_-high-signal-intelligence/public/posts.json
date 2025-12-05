@@ -1,5 +1,65 @@
 [
   {
+    "id": "weekly-nhl-recap-dec-5-2025",
+    "title": "Weekly NHL Recap: Week Ending December 5, 2025",
+    "slug": "weekly-nhl-recap-dec-5-2025",
+    "date": "2025-12-05T15:01:23.295Z",
+    "author": "Nexairi Sports Lab",
+    "summary": "Catch up on the latest NHL highlights, key player performances, and upcoming matchups from the week ending December 5, 2025.",
+    "excerpt": "Catch up on the latest NHL highlights, key player performances, and upcoming matchups from the week ending December 5, 2025.",
+    "category": "Sports",
+    "tags": [
+      "nhl",
+      "recap",
+      "sports",
+      "hockey",
+      "weekly"
+    ],
+    "contentFile": "content/weekly-nhl-recap-dec-5-2025.html",
+    "imageUrl": "https://example.com/nhl-action-shot.jpg",
+    "isFeatured": false
+  },
+  {
+    "id": "weekly-nba-recap-december-5-2025",
+    "title": "Weekly NBA Recap: Week Ending December 5, 2025",
+    "slug": "weekly-nba-recap-december-5-2025",
+    "date": "2025-12-05T14:58:08.686Z",
+    "author": "Nexairi Sports Lab",
+    "summary": "Catch up on the latest NBA highlights, standout performances, and key injuries from the week ending December 5, 2025.",
+    "excerpt": "Catch up on the latest NBA highlights, standout performances, and key injuries from the week ending December 5, 2025.",
+    "category": "Sports",
+    "tags": [
+      "nba",
+      "sports",
+      "recap",
+      "basketball",
+      "weekly"
+    ],
+    "contentFile": "content/weekly-nba-recap-december-5-2025.html",
+    "imageUrl": "https://example.com/nba-slam-dunk.jpg",
+    "isFeatured": false
+  },
+  {
+    "id": "nba-weekly-recap-dec-5-2025",
+    "title": "NBA Weekly Recap: Highlights from Week Ending December 5, 2025",
+    "slug": "nba-weekly-recap-dec-5-2025",
+    "date": "2025-12-05T14:38:45.250Z",
+    "author": "Nexairi Sports Lab",
+    "summary": "Catch the highlights and lowlights from the NBA week ending December 5, 2025.",
+    "excerpt": "Catch the highlights and lowlights from the NBA week ending December 5, 2025.",
+    "category": "Sports",
+    "tags": [
+      "nba",
+      "weekly recap",
+      "basketball",
+      "sports",
+      "2025"
+    ],
+    "contentFile": "content/nba-weekly-recap-dec-5-2025.html",
+    "imageUrl": "https://example.com/nba-slam-dunk.jpg",
+    "isFeatured": false
+  },
+  {
     "id": "nhl-recap-december-5-2025",
     "title": "Weekly NHL Recap: Highlights from December 5, 2025",
     "slug": "nhl-recap-december-5-2025",
