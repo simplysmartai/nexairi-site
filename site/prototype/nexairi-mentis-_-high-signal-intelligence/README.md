@@ -15,13 +15,13 @@ View your app in AI Studio: https://ai.studio/apps/drive/13IRLC3FXXSPFM_kIrvua8J
 
 1. Install dependencies:
    `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+2. Copy [.env.example](.env.example) to `.env.local` (or export the same keys in Cloudflare) and fill in the required secrets (see table below).
 3. Run the app:
    `npm run dev`
 
 ## Cloudflare Pages Deployment
 
-- This folder is the true repo root for the Vite app. If your Git provider still tracks a larger monorepo, set Cloudflare's *Root Directory* to `site/prototype/nexairi-mentis-_-high-signal-intelligence` so it builds from here.
+- This repository already lives at the Vite app root, so Cloudflare's *Root Directory* can remain blank. If you embed this folder inside a larger monorepo, set the root to `site/prototype/nexairi-mentis-_-high-signal-intelligence`.
 - Use `npm run build` as the *Build Command* and `dist` as the *Output Directory*.
 - All nested Git metadata and submodule references have been removed, so the repo is now self-contained and can be cloned without needing `git submodule` commands.
 
@@ -42,13 +42,16 @@ View your app in AI Studio: https://ai.studio/apps/drive/13IRLC3FXXSPFM_kIrvua8J
 - **Image-sourcing agent** returns modern art direction (alt text, keywords, prompt) and injects a deterministic hero image URL.
 - **Affiliate guardrail** rewrites every Amazon link with `?tag=nexairimentis-20` and appends the disclosure block (`<section data-component="affiliate-disclosure" ...>`). Validation fails if future manual edits remove the tag or disclosure.
 
-Environment variables live in your local `.env` and are ignored by Git. Example:
+Environment variables live in `.env.local` (ignored by Git). Use `.env.example` as your template:
 
-```
-OPENAI_API_KEY=sk-...
-PERPLEXITY_API_KEY=px-...
-GEMINI_API_KEY=...
-```
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `OPENAI_API_KEY` | ✅ yes | Powers editorial agents (`generate-post`, `seo-optimize`, `email-agent`, etc.). |
+| `PERPLEXITY_API_KEY` | optional | Enables richer research inside `generate-post` / `researchTopic`. |
+| `GEMINI_API_KEY` | optional | Required for Gemini-driven meta/image cues in `generate-post` and `image-agent`. |
+| `API_KEY` | optional | Client-side Gemini demos (Pixel Studio, TLDR Slider, etc.) shown on the site. |
+| `SUPPORT_FROM_ADDRESS` | optional (defaults to `support@nexairi.com`) | Sender used by the support email agent. |
+| `SUPPORT_ESCALATION_EMAILS` | optional (defaults to `jimmy@nexairi.com`) | Comma-separated list of addresses notified for Tier 0/1 tickets. |
 
 Workflow tip: run `npm run generate-post`, then `npm run validate-posts`, then `git status` before committing.
 
