@@ -1,0 +1,29 @@
+name: Validate Posts Index
+
+on:
+  pull_request:
+    paths:
+      - 'public/posts.json'
+      - 'scripts/**'
+  push:
+    branches: [ main ]
+    paths:
+      - 'public/posts.json'
+      - 'scripts/**'
+
+jobs:
+  validate:
+    name: Validate posts.json and schema
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: npm ci
+      - name: Check posts.json is valid JSON
+        run: npm run check-json
+      - name: Run posts validator
+        run: npm run validate-posts
