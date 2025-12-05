@@ -5,7 +5,7 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import OpenAI from 'openai';
 import { perplexity } from '@ai-sdk/perplexity';
-import { GoogleGenerativeAI } from '@google/genai';
+import { GoogleGenAI } from '@google/genai';
 import { FALLBACK_POST_IMAGE } from '../constants/media.ts';
 import { enforceAffiliateCompliance } from '../utils/affiliate.ts';
 
@@ -23,7 +23,7 @@ const perplexityClient = process.env.PERPLEXITY_API_KEY
   ? createPerplexityClient({ apiKey: process.env.PERPLEXITY_API_KEY })
   : null;
 const geminiClient = process.env.GEMINI_API_KEY
-  ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
+  ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
   : null;
 
 const GENRE_PROFILES = {
@@ -159,9 +159,13 @@ async function researchTopic(topic: string, genre: GenreKey): Promise<string | n
     console.log('⚠️  Skipping research (PERPLEXITY_API_KEY missing).');
     return null;
   }
+  if (typeof (perplexityClient as any).generateText !== 'function') {
+    console.log('⚠️  Skipping research (Perplexity SDK missing generateText).');
+    return null;
+  }
 
   console.log('🔎 Gathering research via Perplexity…');
-  const { text } = await perplexityClient.generateText({
+  const { text } = await (perplexityClient as any).generateText({
     model: 'llama-3.1-sonar-large-128k-online',
     prompt: `Produce bulletproof research for the topic "${topic}" in the ${genre} category.
 Return bullet points with references, stats, and contrasting viewpoints.`,
@@ -240,7 +244,7 @@ async function runCopyReviewAgent(
         {
           role: 'system',
           content:
-            "You are Nexairi's executive editor. Polish the article HTML without removing structure, tighten language, enforce tone guidelines, and call out missing disclosures.",
+            "You are Nexairi's executive editor. Polish the article HTML without removing structure, tighten language, enforce tone guidelines, call out missing disclosures, and respond with JSON keys html, notes, warnings.",
         },
         {
           role: 'user',
@@ -253,12 +257,20 @@ async function runCopyReviewAgent(
     if (!payload) return null;
     const parsed = JSON.parse(payload) as CopyReviewPayload;
     if (!parsed.html) return null;
-    if (parsed.notes?.length) {
-      console.log(`   → Copy review notes: ${parsed.notes.join(' | ')}`);
+    const notes = Array.isArray(parsed.notes)
+      ? parsed.notes
+      : parsed.notes
+        ? [parsed.notes]
+        : [];
+    if (notes.length) {
+      console.log(`   → Copy review notes: ${notes.join(' | ')}`);
     }
-    if (parsed.warnings?.length) {
-      parsed.warnings.forEach((warning) => console.warn(`   ⚠️  Copy review warning: ${warning}`));
-    }
+    const warnings = Array.isArray(parsed.warnings)
+      ? parsed.warnings
+      : parsed.warnings
+        ? [parsed.warnings]
+        : [];
+    warnings.forEach((warning) => console.warn(`   ⚠️  Copy review warning: ${warning}`));
     return parsed;
   } catch (error) {
     console.warn('Copy-review agent failed, using draft HTML.', error);
@@ -282,14 +294,16 @@ async function buildMetaAssets(topic: string, html: string): Promise<MetaPayload
   }
 
   console.log('🎨 Requesting Gemini meta + imagery guidance…');
-  const model = geminiClient.getGenerativeModel({ model: 'gemini-1.5-flash' });
   const prompt = `Create metadata for Nexairi article.
 Return JSON with keys: metaDescription (<=155 chars), heroAlt, imagePrompt (stable diffusion style).
 Topic: ${topic}
 Preview HTML: ${html.slice(0, 2000)}`;
 
-  const result = await model.generateContent(prompt);
-  const text = result.response.text();
+  const response = await geminiClient.models.generateContent({
+    model: 'gemini-1.5-flash',
+    contents: prompt,
+  });
+  const text = (response as any).text?.() ?? (response as any).text;
   if (!text) return null;
   try {
     const meta = JSON.parse(text) as MetaPayload;
@@ -316,7 +330,7 @@ async function suggestHeroImage(topic: string, genre: GenreKey, html: string): P
         {
           role: 'system',
           content:
-            'You are Nexairi\'s visual editor. Recommend a single hero image concept with alt text and style keywords. Prefer modern editorial photography.',
+            'You are Nexairi\'s visual editor. Recommend a single hero image concept with alt text and style keywords in JSON (keys: alt, credit, prompt, styleKeywords, imageUrl). Prefer modern editorial photography.',
         },
         {
           role: 'user',

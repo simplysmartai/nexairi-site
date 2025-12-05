@@ -1,5 +1,85 @@
 [
   {
+    "id": "top-10-ps5-games-holiday",
+    "title": "Top 10 Ps5 Games Holiday",
+    "slug": "top-10-ps5-games-holiday",
+    "date": "2025-12-05T03:58:26.165Z",
+    "author": "Nexairi Editorial",
+    "summary": "Next-Gen Escapism: The 10 PS5 Titles Defining This Holiday Season From open-world epics to precise platformers—the definitive shortlist for your console (or your gift list). By Sami W. · 8 min read The PlayStation 5 has finally hit its stride. The supply chain shortages are history, and the library has matured from \"cr",
+    "excerpt": "Next-Gen Escapism: The 10 PS5 Titles Defining This Holiday Season From open-world epics to precise platformers—the definitive shortlist for your console (or your gift list). By Sami W. · 8 min read Th",
+    "category": "Lifestyle",
+    "tags": [],
+    "contentFile": "content/top-10-ps5-games-holiday.html",
+    "imageUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "tech-that-makes-holiday-weeks-easier",
+    "title": "Tech That Makes Holiday Weeks Easier",
+    "slug": "tech-that-makes-holiday-weeks-easier",
+    "date": "2025-12-05T03:58:25.085Z",
+    "author": "Nexairi Editorial",
+    "summary": "Smooth the Edges: Tech That Makes Holiday Weeks Easier (Without Turning Your Home Into a Lab) By Lily B. · 11 min read Holiday weeks compress guests, bags, schedules, and expectations into small spaces. The best technology for these weeks doesn’t feel flashy—it removes friction quietly. Here’s a brand‑agnostic checklis",
+    "excerpt": "Smooth the Edges: Tech That Makes Holiday Weeks Easier (Without Turning Your Home Into a Lab) By Lily B. · 11 min read Holiday weeks compress guests, bags, schedules, and expectations into small space",
+    "category": "Lifestyle",
+    "tags": [],
+    "contentFile": "content/tech-that-makes-holiday-weeks-easier.html",
+    "imageUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "pros-and-cons-of-milling-your-own-grains",
+    "title": "Pros And Cons Of Milling Your Own Grains",
+    "slug": "pros-and-cons-of-milling-your-own-grains",
+    "date": "2025-12-05T03:58:23.994Z",
+    "author": "Nexairi Editorial",
+    "summary": "Should You Mill Your Own Flour at Home? The Real Pros and Cons Is fresh flour worth the counter space? A friendly breakdown of flavor, nutrition, and logistics. By Kelly M. · 8 min read Fresh flour isn't just about nutrition; it's about connecting with the raw ingredients. If you bake even a little, you’ve probably had",
+    "excerpt": "Should You Mill Your Own Flour at Home? The Real Pros and Cons Is fresh flour worth the counter space? A friendly breakdown of flavor, nutrition, and logistics. By Kelly M. · 8 min read Fresh flour is",
+    "category": "Lifestyle",
+    "tags": [],
+    "contentFile": "content/pros-and-cons-of-milling-your-own-grains.html",
+    "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "openai-vs-perplexity-vs-gemini-b2b-content-benchmarks",
+    "title": "OpenAI vs Perplexity vs Gemini: B2B Content Benchmarks",
+    "slug": "openai-vs-perplexity-vs-gemini-b2b-content-benchmarks",
+    "date": "2025-12-05T02:17:11.882Z",
+    "author": "Nexairi Technology",
+    "summary": "A comparative analysis of OpenAI, Perplexity, and Gemini in the context of B2B content generation.",
+    "excerpt": "A comparative analysis of OpenAI, Perplexity, and Gemini in the context of B2B content generation.",
+    "category": "Technology",
+    "tags": [
+      "b2b",
+      "content",
+      "openai",
+      "perplexity",
+      "gemini",
+      "technology"
+    ],
+    "contentFile": "content/openai-vs-perplexity-vs-gemini-b2b-content-benchmarks.html",
+    "imageUrl": "https://example.com/hero-image-ai-discussion.jpg",
+    "isFeatured": false
+  },
+  {
+    "id": "openai-vs-perplexity-vs-gemini-b2b-benchmarks",
+    "title": "OpenAI vs Perplexity vs Gemini: Analyzing B2B Content Benchmarks",
+    "slug": "openai-vs-perplexity-vs-gemini-b2b-benchmarks",
+    "date": "2025-12-05T02:16:13.033Z",
+    "author": "Nexairi Editorial",
+    "summary": "A comparative analysis of OpenAI, Perplexity, and Gemini in B2B content creation benchmarks.",
+    "excerpt": "A comparative analysis of OpenAI, Perplexity, and Gemini in B2B content creation benchmarks.",
+    "category": "Technology",
+    "tags": [
+      "openai",
+      "perplexity",
+      "gemini",
+      "b2b",
+      "content"
+    ],
+    "contentFile": "content/openai-vs-perplexity-vs-gemini-b2b-benchmarks.html",
+    "imageUrl": "https://example.com/hero-image.jpg",
+    "isFeatured": false
+  },
+  {
     "id": "calm-amid-the-holiday-rush",
     "title": "Calm Amid The Holiday Rush",
     "slug": "calm-amid-the-holiday-rush",
@@ -53,20 +133,6 @@
     "tags": [],
     "contentFile": "content/top-10-travel-tech-under-300.html",
     "imageUrl": "https://loremflickr.com/1600/900/travel-tech-under/all?lock=804",
-    "isFeatured": false
-  },
-  {
-    "id": "top-10-ps5-games-holiday",
-    "title": "Top 10 Ps5 Games Holiday",
-    "slug": "top-10-ps5-games-holiday",
-    "date": "2025-12-04T03:19:47.992Z",
-    "author": "Sarah R.",
-    "summary": "Next-Gen Escapism: The 10 PS5 Titles Defining This Holiday Season From open-world epics to precise platformers—the definitive shortlist for your console (or your gift list). By Nexairi Technology · 8 min read The PlayStation 5 has finally hit its stride. The supply chain shortages are history, and the library has matur",
-    "excerpt": "Next-Gen Escapism: The 10 PS5 Titles Defining This Holiday Season From open-world epics to precise platformers—the definitive shortlist for your console (or your gift list). By Nexairi Technology · 8 min read The PlayStation 5 has finally hit its stride. The supply chain shortages are history, and the library has matur",
-    "category": "Lifestyle",
-    "tags": [],
-    "contentFile": "content/top-10-ps5-games-holiday.html",
-    "imageUrl": "https://loremflickr.com/1600/900/games-holiday-lifestyle/all?lock=410",
     "isFeatured": false
   },
   {
@@ -179,34 +245,6 @@
     "tags": [],
     "contentFile": "content/thanksgiving-cozy-soups_new.html",
     "imageUrl": "https://loremflickr.com/1600/900/thanksgiving-cozy-soups-lifestyle/all?lock=141",
-    "isFeatured": false
-  },
-  {
-    "id": "tech-that-makes-holiday-weeks-easier",
-    "title": "Tech That Makes Holiday Weeks Easier",
-    "slug": "tech-that-makes-holiday-weeks-easier",
-    "date": "2025-12-04T03:19:47.977Z",
-    "author": "Sarah R.",
-    "summary": "Smooth the Edges: Tech That Makes Holiday Weeks Easier (Without Turning Your Home Into a Lab) By Nexairi Technology · 11 min read Holiday weeks compress guests, bags, schedules, and expectations into small spaces. The best technology for these weeks doesn’t feel flashy—it removes friction quietly. Here’s a brand‑agnost",
-    "excerpt": "Smooth the Edges: Tech That Makes Holiday Weeks Easier (Without Turning Your Home Into a Lab) By Nexairi Technology · 11 min read Holiday weeks compress guests, bags, schedules, and expectations into small spaces. The best technology for these weeks doesn’t feel flashy—it removes friction quietly. Here’s a brand‑agnost",
-    "category": "Lifestyle",
-    "tags": [],
-    "contentFile": "content/tech-that-makes-holiday-weeks-easier.html",
-    "imageUrl": "https://loremflickr.com/1600/900/tech-that-makes-holiday/all?lock=834",
-    "isFeatured": false
-  },
-  {
-    "id": "pros-and-cons-of-milling-your-own-grains",
-    "title": "Pros And Cons Of Milling Your Own Grains",
-    "slug": "pros-and-cons-of-milling-your-own-grains",
-    "date": "2025-12-04T03:19:47.975Z",
-    "author": "Kelly M.",
-    "summary": "Should You Mill Your Own Flour at Home? The Real Pros and Cons Is fresh flour worth the counter space? A friendly breakdown of flavor, nutrition, and logistics. By Nexairi Lifestyle · 8 min read Fresh flour isn't just about nutrition; it's about connecting with the raw ingredients. If you bake even a little, you’ve pro",
-    "excerpt": "Should You Mill Your Own Flour at Home? The Real Pros and Cons Is fresh flour worth the counter space? A friendly breakdown of flavor, nutrition, and logistics. By Nexairi Lifestyle · 8 min read Fresh flour isn't just about nutrition; it's about connecting with the raw ingredients. If you bake even a little, you’ve pro",
-    "category": "Lifestyle",
-    "tags": [],
-    "contentFile": "content/pros-and-cons-of-milling-your-own-grains.html",
-    "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=1600",
     "isFeatured": false
   },
   {

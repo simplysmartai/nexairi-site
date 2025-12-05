@@ -1,5 +1,5 @@
 
-# Deployment Guide: Going Live
+# Deployment Guide: Going Live (Cloudflare Pages)
 
 ## 🛑 EMERGENCY FIX: "Installing nodejs failed"
 If your build fails with "Installing tools and dependencies" or you see weird characters like `nodejs@`:
@@ -17,4 +17,6 @@ If your build fails with "Installing tools and dependencies" or you see weird ch
 ## Standard Settings
 *   **Build command:** `npm run build`
 *   **Build output directory:** `dist`
-*   **Root directory:** (Leave BLANK)
+*   **Root directory:** leave blank for this repo (set to `site/prototype/nexairi-mentis-_-high-signal-intelligence` only if you deploy from a parent monorepo)
+
+> ℹ️ **Note:** Previous Netlify configs have been removed—Cloudflare Pages is the single source of truth for production deployments.
