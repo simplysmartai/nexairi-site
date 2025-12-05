@@ -1,7 +1,33 @@
 [
-  {
-    "id": "pros-and-cons-of-milling-your-own-grains",
-    "title": "Pros And Cons Of Milling Your Own Grains",
+  [
+    {
+      "id": "2025-12-05-nba-weekly-recap",
+      "title": "Weekly NBA Recap: Thunder’s Historic Start and Pistons’ Eastern Surge",
+      "slug": "nba-weekly-recap-nov-28-to-dec-4-2025",
+      "date": "2025-12-05T00:00:00.000Z",
+      "author": "Nexairi Sports Lab",
+      "summary": "Oklahoma City continued a historic start in the West while Detroit tightened its grip on the East after a week of statement wins, injury scares, and rising young stars.",
+      "excerpt": "Oklahoma City’s historic West start and Detroit’s surge in the East — one smart weekly catch-up.",
+      "category": "Sports",
+      "subCategory": "NBA",
+      "contentType": "weekly-recap",
+      "league": "NBA",
+      "tags": [
+        "sports",
+        "NBA",
+        "2025-26 season",
+        "weekly recap"
+      ],
+      "tldr": "Oklahoma City continued a historic start in the West while Detroit tightened its grip on the East, with both conferences reshuffling behind them after a week of statement wins, injury scares, and rising young stars.",
+      "persona": "Busy NBA fan who wants one sharp weekly catch‑up with real scores, standings context, and what to watch next.",
+      "angle": "This week crystallized a new power map: the Thunder and Pistons are playing like true pace‑setters, while traditional powers are being pushed by upstarts and a brutal injury report.",
+      "readingTime": 9,
+      "imageUrl": "/images/sports/nba-week-nov-28-dec-4-2025.jpg",
+      "contentFile": "content/sports/nba-weekly-recap-nov-28-to-dec-4-2025.html",
+      "contentPath": "/content/sports/nba-weekly-recap-nov-28-to-dec-4-2025.html",
+      "isFeatured": false
+    },
+    {
     "slug": "pros-and-cons-of-milling-your-own-grains",
     "date": "2025-12-05T13:47:27.257Z",
     "author": "Nexairi Editorial",
