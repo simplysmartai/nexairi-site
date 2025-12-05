@@ -1,5 +1,26 @@
 [
   {
+    "id": "test-nba-week-dec-5-2025",
+    "title": "Test: NBA Weekly Recap (Dec 1-5, 2025)",
+    "slug": "test-nba-week-dec-5-2025",
+    "date": "2025-12-05T12:00:00.000Z",
+    "author": "Nexairi Sports Lab",
+    "summary": "Test ingest of an NBA weekly recap for Dec 1-5, 2025.",
+    "excerpt": "Test ingest of an NBA weekly recap.",
+    "category": "Sports",
+    "tags": [
+      "nba",
+      "test",
+      "recap"
+    ],
+    "contentType": "weekly-recap",
+    "tldr": "Test TLDR: Defense dominated the week; two upset results shifted the standings.",
+    "persona": "Busy NBA fan who wants one smart weekly catch-up.",
+    "angle": "Testing the ingestion pipeline.",
+    "imageUrl": "https://example.com/test-nba.jpg",
+    "contentPath": "/content/sports/test-nba-week-dec-5-2025.html"
+  },
+  {
     "id": "weekly-nba-recap-december-5-2025",
     "title": "Weekly NBA Recap: Week Ending December 5, 2025",
     "slug": "weekly-nba-recap-december-5-2025",
@@ -15,7 +36,8 @@
       "basketball",
       "performance"
     ],
-    "contentFile": "content/weekly-nba-recap-december-5-2025.html",
+    "contentFile": "content/archive/weekly-nba-recap-december-5-2025.html",
+    "archived": true,
     "imageUrl": "https://example.com/nba-dunk-action.jpg",
     "isFeatured": false
   },
@@ -35,7 +57,8 @@
       "hockey",
       "weekly"
     ],
-    "contentFile": "content/weekly-nhl-recap-dec-5-2025.html",
+    "contentFile": "content/archive/weekly-nhl-recap-dec-5-2025.html",
+    "archived": true,
     "imageUrl": "https://example.com/nhl-action-shot.jpg",
     "isFeatured": false
   },
@@ -55,7 +78,8 @@
       "sports",
       "2025"
     ],
-    "contentFile": "content/nba-weekly-recap-dec-5-2025.html",
+    "contentFile": "content/archive/nba-weekly-recap-dec-5-2025.html",
+    "archived": true,
     "imageUrl": "https://example.com/nba-slam-dunk.jpg",
     "isFeatured": false
   },
@@ -75,7 +99,8 @@
       "recap",
       "highlights"
     ],
-    "contentFile": "content/nhl-recap-december-5-2025.html",
+    "contentFile": "content/archive/nhl-recap-december-5-2025.html",
+    "archived": true,
     "imageUrl": "https://example.com/hockey-celebration.jpg",
     "isFeatured": false
   },
@@ -95,7 +120,8 @@
       "recap",
       "highlights"
     ],
-    "contentFile": "content/weekly-nba-recap-dec-5-2025.html",
+    "contentFile": "content/archive/weekly-nba-recap-dec-5-2025.html",
+    "archived": true,
     "imageUrl": "https://example.com/nba-slam-dunk.jpg",
     "isFeatured": false
   },
@@ -720,7 +746,8 @@
       "automation",
       "test"
     ],
-    "contentFile": "content/test-post.md",
+    "contentFile": "content/archive/test-post.md",
+    "archived": true,
     "imageUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=80&w=1600",
     "isFeatured": false
   },
@@ -754,7 +781,8 @@
     "tags": [
       "lifestyle"
     ],
-    "contentFile": "content/_template.html",
+    "contentFile": "content/archive/_template.html",
+    "archived": true,
     "imageUrl": "https://images.unsplash.com/photo-ID?auto=format&fit=crop&q=80&w=1600",
     "isFeatured": false
   }

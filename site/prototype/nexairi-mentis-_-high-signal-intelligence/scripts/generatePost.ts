@@ -69,6 +69,7 @@ export interface GenerateOptions {
   topic?: string;
   genre?: GenreKey;
   quiet?: boolean;
+  research?: string | null;
 }
 
 interface DraftPayload {
@@ -110,10 +111,11 @@ interface ImageSuggestion {
 }
 
 
-function parseArgs(): { topic?: string; genre: GenreKey } {
+function parseArgs(): { topic?: string; genre: GenreKey; researchFile?: string } {
   const args = process.argv.slice(2);
   let topic: string | undefined;
   let genre: GenreKey = DEFAULT_GENRE;
+  let researchFile: string | undefined;
 
   for (let i = 0; i < args.length; i += 1) {
     const arg = args[i];
@@ -131,7 +133,15 @@ function parseArgs(): { topic?: string; genre: GenreKey } {
     }
   }
 
-  return { topic, genre };
+  for (let i = 0; i < args.length; i += 1) {
+    const arg = args[i];
+    if (arg === '--research-file' && args[i + 1]) {
+      researchFile = args[i + 1];
+      i += 1;
+    }
+  }
+
+  return { topic, genre, researchFile };
 }
 
 async function pickTopic(genre: GenreKey): Promise<string> {
@@ -163,19 +173,58 @@ async function researchTopic(topic: string, genre: GenreKey): Promise<string | n
     console.log('⚠️  Skipping research (PERPLEXITY_API_KEY missing).');
     return null;
   }
-  if (typeof (perplexityClient as any).generateText !== 'function') {
-    console.log('⚠️  Skipping research (Perplexity SDK missing generateText).');
-    return null;
+
+  console.log('🔎 Gathering research via Perplexity (attempting multiple SDK methods)…');
+  const client: any = perplexityClient;
+  try {
+    const keys = Object.keys(client).filter(Boolean);
+    console.log('   → Perplexity client available methods:', keys.join(', '));
+  } catch (err) {
+    // ignore
+  }
+  const prompt = `Produce bulletproof research for the topic "${topic}" in the ${genre} category.\nReturn bullet points with references, stats, and contrasting viewpoints.`;
+  const candidates = [
+    { name: 'generateText', call: async () => client.generateText({ model: 'llama-3.1-sonar-large-128k-online', prompt, maxTokens: 1200 }) },
+    { name: 'generate', call: async () => client.generate?.(prompt) },
+    { name: 'ask', call: async () => client.ask?.(prompt) },
+    { name: 'query', call: async () => client.query?.(prompt) },
+    { name: 'search', call: async () => client.search?.(prompt) },
+  ];
+
+  for (const c of candidates) {
+    try {
+      if (typeof c.call !== 'function') continue;
+      const res = await c.call();
+      // normalize different response shapes
+      if (!res) continue;
+      if (typeof res === 'string') {
+        console.log(`   → Perplexity method ${c.name} returned string response`);
+        return res;
+      }
+      if (res.text) {
+        const txt = typeof res.text === 'function' ? await res.text() : res.text;
+        if (txt) {
+          console.log(`   → Perplexity method ${c.name} returned text`);
+          return txt;
+        }
+      }
+      if (res.data && typeof res.data === 'string') {
+        console.log(`   → Perplexity method ${c.name} returned data`);
+        return res.data;
+      }
+      // some SDKs return { output: { text: '...' } }
+      if (res.output && res.output.text) {
+        console.log(`   → Perplexity method ${c.name} returned output.text`);
+        return res.output.text;
+      }
+    } catch (err) {
+      console.warn(`   ⚠️ Perplexity method ${c.name} failed:`, err?.message || err);
+      continue;
+    }
   }
 
-  console.log('🔎 Gathering research via Perplexity…');
-  const { text } = await (perplexityClient as any).generateText({
-    model: 'llama-3.1-sonar-large-128k-online',
-    prompt: `Produce bulletproof research for the topic "${topic}" in the ${genre} category.
-Return bullet points with references, stats, and contrasting viewpoints.`,
-    maxTokens: 1200,
-  });
-  return text ?? null;
+  console.log('⚠️  All Perplexity method attempts failed or returned no usable text.');
+  return null;
 }
 
 function buildSlug(value: string): string {
@@ -202,19 +251,26 @@ async function draftArticle(topic: string, genre: GenreKey, research: string | n
   messages.push({ role: 'user', content: JSON.stringify({ topic, genre, research }) });
 
   const lower = topic.toLowerCase();
-  if (lower.includes('weekly nba recap') || lower.includes('nba recap')) {
-    messages.push({
-      role: 'user',
-      content:
-        'This is a WEEKLY RECAP for the NBA. Return the article HTML following this exact H2 structure: <h2>The week in one glance</h2>, <h2>Statement wins and bad losses</h2>, <h2>Players and trends that moved the needle</h2>, <h2>Injuries and stories to monitor</h2>, <h2>What smart fans should watch next week</h2>. Additionally include the following sections (use exact IDs): a section with id="top-10-games" containing an ordered list (<ol>) of the Top 10 games of the week with 2-3 sentence micro-recaps for each game; a section with id="hot-players" containing an ordered list (<ol>) of Top 5 players currently on a hot streak (scoring), each with a 1-2 sentence rationale; a section with id="upcoming-top-5" listing Top 5 games to watch next week (with a short reason); and a section id="conference-standings" with a simple table (conference, team, record, position) listing current conference standings. Keep paragraphs short (2–4 sentences). Do not invent exact scores—use research where available. Ensure the full article is no more than 4000 words. Embed AI image placeholders where useful: include <img data-ai-prompt="..." alt="..."> inside or above the hero and each listed item where appropriate; prefer one hero image and images for the Top 5 players and Top 5 upcoming games sections. Output must remain JSON with keys frontmatter + html.'
-    });
-  }
-  if (lower.includes('weekly nhl recap') || lower.includes('nhl recap')) {
-    messages.push({
-      role: 'user',
-      content:
-        'This is a WEEKLY RECAP for the NHL. Return the article HTML following this exact H2 structure: <h2>The week in one glance</h2>, <h2>Statement wins and bad losses</h2>, <h2>Players and trends that moved the needle</h2>, <h2>Injuries and stories to monitor</h2>, <h2>What smart fans should watch next week</h2>. Additionally include the following sections (use exact IDs): a section with id="top-10-games" containing an ordered list (<ol>) of the Top 10 games of the week with 2-3 sentence micro-recaps for each game; a section with id="hot-players" containing an ordered list (<ol>) of Top 5 players currently on a hot streak (scoring), each with a 1-2 sentence rationale; a section with id="upcoming-top-5" listing Top 5 games to watch next week (with a short reason); and a section id="conference-standings" with a simple table (conference, team, record, position) listing current conference standings. Keep paragraphs short (2–4 sentences). Use available research for specific names/stats. Ensure the full article is no more than 4000 words. Embed AI image placeholders where useful: include <img data-ai-prompt="..." alt="..."> inside or above the hero and each listed item where appropriate; prefer one hero image and images for the Top 5 players and Top 5 upcoming games sections. Output must remain JSON with keys frontmatter + html.'
-    });
+  
+  // Support strict weekly recap prompts for major sports (NBA, NHL, MLS, MLB later)
+  const sportMatch = lower.includes('nba')
+    ? 'NBA'
+    : lower.includes('nhl')
+    ? 'NHL'
+    : lower.includes('mls')
+    ? 'MLS'
+    : lower.includes('mlb')
+    ? 'MLB'
+    : null;
+
+  if ((lower.includes('weekly') || lower.includes('weekly recap') || lower.includes('recap')) && sportMatch) {
+    if (!research) {
+      throw new Error(`Perplexity research is required for weekly ${sportMatch} recaps. Set PERPLEXITY_API_KEY and retry.`);
+    }
+
+    const recapPromptSport = `You are the lead ${sportMatch} writer for Nexairi Mentis producing an ESPN-quality weekly recap. Use ONLY the research provided (do not hallucinate). Research material follows (VERBATIM):\n\n${research}\n\nINSTRUCTIONS:\n1) Identify the week covered by the research: find the first day and last day of the regular-season week referenced, and use those as [START DATE] and [END DATE]. If you cannot verify up-to-date results for this exact week, STOP and return a JSON object with a single key \\"error\\": "insufficient_research". Do NOT guess.\n2) Collect 8–12 final scores (date, home team, away team, final score) that occurred between [START DATE] and [END DATE].\n3) Collect current records for teams you mention and key box-score lines for at least 5 standout performances.\n4) List 3–5 notable storylines (injuries, trades, rotation changes, coaching moves) with sources from the research.\n\nOUTPUT: Return ONE JSON object exactly matching the schema below. All fields are required unless noted. Fields that contain HTML must be valid (escape as needed) and the \"contentHtml\" field must be a single HTML string containing the sections described.\n\nJSON SCHEMA (example structure):\n{\n  \"id\": \"YYYY-MM-DD-${sportMatch.toLowerCase()}-weekly-recap\",\n  \"title\": \"Weekly ${sportMatch} Recap: Week of [END DATE]\",\n  \"slug\": \"${sportMatch.toLowerCase()}-week-recap-[end-date-kebab]\",\n  \"category\": \"Sports & Seasons\",\n  \"subCategory\": \"${sportMatch}\",\n  \"league\": \"${sportMatch}\",\n  \"contentType\": \"weekly-recap\",\n  \"seasonContext\": \"Regular season, week covering [START DATE] to [END DATE] of the [SEASON YEAR] season.\",\n  \"tldr\": \"2–3 sentence summary with concrete facts (scores, injuries).\",\n  \"persona\": \"Busy ${sportMatch} fan who wants one smart weekly catch-up.\",\n  \"angle\": \"1–2 sentence thesis referencing standings or trends.\",\n  \"date\": \"TODAY in YYYY-MM-DD (UTC)\",\n  \"readingTime\": 8,\n  \"imageUrl\": \"/images/sports/${sportMatch.toLowerCase()}-week-[end-date].jpg\",\n  \"tags\": [\"sports\",\"${sportMatch}\",\"weekly recap\",\"[SEASON YEAR]\"],\n  \"contentPath\": \"/content/sports/${sportMatch.toLowerCase()}-weekly-recap-[end-date-kebab].html\",\n  \"contentHtml\": \"<HTML string matching required sections>\"\n}\n\nCONTENT HTML REQUIREMENTS:\n- <h1> the title. Intro: 2 paragraphs with thesis and date range.\n- Sections: 'The week at a glance', 'Statement wins and bad losses' (4–6 bullets with date/matchup/score/records), 'Players who shifted the landscape' (4–6 players with 1–2 game stat lines each), 'Injuries and storylines to monitor' (3–5 items with expected impact), 'Standings snapshot' (two tables: East and West top 5 with records and a short note) if applicable to the sport, 'What to watch next week' (5 upcoming games with dates/networks and why).\n- Every paragraph must include at least one concrete detail (score, record, date, stat, or named storyline).\n\nIf you can comply, return the JSON object. If you cannot (insufficient research), return { \"error\": \"insufficient_research\" }. Do NOT output any prose outside the JSON.\n`;
+
+    messages.push({ role: 'user', content: recapPromptSport });
   }
 
   const completion = await openai.chat.completions.create({
@@ -229,24 +285,53 @@ async function draftArticle(topic: string, genre: GenreKey, research: string | n
     throw new Error('OpenAI returned empty response.');
   }
 
-  const parsed = JSON.parse(raw) as DraftPayload;
-  const title = parsed.frontmatter.title?.trim();
-  if (!title || !parsed.html) {
-    throw new Error('Draft payload missing title or html.');
+  const payload = JSON.parse(raw) as any;
+
+  // If the recap agent couldn't verify research, abort early.
+  if (payload && payload.error === 'insufficient_research') {
+    throw new Error('Insufficient research to produce a weekly recap. Aborting.');
   }
 
-  const slug = buildSlug(parsed.frontmatter.slug || title);
-  parsed.frontmatter.slug = slug;
-  parsed.frontmatter.summary = parsed.frontmatter.summary?.slice(0, 160) ?? '';
-  parsed.frontmatter.tags = parsed.frontmatter.tags?.map((tag) => tag.toLowerCase()) ?? [...profile.tags];
-  parsed.frontmatter.category = parsed.frontmatter.category || profile.category;
-  parsed.frontmatter.excerpt =
-    parsed.frontmatter.summary ||
-    stripHtml(extractPreviewHtml(parsed.html)).slice(0, 200) ||
-    'High-signal intelligence dispatch.';
-  parsed.frontmatter.imageUrl = parsed.frontmatter.imageUrl || profile.fallbackImage;
+  // If the payload follows the site's DraftPayload shape (frontmatter + html), use it directly.
+  if (payload && payload.frontmatter && payload.html) {
+    const parsed = payload as DraftPayload;
+    const title = parsed.frontmatter.title?.trim();
+    if (!title || !parsed.html) throw new Error('Draft payload missing title or html.');
 
-  return parsed;
+    const slug = buildSlug(parsed.frontmatter.slug || title);
+    parsed.frontmatter.slug = slug;
+    parsed.frontmatter.summary = parsed.frontmatter.summary?.slice(0, 160) ?? '';
+    parsed.frontmatter.tags = parsed.frontmatter.tags?.map((tag) => tag.toLowerCase()) ?? [...profile.tags];
+    parsed.frontmatter.category = parsed.frontmatter.category || profile.category;
+    parsed.frontmatter.excerpt =
+      parsed.frontmatter.summary ||
+      stripHtml(extractPreviewHtml(parsed.html)).slice(0, 200) ||
+      'High-signal intelligence dispatch.';
+    parsed.frontmatter.imageUrl = parsed.frontmatter.imageUrl || profile.fallbackImage;
+    return parsed;
+  }
+
+  // If the payload matches the NBA weekly recap schema (top-level fields), map it into DraftPayload
+  if (payload && payload.contentHtml && payload.title) {
+    const title = String(payload.title).trim();
+    const slug = buildSlug(payload.slug || title);
+    const front: DraftPayload['frontmatter'] = {
+      title,
+      slug,
+      summary: String(payload.tldr || '').slice(0, 160),
+      tags: Array.isArray(payload.tags) && payload.tags.length ? payload.tags.map((t: string) => t.toLowerCase()) : [...profile.tags],
+      category: payload.category || profile.category || 'Sports & Seasons',
+      imageUrl: payload.imageUrl || profile.fallbackImage,
+    };
+
+    const html = String(payload.contentHtml);
+    const result: DraftPayload = { frontmatter: front, html };
+    // ensure excerpt
+    result.frontmatter.excerpt = result.frontmatter.summary || stripHtml(extractPreviewHtml(html)).slice(0, 200) || 'High-signal intelligence dispatch.';
+    return result;
+  }
+
+  throw new Error('Unexpected response format from OpenAI for draftArticle.');
 }
 
 async function runCopyReviewAgent(
@@ -467,14 +552,23 @@ async function runUpdateIndex(): Promise<void> {
 }
 
 async function main() {
-  const { topic: topicInput, genre } = parseArgs();
-  await runGeneratePost({ topic: topicInput, genre });
+  const { topic: topicInput, genre, researchFile } = parseArgs();
+  let researchText: string | undefined;
+  if (researchFile) {
+    try {
+      researchText = await fs.readFile(path.resolve(researchFile), 'utf8');
+      console.log(`🔣 Loaded research from ${researchFile}`);
+    } catch (err) {
+      console.warn(`Could not read research file ${researchFile}:`, err);
+    }
+  }
+  await runGeneratePost({ topic: topicInput, genre, research: researchText ?? null });
 }
 
 export async function runGeneratePost(options: GenerateOptions = {}) {
   const genre = options.genre ?? DEFAULT_GENRE;
   const topic = options.topic ?? (await pickTopic(genre));
-  const research = await researchTopic(topic, genre);
+  const research = options.research ?? (await researchTopic(topic, genre));
   const draft = await draftArticle(topic, genre, research);
   const review = await runCopyReviewAgent(topic, genre, draft.html);
   const reviewedHtml = review?.html?.trim() || draft.html;

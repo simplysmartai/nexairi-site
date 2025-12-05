@@ -1,3 +1,4 @@
+```markdown
 ---
 title: AI Content Pipeline Test
 slug: ai-content-pipeline-test
@@ -17,3 +18,5 @@ isFeatured: false
 # This is a test post
 
 The content pipeline is working perfectly!
+
+```
