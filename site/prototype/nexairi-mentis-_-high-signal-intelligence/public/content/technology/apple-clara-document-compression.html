@@ -1,0 +1,65 @@
+<article>
+  <h1>Compress Documents to 1% Size—Apple's New AI Does It Without Losing Meaning</h1>
+
+  <p class="intro"><em>AI can't read your 500-page PDF. Apple just fixed that forever.</em></p>
+
+  <section>
+    <h2>The Problem Apple Solved</h2>
+    <p>ChatGPT has a "context window" - max words it can read at once. Your 100-page report? Too big. Apple researchers said: "Compress it first."</p>
+    <p>CLaRa (Continuous Latent Reasoning Architecture) turns documents into <strong>tiny memory tokens</strong>. 128x smaller. But keeps every important fact.</p>
+    <figure>
+      <img src="/images/technology/clara-compression-chart.jpg" alt="CLaRa compression: full document → 128x smaller memory tokens" loading="lazy">
+      <figcaption>CLaRa shrinks docs but keeps facts intact</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>How It Works (Super Simple)</h2>
+    <ol>
+      <li><strong>Semantic Compressor</strong>: Reads your PDF → extracts 16 "memory tokens" (think document DNA)</li>
+      <li><strong>Query Reasoner</strong>: Your question → matching memory tokens</li>
+      <li><strong>Answer Generator</strong>: Perfect response using 1/128th the space</li>
+    </ol>
+    <p>Result? Mistral 7B (CLaRa's base) beats full-text RAG by 6+ F1 points at 16x compression.</p>
+  </section>
+
+  <section>
+    <h2>Real Numbers</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Compression</th>
+          <th>F1 Score (Mistral)</th>
+          <th>Improvement</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1x (full text)</td>
+          <td>43.65</td>
+          <td>Baseline</td>
+        </tr>
+        <tr>
+          <td>16x CLaRa</td>
+          <td>47.18</td>
+          <td>+3.53</td>
+        </tr>
+        <tr>
+          <td>128x CLaRa</td>
+          <td>41.29</td>
+          <td>Still usable</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>What This Means For You</h2>
+    <ul>
+      <li><strong>Business</strong>: Upload entire policy manuals to ChatGPT</li>
+      <li><strong>Students</strong>: Condense textbooks → instant study guides</li>
+      <li><strong>Developers</strong>: Feed complete codebases to Copilot</li>
+    </ul>
+    <p>Apple open-sourced CLaRa-7B-Base. Anyone can compress docs now.</p>
+  </section>
+</article>
