@@ -34,8 +34,8 @@
     "analytics-agent": "tsx scripts/analyticsAgent.ts",
     "orchestra:week": "npm run research-all && npm run draft-queue && npm run review-queue",
     "orchestra:publish": "npm run seo-all && npm run publish-all",
-    "orchestra:full": "npm run orchestra:week && powershell -Command \"Start-Sleep -Seconds 259200\" && npm run orchestra:publish"
-    ,
+    "orchestra:full": "npm run orchestra:week && powershell -Command \"Start-Sleep -Seconds 259200\" && npm run orchestra:publish",
+    "generate:article": "tsx scripts/generate-article.ts",
     "ingest:article": "tsx scripts/ingest-article.ts",
     "check-json": "node scripts/check-json.js",
     "prepare": "node -e \"if (require('fs').existsSync('.git')) { require('child_process').execSync('husky install', {stdio:'inherit'}); }\""
@@ -47,17 +47,17 @@
     "ai": "^5.0.106",
     "dotenv": "^17.2.3",
     "lucide-react": "^0.294.0",
-    "openai": "^6.9.1",
+    "openai": "^6.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "husky": "^8.0.0",
     "@types/node": "^20.0.0",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@vitejs/plugin-react": "^4.2.0",
     "autoprefixer": "^10.4.16",
+    "husky": "^8.0.0",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.5",
     "tsx": "^4.21.0",
