@@ -2,6 +2,9 @@ name: Orchestrate Bowl Post
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - auto/bowl-guide-draft
 
 jobs:
   orchestrate:
