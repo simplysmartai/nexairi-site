@@ -1,0 +1,14 @@
+Find every non-College Football Playoff FBS bowl game scheduled from the start of bowl season through 2025-12-23.
+Use only these authoritative sources and their schedule pages: NCAA, ESPN, FBSchedules, BowlSeason, Fox, CBS.
+
+Return a JSON array of objects with these fields:
+- bowl_name
+- team1
+- team2
+- date (YYYY-MM-DD)
+- kickoff_time_ET (HH:MM)
+- tv_channel
+- venue
+- source_urls (array of exact URLs where this schedule or TV listing appears)
+
+If multiple sources disagree, include all candidate rows and set `preferred:true` on the recommended entry (prefer NCAA, ESPN, then conference release). Return only JSON.
