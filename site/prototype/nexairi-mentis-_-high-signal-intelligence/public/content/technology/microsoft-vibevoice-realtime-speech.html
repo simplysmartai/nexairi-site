@@ -4,56 +4,100 @@
   <p class="intro"><em>Say 'Hey Cortana' to your phone. Robot voice responds. Boring. Microsoft just killed that forever.</em></p>
 
   <section>
-    <h2>The Latency Problem (Fixed)</h2>
-    <p>Voice AI waited 1-3 seconds to respond. VibeVoice-Realtime: <strong>200ms</strong>. Human conversation speed.</p>
-    <p>0.5B parameter model. Runs on phones. Understands emotion, pauses naturally, matches your speaking style.</p>
+    <h2>The Latency Problem (Finally Fixed)</h2>
+    <p>Voice AI has always had a fatal flaw: you ask a question, and there's an awkward 1-3 second pause. Then a robotic voice responds. You feel like you're talking to a computer, not a person. That kills the magic.</p>
+    <p>VibeVoice-Realtime changes everything: <strong>200 milliseconds</strong>. That's human conversation speed. You ask, it responds before you finish thinking about what you asked. And it <em>sounds natural</em>.</p>
+    <p>How? A tiny 0.5B parameter model. Runs entirely on your phone. Understands emotion, pauses naturally, matches your speaking style. No cloud round-trip. No latency. Pure speed.</p>
     <figure>
-      <img src="/images/technology/vibevoice-waveform.jpg" alt="VibeVoice realtime waveform - 200ms response vs 2s delay" loading="lazy">
-      <figcaption>200ms response = human speed</figcaption>
+      <img src="/images/technology/vibevoice-latency-comparison.jpg" alt="VibeVoice realtime waveform comparison - 200ms response vs 2s delay from competitors" loading="lazy">
+      <figcaption>200ms response = human conversation speed (vs. 1-2 second delays from traditional voice AI)</figcaption>
     </figure>
   </section>
 
   <section>
-    <h2>Real Numbers</h2>
-    <table>
+    <h2>Real Numbers (Why 200ms Changes Everything)</h2>
+    <table class="comparison-table">
       <thead>
         <tr>
-          <th>Model</th>
-          <th>Latency</th>
-          <th>Parameters</th>
-          <th>Devices</th>
+          <th style="width: 25%;">Model</th>
+          <th style="width: 20%;">Latency</th>
+          <th style="width: 20%;">Parameters</th>
+          <th style="width: 20%;">Devices</th>
+          <th style="width: 15%;">Feels Natural?</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>VibeVoice-Realtime</td>
-          <td>200ms</td>
+          <td><strong>200ms</strong></td>
           <td>0.5B</td>
-          <td>Phone</td>
+          <td>Phone (edge)</td>
+          <td>✓ Yes</td>
         </tr>
         <tr>
           <td>ElevenLabs</td>
           <td>800ms</td>
           <td>1B+</td>
           <td>Cloud</td>
+          <td>✗ No</td>
         </tr>
         <tr>
-          <td>Siri</td>
-          <td>1.2s</td>
+          <td>Siri (old)</td>
+          <td>1200ms</td>
           <td>Proprietary</td>
           <td>Phone</td>
+          <td>✗ No</td>
+        </tr>
+        <tr>
+          <td>Google Assistant</td>
+          <td>900ms</td>
+          <td>Proprietary</td>
+          <td>Phone/Cloud</td>
+          <td>✗ No</td>
         </tr>
       </tbody>
     </table>
+    <p><strong>The magic number is 300ms.</strong> Below that, conversations feel natural. Above it, you notice the lag. VibeVoice is 40% faster than the natural threshold.</p>
   </section>
 
   <section>
-    <h2>What You'll Notice</h2>
+    <h2>How It Achieves This</h2>
+    <p>Three innovations working together:</p>
+    <ol>
+      <li><strong>Distilled Architecture:</strong> Normally, TTS models need massive neural networks. VibeVoice uses a tiny 0.5B model trained on emotional speech datasets. It learns to compress what matters—tone, pace, emotion—and drops the noise.</li>
+      <li><strong>On-Device Processing:</strong> No cloud round-trip. Your phone processes audio locally. No network latency, no server wait times, no privacy concerns.</li>
+      <li><strong>Streaming Generation:</strong> The model generates audio in real-time as it understands what to say. It doesn't generate the whole response, then speak it. It's thinking and talking simultaneously.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>What You'll Actually Notice</h2>
     <ul>
-      <li><strong>No 'umms'</strong> - natural pauses</li>
-      <li><strong>Matches excitement</strong> - fast/slow based on you</li>
-      <li><strong>Phone speed</strong> - no cloud lag</li>
+      <li><strong>No awkward pauses</strong> - Natural conversational flow with realistic speech patterns</li>
+      <li><strong>Emotion matching</strong> - Fast speech when you're excited, slow when you're calm. The AI mirrors you.</li>
+      <li><strong>Real speech patterns</strong> - Natural "umms," breaths, and filler words that humans use (but not annoyingly)</li>
+      <li><strong>Phone-based</strong> - No lag, no network dependency, just instant response</li>
+      <li><strong>Privacy preserved</strong> - Audio never leaves your device</li>
     </ul>
-    <p>Demo: 'What's the weather?' → Instant human-like reply. No robot.</p>
+    <p><strong>Demo moment:</strong> Ask "What's the weather in Seattle?" and you get an instant, human-sounding response. "It's currently 52 degrees with light rain expected this evening." No robotic tone. No delay. Just... conversation.</p>
+  </section>
+
+  <section>
+    <h2>Real-World Impact</h2>
+    <p><strong>For Accessibility:</strong> Blind and low-vision users get a voice assistant that feels like talking to a person, not a machine. That's dignity. That's real inclusion.</p>
+    <p><strong>For Productivity:</strong> Dictation, voice search, hands-free control—all become genuinely useful instead of clunky workarounds.</p>
+    <p><strong>For Gaming/Entertainment:</strong> NPCs in games become conversational. Real-time dialogue, no wait times. Your game world feels alive.</p>
+  </section>
+
+  <section>
+    <h2>The Bigger Picture</h2>
+    <p>Microsoft is betting that voice will be the next UI frontier. Why type when you can talk? Why wait when you can respond instantly? The bottleneck was always latency and naturalness. VibeVoice solves both.</p>
+    <p>Expect to see this tech in Windows 12 assistants, Xbox controllers, HoloLens, and eventually every device with a mic. Voice UI just became viable again.</p>
+  </section>
+
+  <section>
+    <h2>Bottom Line</h2>
+    <p>Siri's robotic voice is officially obsolete. Microsoft's VibeVoice-Realtime responds in 200ms with genuine emotional expression. The uncanny valley of voice AI is closing. For the first time, talking to AI feels like talking to a person.</p>
+    <p>This is the reset the voice assistant market needed.</p>
   </section>
 </article>
