@@ -1,23 +1,81 @@
 [
   {
-    "id": "nfl-week-14-final-month-of-the-season-begins",
-    "title": "NFL Week 14 - Final Month of the Season Begins",
-    "slug": "nfl-week-14-final-month-of-the-season-begins",
-    "date": "2025-12-05T00:00:00.000Z",
+    "id": "your-2025-26-bowl-season-guide-part-1-opening-week-1765217557081",
+    "title": "Your 2025-26 Bowl Season Guide, Part 1: Opening Week",
+    "slug": "your-2025-26-bowl-season-guide-part-1-opening-week",
+    "date": "2025-12-08T00:00:00.000Z",
+    "author": "Nexairi Sports",
     "category": "Sports",
+    "summary": "A comprehensive guide to Your 2025-26 Bowl Season Guide, Part 1: Opening Week.",
+    "excerpt": "Your 2025-26 Bowl Season Guide, Part 1: Opening Week Hey there, college football fans! As we gear up for another thrilling bowl season, you might be wondering why this matters to you. Well, for man...",
+    "imageUrl": "/images/posts/your-2025-26-bowl-season-guide-part-1-opening-week.jpg",
     "tags": [
       "sports",
-      "NFL",
-      "Week 14",
-      "2025"
+      "analysis"
     ],
-    "summary": "A game-by-game viewing guide for NFL Week 14, with kickoff times (ET) and national TV listings; every window matters as playoff and seeding implications loom.",
-    "excerpt": "Game-by-game viewing guide with times (ET) and TV listings for Week 14.",
-    "tldr": "Late-season urgency arrives: key games, times (ET), and national TV listings for Week 14. Double-check local listings.",
-    "imageUrl": "https://loremflickr.com/1600/900/nfl-week-14-2025/football/all?lock=9123",
-    "author": "Nexairi Sports Lab",
-    "readingTime": 8,
-    "contentFile": "content/sports/nfl-week-14-final-month-of-the-season-begins.html"
+    "contentFile": "content/sports/your-2025-26-bowl-season-guide-part-1-opening-week.html"
+  },
+  {
+    "id": "test-post",
+    "title": "Test Post",
+    "slug": "test-post",
+    "date": "2025-12-08T16:02:35.738Z",
+    "author": "Nexairi Editorial",
+    "summary": "```markdown title: AI Content Pipeline Test slug: ai-content-pipeline-test date: 2025-12-04 category: Technology author: Tepper B. summary: Testing the automated content pipeline foundation excerpt: Testing the automated content pipeline foundation tags: - ai - automation - test imageUrl: https://images.unsplash.com/ph",
+    "excerpt": "```markdown title: AI Content Pipeline Test slug: ai-content-pipeline-test date: 2025-12-04 category: Technology author: Tepper B. summary: Testing the automated content pipeline foundation excerpt: T",
+    "category": "Lifestyle",
+    "tags": [],
+    "contentFile": "content/archive/test-post.md",
+    "archived": false,
+    "imageUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "sustainable-living-in-urban-spaces",
+    "title": "Sustainable Living in Urban Spaces",
+    "slug": "sustainable-living-in-urban-spaces",
+    "date": "2025-12-08T00:00:00.000Z",
+    "author": "Nexairi",
+    "summary": "Sustainable Living in Urban Spaces Imagine stepping out onto a vibrant street filled with greenery, where fresh food is just a short walk away, and the air feels a little cleaner. This isn’t just a dream; it’s the future we can create through sustainable living in our urban spaces. As cities swell with more people than",
+    "excerpt": "Sustainable Living in Urban Spaces Imagine stepping out onto a vibrant street filled with greenery, where fresh food is just a short walk away, and the air feels a little cleaner. This isn’t just a dr",
+    "category": "Lifestyle",
+    "tags": [
+      "lifestyle",
+      "wellbeing"
+    ],
+    "contentFile": "content/lifestyle/sustainable-living-in-urban-spaces.html",
+    "archived": false,
+    "imageUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "ai-trends-in-2025",
+    "title": "AI Trends in 2025",
+    "slug": "ai-trends-in-2025",
+    "date": "2025-12-08T00:00:00.000Z",
+    "author": "Nexairi",
+    "summary": "```html AI Trends in 2025 As we stand on the brink of a technological revolution, artificial intelligence (AI) is no longer just a futuristic concept; it's shaping our everyday lives right now. By 2025, the impact of AI will be felt in ways we can hardly imagine today. From enhancing our work efficiency to transforming",
+    "excerpt": "```html AI Trends in 2025 As we stand on the brink of a technological revolution, artificial intelligence (AI) is no longer just a futuristic concept; it's shaping our everyday lives right now. By 202",
+    "category": "Technology",
+    "tags": [
+      "technology",
+      "innovation"
+    ],
+    "contentFile": "content/technology/ai-trends-in-2025.html",
+    "archived": false,
+    "imageUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=80&w=1600"
+  },
+  {
+    "id": "template",
+    "title": "Template",
+    "slug": "template",
+    "date": "2025-12-05T16:43:00.940Z",
+    "author": "Nexairi Editorial",
+    "summary": "```html --- title: Your Article Title Here slug: your-article-title-here date: 2025-12-01T12:00:00.000Z category: Lifestyle author: Kelly M. summary: One-sentence summary used for cards and meta tags. excerpt: Your Article Title Here Optional sub-headline or witty remark. By Author Name · 5 min read Introductory paragr",
+    "excerpt": "```html --- title: Your Article Title Here slug: your-article-title-here date: 2025-12-01T12:00:00.000Z category: Lifestyle author: Kelly M. summary: One-sentence summary used for cards and meta tags.",
+    "category": "Lifestyle",
+    "tags": [],
+    "contentFile": "content/archive/_template.html",
+    "archived": false,
+    "imageUrl": "https://loremflickr.com/1400/900/your-article-title-here/all?lock=57"
   },
   {
     "id": "pros-and-cons-of-milling-your-own-grains",
@@ -25,12 +83,12 @@
     "slug": "pros-and-cons-of-milling-your-own-grains",
     "date": "2025-12-05T13:47:27.257Z",
     "author": "Nexairi Editorial",
-    "isFeatured": true,
     "summary": "Should You Mill Your Own Flour at Home? The Real Pros and Cons Is fresh flour worth the counter space? A friendly breakdown of flavor, nutrition, and logistics. By Kelly M. · 8 min read Fresh flour isn't just about nutrition; it's about connecting with the raw ingredients. If you bake even a little, you’ve probably had",
     "excerpt": "Should You Mill Your Own Flour at Home? The Real Pros and Cons Is fresh flour worth the counter space? A friendly breakdown of flavor, nutrition, and logistics. By Kelly M. · 8 min read Fresh flour is",
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/pros-and-cons-of-milling-your-own-grains.html",
+    "archived": false,
     "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=1600"
   },
   {
@@ -44,6 +102,7 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/top-10-ps5-games-holiday.html",
+    "archived": false,
     "imageUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=80&w=1600"
   },
   {
@@ -63,6 +122,7 @@
       "2025"
     ],
     "contentFile": "content/mls-cup-2025-inter-miami-vancouver-preview.html",
+    "archived": false,
     "imageUrl": "https://images.mlssoccer.com/image/upload/t_landscape_tablet_2x/f_auto/mls/pdaqvj8k6y1zkio062ef.jpg",
     "isFeatured": false
   },
@@ -77,30 +137,8 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/tech-that-makes-holiday-weeks-easier.html",
+    "archived": false,
     "imageUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=80&w=1600"
-  },
-  {
-    "id": "openai-vs-perplexity-vs-gemini-b2b-content-benchmarks",
-    "title": "OpenAI vs Perplexity vs Gemini: B2B Content Benchmarks",
-    "slug": "openai-vs-perplexity-vs-gemini-b2b-content-benchmarks",
-    "date": "2025-12-05T02:17:11.882Z",
-    "author": "Nexairi Technology",
-    "summary": "A comparative analysis of OpenAI, Perplexity, and Gemini in the context of B2B content generation.",
-    "excerpt": "A comparative analysis of OpenAI, Perplexity, and Gemini in the context of B2B content generation.",
-    "category": "Technology",
-    "tags": [
-      "b2b",
-      "content",
-      "openai",
-      "perplexity",
-      "gemini",
-      "technology"
-    ],
-    "contentFile": "content/openai-vs-perplexity-vs-gemini-b2b-content-benchmarks.html",
-    "imageUrl": "https://example.com/hero-image-ai-discussion.jpg",
-    "isFeatured": false,
-    "archived": true,
-    "contentFile": "content/archive/_template.html"
   },
   {
     "id": "openai-vs-perplexity-vs-gemini-b2b-benchmarks",
@@ -119,21 +157,8 @@
       "content"
     ],
     "contentFile": "content/openai-vs-perplexity-vs-gemini-b2b-benchmarks.html",
+    "archived": false,
     "imageUrl": "https://example.com/hero-image.jpg",
-    "isFeatured": false
-  },
-  {
-    "id": "multi-ai-content-pipelines-in-2025",
-    "title": "Multi-AI Content Pipelines in 2025",
-    "slug": "multi-ai-content-pipelines-in-2025",
-    "date": "2025-12-05T02:10:00.000Z",
-    "author": "Nexairi Labs",
-    "summary": "Overview of multi-agent AI content pipelines and orchestration patterns in 2025.",
-    "excerpt": "An overview of practical multi-AI pipelines and orchestration patterns used for content production.",
-    "category": "Technology",
-    "tags": ["ai","pipelines","orchestration"],
-    "contentFile": "content/archive/_template.html",
-    "archived": true,
     "isFeatured": false
   },
   {
@@ -152,7 +177,27 @@
       "weekly recap"
     ],
     "contentFile": "content/sports/nba-weekly-recap-nov-28-to-dec-4-2025.html",
+    "archived": false,
     "imageUrl": "/images/sports/nba-week-nov-28-dec-4-2025.jpg"
+  },
+  {
+    "id": "nfl-week-14-final-month-of-the-season-begins",
+    "title": "NFL Week 14 - Final Month of the Season Begins",
+    "slug": "nfl-week-14-final-month-of-the-season-begins",
+    "date": "2025-12-05T00:00:00.000Z",
+    "author": "Nexairi Sports Lab",
+    "summary": "A game-by-game viewing guide for NFL Week 14, with kickoff times (ET) and national TV listings; every window matters as playoff and seeding implications loom.",
+    "excerpt": "Week 14 is one of those every-window-matters slates. Game-by-game viewing guide with times and TV info.",
+    "category": "Sports",
+    "tags": [
+      "sports",
+      "NFL",
+      "Week 14",
+      "2025 season"
+    ],
+    "contentFile": "content/sports/nfl-week-14-final-month-of-the-season-begins.html",
+    "archived": false,
+    "imageUrl": "https://loremflickr.com/1600/900/nfl-week-14-2025/football/all?lock=9123"
   },
   {
     "id": "nhl-weekly-recap-nov-28-to-dec-4-2025",
@@ -170,6 +215,7 @@
       "weekly recap"
     ],
     "contentFile": "content/sports/nhl-weekly-recap-nov-28-to-dec-4-2025.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/weekly-nhl-recap-avalanche-s-push-panthers-reality-check-and-a-crowded-wild-card-race-hero-editorial-sports-photography-dynamic-composition-high-contrast-shallow-depth-of-field/all?lock=452"
   },
   {
@@ -183,6 +229,7 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/calm-amid-the-holiday-rush.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/calm-amid-holiday-rush/all?lock=816",
     "isFeatured": false
   },
@@ -197,6 +244,7 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/top-15-gifts-girls.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/gifts-girls-lifestyle/all?lock=687",
     "isFeatured": false
   },
@@ -211,6 +259,7 @@
     "category": "Technology",
     "tags": [],
     "contentFile": "content/top-15-games-holiday-2025.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/games-holiday-2025-technology/all?lock=244",
     "isFeatured": false
   },
@@ -225,6 +274,7 @@
     "category": "Travel",
     "tags": [],
     "contentFile": "content/top-10-travel-tech-under-300.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/travel-tech-under/all?lock=804",
     "isFeatured": false
   },
@@ -239,6 +289,7 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/thanksgiving-turkey-main-dishes.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/thanksgiving-turkey-main-dishes/all?lock=830",
     "isFeatured": false
   },
@@ -253,6 +304,7 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/thanksgiving-signature-sides.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/thanksgiving-signature-sides-lifestyle/all?lock=288",
     "isFeatured": false
   },
@@ -267,6 +319,7 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/thanksgiving-make-ahead-dishes.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/thanksgiving-make-ahead-dishes/all?lock=856",
     "isFeatured": false
   },
@@ -281,6 +334,7 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/thanksgiving-leftovers-alchemy.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/thanksgiving-leftovers-alchemy-lifestyle/all?lock=525",
     "isFeatured": false
   },
@@ -295,6 +349,7 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/thanksgiving-game-plan.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/thanksgiving-game-plan-lifestyle/all?lock=61",
     "isFeatured": false
   },
@@ -309,6 +364,7 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/thanksgiving-delicious-desserts.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/thanksgiving-delicious-desserts-lifestyle/all?lock=178",
     "isFeatured": false
   },
@@ -323,6 +379,7 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/thanksgiving-day-guide.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/thanksgiving-guide-lifestyle/all?lock=968",
     "isFeatured": false
   },
@@ -337,6 +394,7 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/thanksgiving-cozy-soups_new.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/thanksgiving-cozy-soups-lifestyle/all?lock=141",
     "isFeatured": false
   },
@@ -351,6 +409,7 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/nontraditional-holiday-getaways.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/nontraditional-holiday-getaways-lifestyle/all?lock=714",
     "isFeatured": false
   },
@@ -365,6 +424,7 @@
     "category": "Travel",
     "tags": [],
     "contentFile": "content/minimalist-travel-packing.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/minimalist-travel-packing/all?lock=446",
     "isFeatured": false
   },
@@ -379,6 +439,7 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/mindful-reset-ritual-2026.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/mindful-reset-ritual-2026/all?lock=231",
     "isFeatured": false
   },
@@ -393,6 +454,7 @@
     "category": "Travel",
     "tags": [],
     "contentFile": "content/korea-travel-rhythm.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/korea-travel-rhythm/all?lock=394",
     "isFeatured": false
   },
@@ -407,6 +469,7 @@
     "category": "Travel",
     "tags": [],
     "contentFile": "content/italy-slow-travel-guide.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/italy-slow-travel-guide/all?lock=984",
     "isFeatured": false
   },
@@ -421,6 +484,7 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/how-to-store-whole-grains-and-freshly-milled-flour.html",
+    "archived": false,
     "imageUrl": "https://images.unsplash.com/photo-1584269631720-9d3c0587d5a5?auto=format&fit=crop&q=80&w=1600",
     "isFeatured": false
   },
@@ -435,6 +499,7 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/hosting-without-burning-out.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/hosting-without-burning-lifestyle/all?lock=426",
     "isFeatured": false
   },
@@ -449,6 +514,7 @@
     "category": "Technology",
     "tags": [],
     "contentFile": "content/home-racing-simulator-guide.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/home-racing-simulator-guide/all?lock=239",
     "isFeatured": false
   },
@@ -463,6 +529,7 @@
     "category": "Travel",
     "tags": [],
     "contentFile": "content/holiday-travel-prep-by-car-train-plane.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/holiday-travel-prep-train/all?lock=203",
     "isFeatured": false
   },
@@ -477,6 +544,7 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/holiday-sports-week-watchlist.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/holiday-sports-week-watchlist/all?lock=118",
     "isFeatured": false
   },
@@ -491,6 +559,7 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/holiday-gift-guide-boys-2-18.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/holiday-gift-guide-boys/all?lock=445",
     "isFeatured": false
   },
@@ -505,6 +574,7 @@
     "category": "Technology",
     "tags": [],
     "contentFile": "content/future-tech-2026-watchlist.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/future-tech-2026-watchlist/all?lock=892",
     "isFeatured": false
   },
@@ -519,6 +589,7 @@
     "category": "Technology",
     "tags": [],
     "contentFile": "content/future-sustainable-ai.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/future-sustainable-technology/all?lock=996",
     "isFeatured": false
   },
@@ -533,6 +604,7 @@
     "category": "Sports",
     "tags": [],
     "contentFile": "content/family-holiday-games-playbook.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/family-holiday-games-playbook/all?lock=72",
     "isFeatured": false
   },
@@ -547,6 +619,7 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/decorating-for-thanksgiving-into-december.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/decorating-thanksgiving-into-december/all?lock=862",
     "isFeatured": false
   },
@@ -561,6 +634,7 @@
     "category": "Sports",
     "tags": [],
     "contentFile": "content/college-football-championship-guide-2025.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/college-football-championship-guide/all?lock=107",
     "isFeatured": false
   },
@@ -575,6 +649,7 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/choosing-a-home-grain-mill-and-grains.html",
+    "archived": false,
     "imageUrl": "https://images.unsplash.com/photo-1552010099-5dc75f356084?auto=format&fit=crop&q=80&w=1600",
     "isFeatured": false
   },
@@ -589,6 +664,7 @@
     "category": "Travel",
     "tags": [],
     "contentFile": "content/carry-on-winter-one-bag.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/carry-winter-travel/all?lock=520",
     "isFeatured": false
   },
@@ -603,6 +679,7 @@
     "category": "Travel",
     "tags": [],
     "contentFile": "content/arrival-architecture-city-onboarding.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/arrival-architecture-city-onboarding/all?lock=442",
     "isFeatured": false
   },
@@ -617,6 +694,7 @@
     "category": "Travel",
     "tags": [],
     "contentFile": "content/alps-winter-guide.html",
+    "archived": false,
     "imageUrl": "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&q=80&w=1600",
     "isFeatured": false
   },
@@ -631,6 +709,7 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/ai-holiday-shopping-stack.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/holiday-shopping-stack-lifestyle/all?lock=427",
     "isFeatured": false
   },
@@ -645,6 +724,7 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/a-thanksgiving-pause.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/thanksgiving-pause-lifestyle/all?lock=966",
     "isFeatured": false
   },
@@ -659,10 +739,10 @@
     "category": "Lifestyle",
     "tags": [],
     "contentFile": "content/30-day-holiday-reset.html",
+    "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/holiday-reset-lifestyle/all?lock=380",
     "isFeatured": false
   },
-  
   {
     "id": "the-future-of-ai-driven-content-creation",
     "title": "The Future of AI-Driven Content Creation",
@@ -678,6 +758,7 @@
       "thefutureofaidrivencontentcreation"
     ],
     "contentFile": "content/the-future-of-ai-driven-content-creation.md",
+    "archived": false,
     "imageUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=80&w=1600",
     "isFeatured": false
   }
