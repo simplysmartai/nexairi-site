@@ -40,6 +40,7 @@ async function generateArticle(req: ArticleRequest): Promise<void> {
   const articleHtml = await callOpenAI(writePrompt, 3000);
 
   // Step 3: Create JSON draft
+  const wrappedHtml = wrapHtmlWithFrontmatter(topic, slug, date, articleHtml, config);
   const draft = {
     id,
     title: topic,
@@ -48,9 +49,11 @@ async function generateArticle(req: ArticleRequest): Promise<void> {
     author: `Nexairi ${category}`,
     category,
     summary: extractSummary(topic, 160),
+    excerpt: generateExcerpt(articleHtml, topic, 200),
+    imageUrl: `/images/posts/${slug}.jpg`,
     tags: config.tags,
     contentPath: `/content/${config.folder}/${slug}.html`,
-    contentHtml: wrapHtmlWithFrontmatter(topic, slug, date, articleHtml, config),
+    contentHtml: wrappedHtml,
   };
 
   // Step 4: Save draft JSON
@@ -62,7 +65,7 @@ async function generateArticle(req: ArticleRequest): Promise<void> {
 
   // Step 5: Ingest
   console.log('🔧 Ingesting into posts.json...');
-  await runCommand('npm', ['run', 'ingest:article', '--', draftPath]);
+  await runCommand('npm', ['run', 'ingest:article', '--', `"${draftPath}"`]);
 
   // Step 6: Validate
   console.log('✅ Validating...');
@@ -133,6 +136,20 @@ async function callOpenAI(prompt: string, maxTokens: number): Promise<string> {
 function extractSummary(topic: string, maxLen: number): string {
   const base = `A comprehensive guide to ${topic}.`;
   return base.length <= maxLen ? base : base.slice(0, maxLen - 3) + '...';
+}
+
+function extractTextFromHtml(html: string): string {
+  // Simple extraction: remove HTML tags, trim whitespace
+  const text = html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+  return text;
+}
+
+function generateExcerpt(html: string, topic: string, maxLen: number): string {
+  const text = extractTextFromHtml(html);
+  if (!text) return extractSummary(topic, maxLen);
+  if (text.length <= maxLen) return text;
+  const truncated = text.slice(0, maxLen - 3) + '...';
+  return truncated;
 }
 
 function wrapHtmlWithFrontmatter(
