@@ -1,13 +1,107 @@
 [
   {
-    "id": "your-2025-26-bowl-season-guide-part-1-opening-week-1765217557081",
+    "id": "alibaba-liveavatar-realtime-20251208",
+    "title": "Watch AI People Move Naturally for the First Time—Alibaba's New Tech",
+    "slug": "alibaba-liveavatar-realtime-video",
+    "date": "2025-12-08T00:00:00.000Z",
+    "author": "Nexairi Technology",
+    "category": "Technology",
+    "summary": "Alibaba's LiveAvatar creates stable AI avatars at 20 FPS. Zoom glitches and uncanny valley are dead - these look real.",
+    "excerpt": "Alibaba LiveAvatar transforms a single photograph and audio input into natural, stable video avatars at 20 FPS. With perfect lip-sync, emotion-driven expressions, and smooth head pose estimation, this breakthrough eliminates the glitches and uncanny valley that plague existing deepfake technology.",
+    "imageUrl": "/images/posts/liveavatar-realtime-video.jpg",
+    "tags": [
+      "technology",
+      "ai",
+      "alibaba",
+      "avatar",
+      "video-generation",
+      "deepfake"
+    ],
+    "contentFile": "content/technology/alibaba-liveavatar-realtime-video.html"
+  },
+  {
+    "id": "microsoft-vibevoice-realtime-20251208",
+    "title": "Instant, Natural Conversations With AI—Microsoft's New Voice Tech Explained",
+    "slug": "microsoft-vibevoice-realtime-speech",
+    "date": "2025-12-08T00:00:00.000Z",
+    "author": "Nexairi Technology",
+    "category": "Technology",
+    "summary": "Microsoft's VibeVoice-Realtime responds in 200ms with natural emotion. Siri/Alexa robot voices are dead - this feels like talking to a person.",
+    "excerpt": "Microsoft VibeVoice-Realtime delivers conversational AI with 200ms latency and natural emotional expression. Running on just 0.5B parameters, this breakthrough enables real-time voice interactions that match human conversation speed and feel genuinely natural.",
+    "imageUrl": "/images/posts/vibevoice-realtime-speech.jpg",
+    "tags": [
+      "technology",
+      "ai",
+      "microsoft",
+      "speech",
+      "tts",
+      "voice-ai"
+    ],
+    "contentFile": "content/technology/microsoft-vibevoice-realtime-speech.html"
+  },
+  {
+    "id": "apple-clara-compression-20251208",
+    "title": "Compress Documents to 1% Size—Apple's New AI Does It Without Losing Meaning",
+    "slug": "apple-clara-document-compression",
+    "date": "2025-12-08T00:00:00.000Z",
+    "author": "Nexairi Technology",
+    "category": "Technology",
+    "summary": "Apple invented CLaRa - compresses documents 128x smaller for AI while keeping key facts. Imagine ChatGPT reading your entire company docs in one breath.",
+    "excerpt": "Apple's new CLaRa technology enables semantic document compression up to 128x smaller while preserving critical information. This breakthrough allows AI models to process entire documents, codebases, and datasets that would normally exceed context window limits.",
+    "imageUrl": "/images/posts/apple-clara-compression.jpg",
+    "tags": [
+      "technology",
+      "ai",
+      "apple",
+      "compression",
+      "rag"
+    ],
+    "contentFile": "content/technology/apple-clara-document-compression.html"
+  },
+  {
+    "id": "openai-garlic-leak-20251208",
+    "title": "OpenAI's Secret Project Just Leaked—Here's Why It Matters",
+    "slug": "openai-garlic-leak-code-red",
+    "date": "2025-12-08T00:00:00.000Z",
+    "author": "Nexairi Technology",
+    "category": "Technology",
+    "summary": "OpenAI declared 'Code Red' after a leaked memo revealed they're rushing 'Garlic' - a secret AI model to beat Google's Gemini 3.",
+    "excerpt": "OpenAI's secret 'Garlic' model leak reveals the AI arms race is intensifying. After Google Gemini 3 gained momentum, OpenAI's CEO issued a company-wide 'Code Red' memo, spurring development of Garlic to compete in coding and reasoning capabilities.",
+    "imageUrl": "/images/posts/openai-garlic-leak-code-red.jpg",
+    "tags": [
+      "technology",
+      "ai",
+      "openai",
+      "google",
+      "gemini"
+    ],
+    "contentFile": "content/technology/openai-garlic-leak-code-red.html"
+  },
+  {
+    "id": "college-football-playoff-2025-26-first-round-matchups-deep-d-1765219701667",
+    "title": "College Football Playoff 2025-26: First-Round Matchups Deep Dive",
+    "slug": "college-football-playoff-2025-26-first-round-matchups-deep-d",
+    "date": "2025-12-08T00:00:00.000Z",
+    "author": "Nexairi Sports",
+    "category": "Sports",
+    "summary": "A comprehensive guide to College Football Playoff 2025-26: First-Round Matchups Deep Dive.",
+    "excerpt": "College Football Playoff 2025-26: First-Round Matchups Deep Dive As the leaves turn and the air gets crisp, college football fans gear up for the most exciting time of the year: the College Footbal...",
+    "imageUrl": "/images/posts/college-football-playoff-2025-26-first-round-matchups-deep-d.jpg",
+    "tags": [
+      "sports",
+      "analysis"
+    ],
+    "contentFile": "content/sports/college-football-playoff-2025-26-first-round-matchups-deep-d.html"
+  },
+  {
+    "id": "your-2025-26-bowl-season-guide-part-1-opening-week-1765219213366",
     "title": "Your 2025-26 Bowl Season Guide, Part 1: Opening Week",
     "slug": "your-2025-26-bowl-season-guide-part-1-opening-week",
     "date": "2025-12-08T00:00:00.000Z",
     "author": "Nexairi Sports",
     "category": "Sports",
     "summary": "A comprehensive guide to Your 2025-26 Bowl Season Guide, Part 1: Opening Week.",
-    "excerpt": "Your 2025-26 Bowl Season Guide, Part 1: Opening Week Hey there, college football fans! As we gear up for another thrilling bowl season, you might be wondering why this matters to you. Well, for man...",
+    "excerpt": "Your 2025-26 Bowl Season Guide, Part 1: Opening Week Bowl season is one of the most exciting times of the year for college football fans and casual viewers alike. It’s a chance to see teams from al...",
     "imageUrl": "/images/posts/your-2025-26-bowl-season-guide-part-1-opening-week.jpg",
     "tags": [
       "sports",
