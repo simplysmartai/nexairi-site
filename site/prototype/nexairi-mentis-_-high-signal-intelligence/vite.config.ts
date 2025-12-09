@@ -11,13 +11,7 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: 'dist',
       emptyOutDir: true,
-      sourcemap: false,
-      minify: 'terser',
-      rollupOptions: {
-        output: {
-          manualChunks: undefined
-        }
-      }
+      sourcemap: false
     },
     define: {
       // Ensure API_KEY is always a string to prevent "undefined" token errors in build
