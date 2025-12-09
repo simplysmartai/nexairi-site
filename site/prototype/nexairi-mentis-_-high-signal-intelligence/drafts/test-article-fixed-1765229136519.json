@@ -1,0 +1,23 @@
+{
+  "id": "test-article-fixed-1765229129989",
+  "title": "Test Article Fixed",
+  "slug": "test-article-fixed",
+  "category": "Technology",
+  "subCategory": "Technology",
+  "contentType": "feature",
+  "tldr": "Discover the latest advancements in AI technology, focusing on its impact on various industries, and uncover key insights with expert opinions.",
+  "date": "2025-12-08",
+  "author": "Jackson S.",
+  "summary": "Explore the transformative impact of AI in technology sectors, with an emphasis on innovation, impact analysis, and future trends shaping industries.",
+  "excerpt": "In today's fast-paced technological landscape, AI emerges as a game-changer, revolutionizing industries with its applications from healthcare to finance. Discover how AI advancements are reshaping our world, unlocking new potentials, and presenting challenges. Dive into expert insights and research to understand the growing influence of AI in driving innovation and efficiency across various sectors.",
+  "readingTime": 8,
+  "imageUrl": "/images/technology/test-article-fixed.jpg",
+  "tags": [
+    "technology",
+    "test",
+    "2025"
+  ],
+  "contentFile": "/content/technology/test-article-fixed.html",
+  "contentPath": "/content/technology/test-article-fixed.html",
+  "contentHtml": "<h1>Test Article Fixed</h1><p>FULL 1500-word professional article with tables, research, Technology voice. Use <h2>, <table>, <ul>, <figure> tags.</p>"
+}

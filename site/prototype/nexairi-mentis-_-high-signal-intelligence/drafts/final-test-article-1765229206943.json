@@ -1,0 +1,22 @@
+{
+  "id": "final-test-article-1765229206943",
+  "title": "Final Test Article",
+  "slug": "final-test-article",
+  "category": "Technology",
+  "subCategory": "Technology",
+  "contentType": "feature",
+  "tldr": "Explore the latest advancements in Nexairi technology that are set to revolutionize the industry. Discover key innovations and their impact. Unveil the future of technology today.",
+  "date": "2025-12-08",
+  "author": "Jackson S.",
+  "summary": "Dive into the groundbreaking innovations in Nexairi technology that promise to define the upcoming decade.",
+  "excerpt": "The Final Test Article delves into the revolutionary developments in Nexairi technology, shedding light on key innovations poised to reshape the industry landscape. Uncover the transformative power of these advancements and how they will influence the tech world in unprecedented ways.",
+  "readingTime": 8,
+  "imageUrl": "/images/technology/final-test-article.jpg",
+  "tags": [
+    "technology",
+    "final"
+  ],
+  "contentFile": "/content/technology/final-test-article.html",
+  "contentPath": "/content/technology/final-test-article.html",
+  "contentHtml": "<h1>Final Test Article</h1><p>1500 word article</p>"
+}
