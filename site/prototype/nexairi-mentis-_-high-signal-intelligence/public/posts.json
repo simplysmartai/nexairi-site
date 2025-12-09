@@ -799,5 +799,69 @@
     "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/holiday-reset-lifestyle/all?lock=380",
     "isFeatured": false
+  },
+  {
+    "id": "college-football-bowl-games-thru-dec-19",
+    "title": "College Football Bowl Games December 13-19: First Wave of Holiday Action",
+    "slug": "college-football-bowl-games-thru-dec-19",
+    "category": "Sports",
+    "subCategory": "College Football",
+    "contentType": "feature",
+    "date": "2025-12-09T00:00:00.000Z",
+    "author": "Nexairi Sports",
+    "summary": "Eight essential bowl games from December 13-19 featuring conference championships, HBCU showcases, and Group of Five powerhouses.",
+    "excerpt": "Eight bowl games that shape the playoff picture and celebrate college football's diversity.",
+    "readingTime": 10,
+    "imageUrl": "https://loremflickr.com/1600/900/college-football-bowl/all?lock=110",
+    "tags": [
+      "College Football",
+      "Bowl Season",
+      "2025-26",
+      "HBCU",
+      "Group of Five"
+    ],
+    "contentFile": "content/sports/college-football-bowl-games-thru-Dec-19.html"
+  },
+  {
+    "id": "college-football-bowl-games-second-half",
+    "title": "College Football Bowl Games December 22-26: Holiday Week Classics",
+    "slug": "college-football-bowl-games-second-half",
+    "category": "Sports",
+    "subCategory": "College Football",
+    "contentType": "feature",
+    "date": "2025-12-09T00:00:00.000Z",
+    "author": "Nexairi Sports",
+    "summary": "Eight elite matchups during Christmas week featuring top-tier programs competing for bowl supremacy.",
+    "excerpt": "Eight championship-caliber games that define holiday college football tradition.",
+    "readingTime": 10,
+    "imageUrl": "https://loremflickr.com/1600/900/college-football-bowl/all?lock=111",
+    "tags": [
+      "College Football",
+      "Bowl Season",
+      "Championship",
+      "Elite Programs"
+    ],
+    "contentFile": "content/sports/college-football-bowl-games-2nd-half.html"
+  },
+  {
+    "id": "college-football-bowl-games-remaining",
+    "title": "College Football Bowl Games December 27-31: New Year's Bowl Finale",
+    "slug": "college-football-bowl-games-remaining",
+    "category": "Sports",
+    "subCategory": "College Football",
+    "contentType": "feature",
+    "date": "2025-12-09T00:00:00.000Z",
+    "author": "Nexairi Sports",
+    "summary": "Sixteen major bowl games from December 27-31 including Cotton, Orange, Peach, Rose, and Sugar Bowl classics.",
+    "excerpt": "The year's final games featuring the season's most prestigious matchups and playoff implications.",
+    "readingTime": 14,
+    "imageUrl": "https://loremflickr.com/1600/900/college-football-bowl/all?lock=112",
+    "tags": [
+      "College Football",
+      "Bowl Season",
+      "Major Bowls",
+      "New Year's Games"
+    ],
+    "contentFile": "content/sports/college-football-bowl-games-remaining.html"
   }
 ]
