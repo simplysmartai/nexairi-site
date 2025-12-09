@@ -1,43 +1,5 @@
 [
   {
-    "id": "manual-bowl-test",
-    "title": "Manual Bowl Test",
-    "slug": "manual-bowl-test",
-    "category": "Sports",
-    "subCategory": "College Football",
-    "contentType": "feature",
-    "tldr": "This is a test article from the Nexairi newsroom pipeline.",
-    "date": "2025-12-09T00:00:00.000Z",
-    "author": "Jackson S.",
-    "summary": "Test article confirming the ingest pipeline works end-to-end.",
-    "excerpt": "A simple test to verify JSON schema, HTML rendering, and site integration.",
-    "readingTime": 1,
-    "imageUrl": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1200&h=675&fit=crop",
-    "tags": [
-      "test",
-      "sports",
-      "newsroom"
-    ],
-    "contentFile": "content/sports/manual-bowl-test.html"
-  },
-  {
-    "id": "test-foundation",
-    "title": "Test Foundation Draft",
-    "slug": "test-foundation",
-    "date": "2025-12-05T00:00:00.000Z",
-    "category": "Technology",
-    "tags": [
-      "test",
-      "foundation"
-    ],
-    "summary": "A tiny test draft to verify ingestion pipeline.",
-    "excerpt": "A tiny test draft to verify ingestion pipeline.",
-    "tldr": "One-line summary: ingestion pipeline validation.",
-    "imageUrl": "https://loremflickr.com/1600/900/test",
-    "author": "Nexairi Editorial",
-    "contentFile": "content/technology/test-foundation.html"
-  },
-  {
     "id": "college-football-playoff-1st-round-matchups",
     "title": "College Football Playoff First Round: Four Matchups You Can't Miss",
     "slug": "college-football-playoff-first-round-matchups",
@@ -170,20 +132,6 @@
     "contentFile": "content/technology/ai-trends-in-2025.html",
     "archived": false,
     "imageUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&q=80&w=1600"
-  },
-  {
-    "id": "template",
-    "title": "Template",
-    "slug": "template",
-    "date": "2025-12-05T16:43:00.940Z",
-    "author": "Nexairi Editorial",
-    "summary": "```html --- title: Your Article Title Here slug: your-article-title-here date: 2025-12-01T12:00:00.000Z category: Lifestyle author: Kelly M. summary: One-sentence summary used for cards and meta tags. excerpt: Your Article Title Here Optional sub-headline or witty remark. By Author Name \u00b7 5 min read Introductory paragr",
-    "excerpt": "```html --- title: Your Article Title Here slug: your-article-title-here date: 2025-12-01T12:00:00.000Z category: Lifestyle author: Kelly M. summary: One-sentence summary used for cards and meta tags.",
-    "category": "Lifestyle",
-    "tags": [],
-    "contentFile": "content/archive/_template.html",
-    "archived": false,
-    "imageUrl": "https://loremflickr.com/1400/900/your-article-title-here/all?lock=57"
   },
   {
     "id": "pros-and-cons-of-milling-your-own-grains",
@@ -624,7 +572,8 @@
     "contentFile": "content/home-racing-simulator-guide.html",
     "archived": false,
     "imageUrl": "https://loremflickr.com/1600/900/home-racing-simulator-guide/all?lock=239",
-    "isFeatured": false
+    "isFeatured": false,
+    "featured": true
   },
   {
     "id": "holiday-travel-prep-by-car-train-plane",
