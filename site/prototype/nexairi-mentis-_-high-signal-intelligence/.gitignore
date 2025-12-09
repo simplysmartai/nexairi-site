@@ -28,3 +28,10 @@ dist-ssr
 
 # Operational output
 reports/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
